@@ -47,10 +47,9 @@ class AIService {
       };
     }
 
-    // 2. Simulate AI Processing & Pluggable Backend Call
-    // If real API key is present, we could fetch from LLM endpoint.
-    // Here we implement an intelligent, context-aware conversational engine for Mello.
-    const responseText = this.getIntelligentResponse(userMessage, history, userName);
+    const responseText = this.apiKey
+      ? await this.getGeminiResponse(userMessage, history, userName)
+      : this.getIntelligentResponse(userMessage, history, userName);
     const quickReplies = this.getQuickReplies(userMessage, responseText);
     const suggestedActivity = this.getSuggestedActivity(userMessage);
 
@@ -68,6 +67,63 @@ class AIService {
         suggestedActivity
       }
     };
+  }
+
+  private async getGeminiResponse(
+    userMessage: string,
+    history: ChatMessage[],
+    userName: string
+  ): Promise<string> {
+    try {
+      const contents = history
+        .filter((message) => message.sender === 'user' || message.sender === 'mello')
+        .map((message) => ({
+          role: message.sender === 'user' ? 'user' : 'model',
+          parts: [{ text: message.text }],
+        }));
+
+      if (contents.at(-1)?.role !== 'user') {
+        contents.push({ role: 'user', parts: [{ text: userMessage }] });
+      }
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${encodeURIComponent(this.apiKey)}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: {
+              parts: [{
+                text: `You are Mello, a warm and emotionally intelligent mental-wellness companion. The user's name is ${userName}. Reply naturally like a thoughtful human listener: acknowledge what they said, ask at most one gentle follow-up question, and keep responses concise (2-4 short paragraphs). Never claim to be a therapist, diagnose, or pretend to have human feelings. Offer practical calming ideas only when relevant. Encourage trusted people or licensed professionals for serious concerns. Do not be overly cheerful when the user is hurting.`,
+              }],
+            },
+            contents,
+            generationConfig: {
+              temperature: 0.8,
+              maxOutputTokens: 300,
+            },
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Gemini request failed with status ${response.status}`);
+      }
+
+      const data = await response.json() as {
+        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      };
+      const text = data.candidates?.[0]?.content?.parts
+        ?.map((part) => part.text || '')
+        .join('')
+        .trim();
+
+      if (!text) throw new Error('Gemini returned an empty response');
+      return text;
+    } catch (error) {
+      console.warn('Gemini unavailable; using local Mello responses.', error);
+      return this.getIntelligentResponse(userMessage, history, userName);
+    }
   }
 
   private getIntelligentResponse(text: string, history: ChatMessage[], name: string): string {
