@@ -502,7 +502,7 @@ export const TalkPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto h-[calc(100vh-105px)] min-h-[620px] flex flex-col bg-white rounded-[2rem] shadow-mello border border-purple-100 overflow-hidden relative">
+    <div className="max-w-5xl mx-auto h-[calc(100vh-105px)] min-h-[620px] flex flex-col bg-white dark:bg-slate-900 rounded-[2rem] shadow-mello border border-purple-100 dark:border-slate-700 overflow-hidden relative">
 
       {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -534,7 +534,7 @@ export const TalkPage: React.FC = () => {
       </div>
 
       {/* HEADER */}
-      <div className="relative z-10 p-4 sm:p-5 bg-gradient-to-r from-purple-50/95 via-white/95 to-pink-50/95 backdrop-blur-xl border-b border-purple-100">
+        <div className="relative z-10 p-4 sm:p-5 bg-gradient-to-r from-purple-50/95 via-white/95 to-pink-50/95 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 backdrop-blur-xl border-b border-purple-100 dark:border-slate-700">
 
         <div className="flex items-center justify-between gap-3">
 
@@ -677,7 +677,7 @@ export const TalkPage: React.FC = () => {
       </div>
 
       {/* MESSAGE AREA */}
-      <div className="relative z-10 flex-1 p-4 sm:p-6 overflow-y-auto space-y-5 bg-slate-50/50">
+        <div className="relative z-10 flex-1 p-4 sm:p-6 overflow-y-auto space-y-5 bg-slate-50/50 dark:bg-slate-950/70">
 
         {/* Wellness disclaimer */}
         <div className="text-center">
@@ -976,7 +976,7 @@ export const TalkPage: React.FC = () => {
           e.preventDefault();
           handleSend();
         }}
-        className="relative z-10 p-3 sm:p-4 bg-white border-t border-purple-100"
+        className="relative z-10 p-3 sm:p-4 bg-white dark:bg-slate-900 border-t border-purple-100 dark:border-slate-700"
       >
 
         <div className="flex items-center gap-2">

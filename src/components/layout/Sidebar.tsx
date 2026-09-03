@@ -37,7 +37,7 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-purple-100 p-5 min-h-[calc(100vh-61px)] sticky top-[61px] shrink-0">
+    <aside className="hidden lg:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-purple-100 dark:border-slate-700 p-5 min-h-[calc(100vh-61px)] sticky top-[61px] shrink-0">
       {/* Primary Navigation */}
       <div className="space-y-1.5 flex-1">
         <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">

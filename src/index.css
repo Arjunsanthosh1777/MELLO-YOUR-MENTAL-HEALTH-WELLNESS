@@ -14,17 +14,27 @@
 
 @layer utilities {
   .dark .bg-white { background-color: #172033; }
+  .dark .bg-white\/95 { background-color: rgba(23, 32, 51, 0.95); }
+  .dark .bg-white\/85 { background-color: rgba(15, 23, 42, 0.9); }
+  .dark .bg-white\/80 { background-color: rgba(30, 41, 59, 0.9); }
+  .dark .bg-white\/70 { background-color: rgba(30, 41, 59, 0.78); }
   .dark .bg-slate-50 { background-color: #111827; }
+  .dark .bg-slate-50\/50 { background-color: rgba(15, 23, 42, 0.68); }
+  .dark .bg-slate-50\/40 { background-color: rgba(15, 23, 42, 0.58); }
   .dark .bg-slate-100 { background-color: #1e293b; }
   .dark .bg-purple-50 { background-color: #241f3d; }
   .dark .bg-purple-100 { background-color: #302653; }
   .dark .bg-rose-50 { background-color: #3b202d; }
   .dark .bg-amber-50 { background-color: #3a2b16; }
+  .dark .bg-teal-50 { background-color: #123337; }
+  .dark .bg-indigo-50 { background-color: #20264a; }
+  .dark .bg-pink-50 { background-color: #3b2138; }
   .dark .text-slate-900, .dark .text-slate-800 { color: #f1f5f9; }
   .dark .text-slate-700, .dark .text-slate-600 { color: #cbd5e1; }
   .dark .text-slate-500, .dark .text-slate-400 { color: #94a3b8; }
   .dark .border-slate-100, .dark .border-slate-200 { border-color: #334155; }
   .dark .border-purple-100, .dark .border-purple-200 { border-color: #493d72; }
+    .dark .border-white { border-color: #475569; }
   .dark input, .dark textarea { background-color: #1e293b; color: #f1f5f9; border-color: #475569; }
   .dark input::placeholder, .dark textarea::placeholder { color: #94a3b8; }
   .dark ::-webkit-scrollbar-track { background: #0f172a; }
