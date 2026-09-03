@@ -57,8 +57,8 @@ export class FirebaseService {
       this.db = getFirestore(app);
       this.storage = getStorage(app);
       
-      // Connect to Firebase Emulator Suite if running locally
-      if (window.location.hostname === 'localhost') {
+      // Use emulators only when explicitly enabled; local development otherwise uses Firebase.
+      if (window.location.hostname === 'localhost' && import.meta.env.VITE_USE_FIREBASE_EMULATORS === 'true') {
         try {
           connectAuthEmulator(this.auth, 'http://localhost:9099');
           connectFirestoreEmulator(this.db, 'localhost', 8080);
