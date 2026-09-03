@@ -21,7 +21,7 @@ This README will guide you through the process of using the generated JavaScript
 - [**Mutations**](#mutations)
   - [*UpsertUserProfile*](#upsertuserprofile)
   - [*LogMood*](#logmood)
-  - [*ClearUserMoods*](#clearusermoods)
+  - [*ClearRecentUserMoods*](#clearrecentusermoods)
   - [*CreateJournalEntry*](#createjournalentry)
   - [*UpdateJournalEntry*](#updatejournalentry)
   - [*DeleteJournalEntry*](#deletejournalentry)
@@ -1138,83 +1138,101 @@ executeMutation(ref).then((response) => {
 });
 ```
 
-## ClearUserMoods
-You can execute the `ClearUserMoods` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+## ClearRecentUserMoods
+You can execute the `ClearRecentUserMoods` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
 ```typescript
-clearUserMoods(): MutationPromise<ClearUserMoodsData, undefined>;
+clearRecentUserMoods(vars: ClearRecentUserMoodsVariables): MutationPromise<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
 
-interface ClearUserMoodsRef {
+interface ClearRecentUserMoodsRef {
   ...
   /* Allow users to create refs without passing in DataConnect */
-  (): MutationRef<ClearUserMoodsData, undefined>;
+  (vars: ClearRecentUserMoodsVariables): MutationRef<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
 }
-export const clearUserMoodsRef: ClearUserMoodsRef;
+export const clearRecentUserMoodsRef: ClearRecentUserMoodsRef;
 ```
 You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
 ```typescript
-clearUserMoods(dc: DataConnect): MutationPromise<ClearUserMoodsData, undefined>;
+clearRecentUserMoods(dc: DataConnect, vars: ClearRecentUserMoodsVariables): MutationPromise<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
 
-interface ClearUserMoodsRef {
+interface ClearRecentUserMoodsRef {
   ...
-  (dc: DataConnect): MutationRef<ClearUserMoodsData, undefined>;
+  (dc: DataConnect, vars: ClearRecentUserMoodsVariables): MutationRef<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
 }
-export const clearUserMoodsRef: ClearUserMoodsRef;
+export const clearRecentUserMoodsRef: ClearRecentUserMoodsRef;
 ```
 
-If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the clearUserMoodsRef:
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the clearRecentUserMoodsRef:
 ```typescript
-const name = clearUserMoodsRef.operationName;
+const name = clearRecentUserMoodsRef.operationName;
 console.log(name);
 ```
 
 ### Variables
-The `ClearUserMoods` mutation has no variables.
-### Return Type
-Recall that executing the `ClearUserMoods` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+The `ClearRecentUserMoods` mutation requires an argument of type `ClearRecentUserMoodsVariables`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
 
-The `data` property is an object of type `ClearUserMoodsData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
 ```typescript
-export interface ClearUserMoodsData {
+export interface ClearRecentUserMoodsVariables {
+  since: TimestampString;
+}
+```
+### Return Type
+Recall that executing the `ClearRecentUserMoods` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ClearRecentUserMoodsData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ClearRecentUserMoodsData {
   mood_delete?: Mood_Key | null;
 }
 ```
-### Using `ClearUserMoods`'s action shortcut function
+### Using `ClearRecentUserMoods`'s action shortcut function
 
 ```typescript
 import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, clearUserMoods } from '@dataconnect/generated';
+import { connectorConfig, clearRecentUserMoods, ClearRecentUserMoodsVariables } from '@dataconnect/generated';
 
+// The `ClearRecentUserMoods` mutation requires an argument of type `ClearRecentUserMoodsVariables`:
+const clearRecentUserMoodsVars: ClearRecentUserMoodsVariables = {
+  since: ..., 
+};
 
-// Call the `clearUserMoods()` function to execute the mutation.
+// Call the `clearRecentUserMoods()` function to execute the mutation.
 // You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await clearUserMoods();
+const { data } = await clearRecentUserMoods(clearRecentUserMoodsVars);
+// Variables can be defined inline as well.
+const { data } = await clearRecentUserMoods({ since: ..., });
 
 // You can also pass in a `DataConnect` instance to the action shortcut function.
 const dataConnect = getDataConnect(connectorConfig);
-const { data } = await clearUserMoods(dataConnect);
+const { data } = await clearRecentUserMoods(dataConnect, clearRecentUserMoodsVars);
 
 console.log(data.mood_delete);
 
 // Or, you can use the `Promise` API.
-clearUserMoods().then((response) => {
+clearRecentUserMoods(clearRecentUserMoodsVars).then((response) => {
   const data = response.data;
   console.log(data.mood_delete);
 });
 ```
 
-### Using `ClearUserMoods`'s `MutationRef` function
+### Using `ClearRecentUserMoods`'s `MutationRef` function
 
 ```typescript
 import { getDataConnect, executeMutation } from 'firebase/data-connect';
-import { connectorConfig, clearUserMoodsRef } from '@dataconnect/generated';
+import { connectorConfig, clearRecentUserMoodsRef, ClearRecentUserMoodsVariables } from '@dataconnect/generated';
 
+// The `ClearRecentUserMoods` mutation requires an argument of type `ClearRecentUserMoodsVariables`:
+const clearRecentUserMoodsVars: ClearRecentUserMoodsVariables = {
+  since: ..., 
+};
 
-// Call the `clearUserMoodsRef()` function to get a reference to the mutation.
-const ref = clearUserMoodsRef();
+// Call the `clearRecentUserMoodsRef()` function to get a reference to the mutation.
+const ref = clearRecentUserMoodsRef(clearRecentUserMoodsVars);
+// Variables can be defined inline as well.
+const ref = clearRecentUserMoodsRef({ since: ..., });
 
 // You can also pass in a `DataConnect` instance to the `MutationRef` function.
 const dataConnect = getDataConnect(connectorConfig);
-const ref = clearUserMoodsRef(dataConnect);
+const ref = clearRecentUserMoodsRef(dataConnect, clearRecentUserMoodsVars);
 
 // Call `executeMutation()` on the reference to execute the mutation.
 // You can use the `await` keyword to wait for the promise to resolve.

@@ -1,4 +1,4 @@
-import { upsertUserProfileRef, logMoodRef, clearUserMoodsRef, createJournalEntryRef, updateJournalEntryRef, deleteJournalEntryRef, logActivityRef, upsertTherapySessionRef, recordSafetyCheckInRef, getUserProfileRef, listUserMoodsRef, getMoodStatsRef, listJournalEntriesRef, getJournalEntryRef, listActivitiesRef, listTherapySessionsRef, getLatestSafetyCheckInRef, connectorConfig } from '../../esm/index.esm.js';
+import { upsertUserProfileRef, logMoodRef, clearRecentUserMoodsRef, createJournalEntryRef, updateJournalEntryRef, deleteJournalEntryRef, logActivityRef, upsertTherapySessionRef, recordSafetyCheckInRef, getUserProfileRef, listUserMoodsRef, getMoodStatsRef, listJournalEntriesRef, getJournalEntryRef, listActivitiesRef, listTherapySessionsRef, getLatestSafetyCheckInRef, connectorConfig } from '../../esm/index.esm.js';
 import { validateArgs, CallerSdkTypeEnum } from 'firebase/data-connect';
 import { useDataConnectQuery, useDataConnectMutation, validateReactArgs } from '@tanstack-query-firebase/react/data-connect';
 
@@ -18,10 +18,10 @@ export function useLogMood(dcOrOptions, options) {
   return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
 
-export function useClearUserMoods(dcOrOptions, options) {
+export function useClearRecentUserMoods(dcOrOptions, options) {
   const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
-  function refFactory() {
-    return clearUserMoodsRef(dcInstance);
+  function refFactory(vars) {
+    return clearRecentUserMoodsRef(dcInstance, vars);
   }
   return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

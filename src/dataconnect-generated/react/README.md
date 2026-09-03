@@ -28,7 +28,7 @@ You can also follow the instructions from the [Data Connect documentation](https
 - [**Mutations**](#mutations)
   - [*UpsertUserProfile*](#upsertuserprofile)
   - [*LogMood*](#logmood)
-  - [*ClearUserMoods*](#clearusermoods)
+  - [*ClearRecentUserMoods*](#clearrecentusermoods)
   - [*CreateJournalEntry*](#createjournalentry)
   - [*UpdateJournalEntry*](#updatejournalentry)
   - [*DeleteJournalEntry*](#deletejournalentry)
@@ -985,71 +985,82 @@ export default function LogMoodComponent() {
 }
 ```
 
-## ClearUserMoods
-You can execute the `ClearUserMoods` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
+## ClearRecentUserMoods
+You can execute the `ClearRecentUserMoods` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [dataconnect-generated/react/index.d.ts](./index.d.ts)):
 ```javascript
-useClearUserMoods(options?: useDataConnectMutationOptions<ClearUserMoodsData, FirebaseError, void>): UseDataConnectMutationResult<ClearUserMoodsData, undefined>;
+useClearRecentUserMoods(options?: useDataConnectMutationOptions<ClearRecentUserMoodsData, FirebaseError, ClearRecentUserMoodsVariables>): UseDataConnectMutationResult<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
 ```
 You can also pass in a `DataConnect` instance to the Mutation hook function.
 ```javascript
-useClearUserMoods(dc: DataConnect, options?: useDataConnectMutationOptions<ClearUserMoodsData, FirebaseError, void>): UseDataConnectMutationResult<ClearUserMoodsData, undefined>;
+useClearRecentUserMoods(dc: DataConnect, options?: useDataConnectMutationOptions<ClearRecentUserMoodsData, FirebaseError, ClearRecentUserMoodsVariables>): UseDataConnectMutationResult<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
 ```
 
 ### Variables
-The `ClearUserMoods` Mutation has no variables.
+The `ClearRecentUserMoods` Mutation requires an argument of type `ClearRecentUserMoodsVariables`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface ClearRecentUserMoodsVariables {
+  since: TimestampString;
+}
+```
 ### Return Type
-Recall that calling the `ClearUserMoods` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+Recall that calling the `ClearRecentUserMoods` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
 
 To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
 
 To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
 
-To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `ClearUserMoods` Mutation is of type `ClearUserMoodsData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `ClearRecentUserMoods` Mutation is of type `ClearRecentUserMoodsData`, which is defined in [dataconnect-generated/index.d.ts](../index.d.ts). It has the following fields:
 ```javascript
-export interface ClearUserMoodsData {
+export interface ClearRecentUserMoodsData {
   mood_delete?: Mood_Key | null;
 }
 ```
 
 To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
 
-### Using `ClearUserMoods`'s Mutation hook function
+### Using `ClearRecentUserMoods`'s Mutation hook function
 
 ```javascript
 import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig } from '@dataconnect/generated';
-import { useClearUserMoods } from '@dataconnect/generated/react'
+import { connectorConfig, ClearRecentUserMoodsVariables } from '@dataconnect/generated';
+import { useClearRecentUserMoods } from '@dataconnect/generated/react'
 
-export default function ClearUserMoodsComponent() {
+export default function ClearRecentUserMoodsComponent() {
   // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
-  const mutation = useClearUserMoods();
+  const mutation = useClearRecentUserMoods();
 
   // You can also pass in a `DataConnect` instance to the Mutation hook function.
   const dataConnect = getDataConnect(connectorConfig);
-  const mutation = useClearUserMoods(dataConnect);
+  const mutation = useClearRecentUserMoods(dataConnect);
 
   // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
   const options = {
     onSuccess: () => { console.log('Mutation succeeded!'); }
   };
-  const mutation = useClearUserMoods(options);
+  const mutation = useClearRecentUserMoods(options);
 
   // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
   const dataConnect = getDataConnect(connectorConfig);
   const options = {
     onSuccess: () => { console.log('Mutation succeeded!'); }
   };
-  const mutation = useClearUserMoods(dataConnect, options);
+  const mutation = useClearRecentUserMoods(dataConnect, options);
 
   // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
-  mutation.mutate();
+  // The `useClearRecentUserMoods` Mutation requires an argument of type `ClearRecentUserMoodsVariables`:
+  const clearRecentUserMoodsVars: ClearRecentUserMoodsVariables = {
+    since: ..., 
+  };
+  mutation.mutate(clearRecentUserMoodsVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ since: ..., });
 
   // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
-  // Since this Mutation accepts no variables, you must pass `undefined` where you would normally pass the variables.
   const options = {
     onSuccess: () => { console.log('Mutation succeeded!'); }
   };
-  mutation.mutate(undefined, options);
+  mutation.mutate(clearRecentUserMoodsVars, options);
 
   // Then, you can render your component dynamically based on the status of the Mutation.
   if (mutation.isPending) {

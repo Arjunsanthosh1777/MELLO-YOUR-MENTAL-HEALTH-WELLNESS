@@ -41,17 +41,17 @@ exports.logMood = function logMood(dcOrVars, vars) {
 }
 ;
 
-const clearUserMoodsRef = (dc) => {
-  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+const clearRecentUserMoodsRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'ClearUserMoods');
+  return mutationRef(dcInstance, 'ClearRecentUserMoods', inputVars);
 }
-clearUserMoodsRef.operationName = 'ClearUserMoods';
-exports.clearUserMoodsRef = clearUserMoodsRef;
+clearRecentUserMoodsRef.operationName = 'ClearRecentUserMoods';
+exports.clearRecentUserMoodsRef = clearRecentUserMoodsRef;
 
-exports.clearUserMoods = function clearUserMoods(dc) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dc, undefined);
-  return executeMutation(clearUserMoodsRef(dcInstance, inputVars));
+exports.clearRecentUserMoods = function clearRecentUserMoods(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(clearRecentUserMoodsRef(dcInstance, inputVars));
 }
 ;
 

@@ -16,8 +16,12 @@ export interface Activity_Key {
   __typename?: 'Activity_Key';
 }
 
-export interface ClearUserMoodsData {
+export interface ClearRecentUserMoodsData {
   mood_delete?: Mood_Key | null;
+}
+
+export interface ClearRecentUserMoodsVariables {
+  since: TimestampString;
 }
 
 export interface CreateJournalEntryData {
@@ -260,17 +264,17 @@ export const logMoodRef: LogMoodRef;
 export function logMood(vars: LogMoodVariables): MutationPromise<LogMoodData, LogMoodVariables>;
 export function logMood(dc: DataConnect, vars: LogMoodVariables): MutationPromise<LogMoodData, LogMoodVariables>;
 
-interface ClearUserMoodsRef {
+interface ClearRecentUserMoodsRef {
   /* Allow users to create refs without passing in DataConnect */
-  (): MutationRef<ClearUserMoodsData, undefined>;
+  (vars: ClearRecentUserMoodsVariables): MutationRef<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect): MutationRef<ClearUserMoodsData, undefined>;
+  (dc: DataConnect, vars: ClearRecentUserMoodsVariables): MutationRef<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
   operationName: string;
 }
-export const clearUserMoodsRef: ClearUserMoodsRef;
+export const clearRecentUserMoodsRef: ClearRecentUserMoodsRef;
 
-export function clearUserMoods(): MutationPromise<ClearUserMoodsData, undefined>;
-export function clearUserMoods(dc: DataConnect): MutationPromise<ClearUserMoodsData, undefined>;
+export function clearRecentUserMoods(vars: ClearRecentUserMoodsVariables): MutationPromise<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
+export function clearRecentUserMoods(dc: DataConnect, vars: ClearRecentUserMoodsVariables): MutationPromise<ClearRecentUserMoodsData, ClearRecentUserMoodsVariables>;
 
 interface CreateJournalEntryRef {
   /* Allow users to create refs without passing in DataConnect */

@@ -32,9 +32,14 @@ mutation LogMood(
   )
 }
 
-mutation ClearUserMoods @auth(level: USER) {
+mutation ClearRecentUserMoods($since: Timestamp!) @auth(level: USER) {
   mood_delete(
-    first: { where: { user: { id: { eq_expr: "auth.uid" } } } }
+    first: {
+      where: {
+        user: { id: { eq_expr: "auth.uid" } }
+        timestamp: { ge: $since }
+      }
+    }
   )
 }
 

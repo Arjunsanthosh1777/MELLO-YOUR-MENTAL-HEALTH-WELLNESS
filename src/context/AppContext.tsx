@@ -200,9 +200,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const clearMoods = () => {
-    setMoods([]);
+    const since = new Date();
+    since.setDate(since.getDate() - 6);
+    const sinceDate = since.toISOString().split('T')[0];
+    setMoods(prev => prev.filter(mood => mood.date < sinceDate));
     if (cloudUserId) {
-      void dataConnectService.clearMoods().catch(error => console.warn('Could not clear cloud moods.', error));
+      void dataConnectService.clearRecentMoods().catch(error => console.warn('Could not clear cloud moods.', error));
     }
     showToast('Your seven-day mood view is fresh again.', 'success');
   };

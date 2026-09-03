@@ -34,16 +34,16 @@ export function logMood(dcOrVars, vars) {
   return executeMutation(logMoodRef(dcInstance, inputVars));
 }
 
-export const clearUserMoodsRef = (dc) => {
-  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+export const clearRecentUserMoodsRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'ClearUserMoods');
+  return mutationRef(dcInstance, 'ClearRecentUserMoods', inputVars);
 }
-clearUserMoodsRef.operationName = 'ClearUserMoods';
+clearRecentUserMoodsRef.operationName = 'ClearRecentUserMoods';
 
-export function clearUserMoods(dc) {
-  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dc, undefined);
-  return executeMutation(clearUserMoodsRef(dcInstance, inputVars));
+export function clearRecentUserMoods(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(clearRecentUserMoodsRef(dcInstance, inputVars));
 }
 
 export const createJournalEntryRef = (dcOrVars, vars) => {
