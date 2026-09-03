@@ -21,6 +21,7 @@ This README will guide you through the process of using the generated JavaScript
 - [**Mutations**](#mutations)
   - [*UpsertUserProfile*](#upsertuserprofile)
   - [*LogMood*](#logmood)
+  - [*ClearUserMoods*](#clearusermoods)
   - [*CreateJournalEntry*](#createjournalentry)
   - [*UpdateJournalEntry*](#updatejournalentry)
   - [*DeleteJournalEntry*](#deletejournalentry)
@@ -1134,6 +1135,97 @@ console.log(data.mood_insert);
 executeMutation(ref).then((response) => {
   const data = response.data;
   console.log(data.mood_insert);
+});
+```
+
+## ClearUserMoods
+You can execute the `ClearUserMoods` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [dataconnect-generated/index.d.ts](./index.d.ts):
+```typescript
+clearUserMoods(): MutationPromise<ClearUserMoodsData, undefined>;
+
+interface ClearUserMoodsRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (): MutationRef<ClearUserMoodsData, undefined>;
+}
+export const clearUserMoodsRef: ClearUserMoodsRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+clearUserMoods(dc: DataConnect): MutationPromise<ClearUserMoodsData, undefined>;
+
+interface ClearUserMoodsRef {
+  ...
+  (dc: DataConnect): MutationRef<ClearUserMoodsData, undefined>;
+}
+export const clearUserMoodsRef: ClearUserMoodsRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the clearUserMoodsRef:
+```typescript
+const name = clearUserMoodsRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ClearUserMoods` mutation has no variables.
+### Return Type
+Recall that executing the `ClearUserMoods` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ClearUserMoodsData`, which is defined in [dataconnect-generated/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ClearUserMoodsData {
+  mood_delete?: Mood_Key | null;
+}
+```
+### Using `ClearUserMoods`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, clearUserMoods } from '@dataconnect/generated';
+
+
+// Call the `clearUserMoods()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await clearUserMoods();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await clearUserMoods(dataConnect);
+
+console.log(data.mood_delete);
+
+// Or, you can use the `Promise` API.
+clearUserMoods().then((response) => {
+  const data = response.data;
+  console.log(data.mood_delete);
+});
+```
+
+### Using `ClearUserMoods`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, clearUserMoodsRef } from '@dataconnect/generated';
+
+
+// Call the `clearUserMoodsRef()` function to get a reference to the mutation.
+const ref = clearUserMoodsRef();
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = clearUserMoodsRef(dataConnect);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.mood_delete);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.mood_delete);
 });
 ```
 

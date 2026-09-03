@@ -12,12 +12,14 @@ For each operation, there is a wrapper hook that can be used to call the operati
 
 Here are all of the hooks that get generated:
 ```ts
-import { useUpsertUserProfile, useLogMood, useCreateJournalEntry, useUpdateJournalEntry, useDeleteJournalEntry, useLogActivity, useUpsertTherapySession, useRecordSafetyCheckIn, useGetUserProfile, useListUserMoods } from '@dataconnect/generated/react';
+import { useUpsertUserProfile, useLogMood, useClearUserMoods, useCreateJournalEntry, useUpdateJournalEntry, useDeleteJournalEntry, useLogActivity, useUpsertTherapySession, useRecordSafetyCheckIn, useGetUserProfile } from '@dataconnect/generated/react';
 // The types of these hooks are available in react/index.d.ts
 
 const { data, isPending, isSuccess, isError, error } = useUpsertUserProfile(upsertUserProfileVars);
 
 const { data, isPending, isSuccess, isError, error } = useLogMood(logMoodVars);
+
+const { data, isPending, isSuccess, isError, error } = useClearUserMoods();
 
 const { data, isPending, isSuccess, isError, error } = useCreateJournalEntry(createJournalEntryVars);
 
@@ -32,8 +34,6 @@ const { data, isPending, isSuccess, isError, error } = useUpsertTherapySession(u
 const { data, isPending, isSuccess, isError, error } = useRecordSafetyCheckIn(recordSafetyCheckInVars);
 
 const { data, isPending, isSuccess, isError, error } = useGetUserProfile();
-
-const { data, isPending, isSuccess, isError, error } = useListUserMoods();
 
 ```
 
@@ -72,7 +72,7 @@ If a user is not using a supported framework, they can use the generated SDK dir
 Here's an example of how to use it with the first 5 operations:
 
 ```js
-import { upsertUserProfile, logMood, createJournalEntry, updateJournalEntry, deleteJournalEntry, logActivity, upsertTherapySession, recordSafetyCheckIn, getUserProfile, listUserMoods } from '@dataconnect/generated';
+import { upsertUserProfile, logMood, clearUserMoods, createJournalEntry, updateJournalEntry, deleteJournalEntry, logActivity, upsertTherapySession, recordSafetyCheckIn, getUserProfile } from '@dataconnect/generated';
 
 
 // Operation UpsertUserProfile:  For variables, look at type UpsertUserProfileVars in ../index.d.ts
@@ -80,6 +80,9 @@ const { data } = await UpsertUserProfile(dataConnect, upsertUserProfileVars);
 
 // Operation LogMood:  For variables, look at type LogMoodVars in ../index.d.ts
 const { data } = await LogMood(dataConnect, logMoodVars);
+
+// Operation ClearUserMoods: 
+const { data } = await ClearUserMoods(dataConnect);
 
 // Operation CreateJournalEntry:  For variables, look at type CreateJournalEntryVars in ../index.d.ts
 const { data } = await CreateJournalEntry(dataConnect, createJournalEntryVars);
@@ -101,9 +104,6 @@ const { data } = await RecordSafetyCheckIn(dataConnect, recordSafetyCheckInVars)
 
 // Operation GetUserProfile: 
 const { data } = await GetUserProfile(dataConnect);
-
-// Operation ListUserMoods: 
-const { data } = await ListUserMoods(dataConnect);
 
 
 ```

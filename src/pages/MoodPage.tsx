@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Smile, Calendar, Plus, Tag, Sparkles, Filter, Info } from 'lucide-react';
+import { Smile, Plus, Info, RotateCcw } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { MoodType } from '../types';
 
 export const MoodPage: React.FC = () => {
-  const { moods, logMood } = useApp();
+  const { moods, logMood, clearMoods, showToast } = useApp();
   const [selectedMood, setSelectedMood] = useState<MoodType>('good');
   const [note, setNote] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>(['Work']);
@@ -30,16 +30,23 @@ export const MoodPage: React.FC = () => {
     setNote('');
   };
 
-  // Weekly dataset for visual graph representation
-  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const moodScoreMap: Record<string, number> = {
-    '2026-08-03': 3,
-    '2026-08-04': 4,
-    '2026-08-05': 2,
-    '2026-08-06': 3,
-    '2026-08-07': 4,
-    '2026-08-08': 5,
-    '2026-08-09': 4,
+  const today = new Date();
+  const mondayOffset = (today.getDay() + 6) % 7;
+  const weekDates = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(today);
+    date.setDate(today.getDate() - mondayOffset + index);
+    return date;
+  });
+  const moodScoreByDate = new Map(moods.map(mood => [mood.date, moodConfig[mood.mood].val]));
+
+  const handleResetMoods = () => {
+    if (moods.length === 0) {
+      showToast('Your mood view is already fresh.', 'info');
+      return;
+    }
+    if (window.confirm('Reset all seven days of mood history? This cannot be undone.')) {
+      clearMoods();
+    }
   };
 
   return (
@@ -134,7 +141,18 @@ export const MoodPage: React.FC = () => {
           {/* Visual Trend Chart */}
           <div className="bg-white p-6 rounded-3xl shadow-mello border border-purple-100 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-slate-800 text-base">This Week's Mood Trend</h3>
+              <div className="flex items-center gap-3">
+                <h3 className="font-bold text-slate-800 text-base">This Week's Mood Trend</h3>
+                <button
+                  type="button"
+                  onClick={handleResetMoods}
+                  title="Reset seven days of mood history"
+                  className="text-slate-400 hover:text-rose-600 transition-colors"
+                  aria-label="Reset seven days of mood history"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+              </div>
               <div className="flex space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-bold">
                 <button
                   onClick={() => setTimeframe('weekly')}
@@ -153,12 +171,14 @@ export const MoodPage: React.FC = () => {
 
             {/* Visual Bar Chart */}
             <div className="h-44 bg-gradient-to-b from-purple-50/40 to-white rounded-2xl p-4 border border-purple-100 flex items-end justify-between gap-2">
-              {daysOfWeek.map((day, idx) => {
-                const score = idx === 6 ? moodConfig[selectedMood].val : (idx === 5 ? 5 : (idx === 4 ? 4 : (idx === 3 ? 3 : (idx === 2 ? 2 : 4))));
+              {weekDates.map(date => {
+                const dateKey = date.toISOString().split('T')[0];
+                const score = moodScoreByDate.get(dateKey) ?? 0;
                 const heightPercent = (score / 5) * 100;
+                const day = date.toLocaleDateString('en-US', { weekday: 'short' });
                 return (
-                  <div key={day} className="flex-1 flex flex-col items-center space-y-2 h-full justify-end">
-                    <span className="text-xs">{score === 5 ? '😊' : score === 4 ? '🙂' : score === 3 ? '😐' : score === 2 ? '😔' : '😣'}</span>
+                  <div key={dateKey} className="flex-1 flex flex-col items-center space-y-2 h-full justify-end">
+                    <span className="text-xs">{score ? moodConfig[moods.find(mood => mood.date === dateKey)?.mood ?? 'okay'].emoji : '·'}</span>
                     <div className="w-full bg-slate-100 rounded-full h-full max-h-[100px] flex items-end overflow-hidden">
                       <div
                         className="w-full bg-gradient-to-t from-purple-500 to-indigo-500 rounded-t-full transition-all duration-500"

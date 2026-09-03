@@ -44,6 +44,7 @@ interface AppContextType {
   // Navigation & State Setters
   navigate: (tab: AppTab, options?: { gameId?: string; therapistId?: string }) => void;
   logMood: (mood: MoodType, note?: string, tags?: string[]) => void;
+  clearMoods: () => void;
   addJournal: (title: string, content: string, mood?: MoodType, tags?: string[], prompt?: string) => void;
   deleteJournal: (id: string) => void;
   earnXP: (amount: number, reason: string) => void;
@@ -198,6 +199,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('Journal entry deleted permanently.', 'info');
   };
 
+  const clearMoods = () => {
+    setMoods([]);
+    if (cloudUserId) {
+      void dataConnectService.clearMoods().catch(error => console.warn('Could not clear cloud moods.', error));
+    }
+    showToast('Your seven-day mood view is fresh again.', 'success');
+  };
+
   const completeNode = (levelId: number, nodeId: string) => {
     setJourney(prev => prev.map(level => {
       if (level.id !== levelId) return level;
@@ -248,6 +257,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       toast,
       navigate,
       logMood,
+      clearMoods,
       addJournal,
       deleteJournal,
       earnXP,

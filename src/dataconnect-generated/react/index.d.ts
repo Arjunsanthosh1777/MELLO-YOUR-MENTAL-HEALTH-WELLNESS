@@ -1,4 +1,4 @@
-import { UpsertUserProfileData, UpsertUserProfileVariables, LogMoodData, LogMoodVariables, CreateJournalEntryData, CreateJournalEntryVariables, UpdateJournalEntryData, UpdateJournalEntryVariables, DeleteJournalEntryData, DeleteJournalEntryVariables, LogActivityData, LogActivityVariables, UpsertTherapySessionData, UpsertTherapySessionVariables, RecordSafetyCheckInData, RecordSafetyCheckInVariables, GetUserProfileData, ListUserMoodsData, GetMoodStatsData, ListJournalEntriesData, GetJournalEntryData, GetJournalEntryVariables, ListActivitiesData, ListTherapySessionsData, GetLatestSafetyCheckInData } from '../';
+import { UpsertUserProfileData, UpsertUserProfileVariables, LogMoodData, LogMoodVariables, ClearUserMoodsData, CreateJournalEntryData, CreateJournalEntryVariables, UpdateJournalEntryData, UpdateJournalEntryVariables, DeleteJournalEntryData, DeleteJournalEntryVariables, LogActivityData, LogActivityVariables, UpsertTherapySessionData, UpsertTherapySessionVariables, RecordSafetyCheckInData, RecordSafetyCheckInVariables, GetUserProfileData, ListUserMoodsData, GetMoodStatsData, ListJournalEntriesData, GetJournalEntryData, GetJournalEntryVariables, ListActivitiesData, ListTherapySessionsData, GetLatestSafetyCheckInData } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -10,6 +10,9 @@ export function useUpsertUserProfile(dc: DataConnect, options?: useDataConnectMu
 
 export function useLogMood(options?: useDataConnectMutationOptions<LogMoodData, FirebaseError, LogMoodVariables>): UseDataConnectMutationResult<LogMoodData, LogMoodVariables>;
 export function useLogMood(dc: DataConnect, options?: useDataConnectMutationOptions<LogMoodData, FirebaseError, LogMoodVariables>): UseDataConnectMutationResult<LogMoodData, LogMoodVariables>;
+
+export function useClearUserMoods(options?: useDataConnectMutationOptions<ClearUserMoodsData, FirebaseError, void>): UseDataConnectMutationResult<ClearUserMoodsData, undefined>;
+export function useClearUserMoods(dc: DataConnect, options?: useDataConnectMutationOptions<ClearUserMoodsData, FirebaseError, void>): UseDataConnectMutationResult<ClearUserMoodsData, undefined>;
 
 export function useCreateJournalEntry(options?: useDataConnectMutationOptions<CreateJournalEntryData, FirebaseError, CreateJournalEntryVariables>): UseDataConnectMutationResult<CreateJournalEntryData, CreateJournalEntryVariables>;
 export function useCreateJournalEntry(dc: DataConnect, options?: useDataConnectMutationOptions<CreateJournalEntryData, FirebaseError, CreateJournalEntryVariables>): UseDataConnectMutationResult<CreateJournalEntryData, CreateJournalEntryVariables>;

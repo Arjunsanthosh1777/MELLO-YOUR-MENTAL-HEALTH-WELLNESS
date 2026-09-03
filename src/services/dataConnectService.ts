@@ -1,6 +1,7 @@
 import { getDataConnect, DataConnect } from 'firebase/data-connect';
 import {
   connectorConfig,
+  clearUserMoods,
   createJournalEntry,
   deleteJournalEntry,
   getUserProfile,
@@ -81,6 +82,12 @@ class DataConnectService {
       mood: mood.mood,
       notes: mood.note,
     });
+  }
+
+  public async clearMoods(): Promise<void> {
+    const client = this.getClient();
+    if (!client) return;
+    await clearUserMoods(client);
   }
 
   public async saveJournal(journal: JournalEntry): Promise<void> {

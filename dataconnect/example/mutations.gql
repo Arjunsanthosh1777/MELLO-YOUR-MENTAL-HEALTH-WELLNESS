@@ -32,6 +32,12 @@ mutation LogMood(
   )
 }
 
+mutation ClearUserMoods @auth(level: USER) {
+  mood_delete(
+    first: { where: { user: { id: { eq_expr: "auth.uid" } } } }
+  )
+}
+
 mutation CreateJournalEntry(
   $title: String!
   $content: String!

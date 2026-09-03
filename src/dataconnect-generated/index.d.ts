@@ -16,6 +16,10 @@ export interface Activity_Key {
   __typename?: 'Activity_Key';
 }
 
+export interface ClearUserMoodsData {
+  mood_delete?: Mood_Key | null;
+}
+
 export interface CreateJournalEntryData {
   journalEntry_insert: JournalEntry_Key;
 }
@@ -255,6 +259,18 @@ export const logMoodRef: LogMoodRef;
 
 export function logMood(vars: LogMoodVariables): MutationPromise<LogMoodData, LogMoodVariables>;
 export function logMood(dc: DataConnect, vars: LogMoodVariables): MutationPromise<LogMoodData, LogMoodVariables>;
+
+interface ClearUserMoodsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): MutationRef<ClearUserMoodsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): MutationRef<ClearUserMoodsData, undefined>;
+  operationName: string;
+}
+export const clearUserMoodsRef: ClearUserMoodsRef;
+
+export function clearUserMoods(): MutationPromise<ClearUserMoodsData, undefined>;
+export function clearUserMoods(dc: DataConnect): MutationPromise<ClearUserMoodsData, undefined>;
 
 interface CreateJournalEntryRef {
   /* Allow users to create refs without passing in DataConnect */

@@ -1,4 +1,4 @@
-const { upsertUserProfileRef, logMoodRef, createJournalEntryRef, updateJournalEntryRef, deleteJournalEntryRef, logActivityRef, upsertTherapySessionRef, recordSafetyCheckInRef, getUserProfileRef, listUserMoodsRef, getMoodStatsRef, listJournalEntriesRef, getJournalEntryRef, listActivitiesRef, listTherapySessionsRef, getLatestSafetyCheckInRef, connectorConfig } = require('../index.cjs.js');
+const { upsertUserProfileRef, logMoodRef, clearUserMoodsRef, createJournalEntryRef, updateJournalEntryRef, deleteJournalEntryRef, logActivityRef, upsertTherapySessionRef, recordSafetyCheckInRef, getUserProfileRef, listUserMoodsRef, getMoodStatsRef, listJournalEntriesRef, getJournalEntryRef, listActivitiesRef, listTherapySessionsRef, getLatestSafetyCheckInRef, connectorConfig } = require('../index.cjs.js');
 const { validateArgs, CallerSdkTypeEnum } = require('firebase/data-connect');
 const { useDataConnectQuery, useDataConnectMutation, validateReactArgs } = require('@tanstack-query-firebase/react/data-connect');
 
@@ -14,6 +14,14 @@ exports.useLogMood = function useLogMood(dcOrOptions, options) {
   const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
   function refFactory(vars) {
     return logMoodRef(dcInstance, vars);
+  }
+  return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+exports.useClearUserMoods = function useClearUserMoods(dcOrOptions, options) {
+  const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
+  function refFactory() {
+    return clearUserMoodsRef(dcInstance);
   }
   return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }
