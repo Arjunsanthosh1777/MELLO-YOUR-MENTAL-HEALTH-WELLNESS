@@ -14,7 +14,7 @@ export const AuthPage: React.FC = () => {
   const [ageConfirmed, setAgeConfirmed] = useState(true);
   const [privacyAgreed, setPrivacyAgreed] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return;
 
@@ -23,13 +23,23 @@ export const AuthPage: React.FC = () => {
         showToast('Please confirm age and privacy terms.', 'info');
         return;
       }
-      updateUser({ name: name || 'Friend', email, ageConfirmed, privacyAgreed, onboardingCompleted: false });
-      showToast('Account created! Welcome to Mello.', 'success');
-      navigate('onboarding');
+      try {
+        const user = await firebaseService.signUpWithEmail(email, password, name || 'Friend');
+        updateUser({ id: user.uid, name: user.displayName || name || 'Friend', email: user.email || email, ageConfirmed, privacyAgreed, onboardingCompleted: false });
+        showToast('Account created! Welcome to Mello.', 'success');
+        navigate('onboarding');
+      } catch (error: any) {
+        showToast(`Sign-up failed: ${error.message}`, 'xp');
+      }
     } else {
-      updateUser({ email, onboardingCompleted: true });
-      showToast('Welcome back to Mello!', 'success');
-      navigate('home');
+      try {
+        const user = await firebaseService.signInWithEmail(email, password);
+        updateUser({ id: user.uid, name: user.displayName || email.split('@')[0], email: user.email || email, onboardingCompleted: true });
+        showToast('Welcome back to Mello!', 'success');
+        navigate('home');
+      } catch (error: any) {
+        showToast(`Sign-in failed: ${error.message}`, 'xp');
+      }
     }
   };
 

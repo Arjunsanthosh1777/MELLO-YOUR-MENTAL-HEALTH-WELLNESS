@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 import { UserProfile, MoodEntry, JournalEntry, JourneyLevel, Achievement, MoodType } from '../types';
 import { storageService } from '../services/storageService';
+import { dataConnectService } from '../services/dataConnectService';
+import { firebaseService } from '../services/firebaseService';
 
 export type AppTab = 
   | 'landing' 
@@ -61,6 +64,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [journals, setJournals] = useState<JournalEntry[]>(() => storageService.getJournals());
   const [journey, setJourney] = useState<JourneyLevel[]>(() => storageService.getJourney());
   const [achievements, setAchievements] = useState<Achievement[]>(() => storageService.getAchievements());
+  const [cloudUserId, setCloudUserId] = useState<string | null>(null);
+  const [cloudDataLoaded, setCloudDataLoaded] = useState(false);
 
   const [activeTab, setActiveTab] = useState<AppTab>('landing');
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
@@ -74,6 +79,46 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => { storageService.saveJournals(journals); }, [journals]);
   useEffect(() => { storageService.saveJourney(journey); }, [journey]);
   useEffect(() => { storageService.saveAchievements(achievements); }, [achievements]);
+
+  useEffect(() => {
+    const auth = firebaseService.getAuth();
+    if (!auth) return;
+
+    return onAuthStateChanged(auth, async (firebaseUser) => {
+      if (!firebaseUser) {
+        setCloudUserId(null);
+        setCloudDataLoaded(false);
+        return;
+      }
+
+      setCloudUserId(firebaseUser.uid);
+      try {
+        const remote = await dataConnectService.loadUserData();
+        if (remote.user) {
+          setUser(prev => ({
+            ...prev,
+            id: firebaseUser.uid,
+            email: remote.user?.email ?? firebaseUser.email ?? prev.email,
+            name: remote.user?.displayName ?? firebaseUser.displayName ?? prev.name,
+            avatar: remote.user?.avatar ?? prev.avatar,
+          }));
+        }
+        setMoods(remote.moods);
+        setJournals(remote.journals);
+      } catch (error) {
+        console.warn('Cloud data unavailable; continuing with local cache.', error);
+      } finally {
+        setCloudDataLoaded(true);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!cloudUserId || !cloudDataLoaded) return;
+    void dataConnectService.saveUser(user).catch(error => {
+      console.warn('Could not save profile to cloud.', error);
+    });
+  }, [cloudDataLoaded, cloudUserId, user]);
 
   const showToast = (text: string, type: 'xp' | 'success' | 'info' = 'info') => {
     setToast({ text, type });
@@ -121,6 +166,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     setMoods(prev => [newEntry, ...prev.filter(m => m.date !== todayStr)]);
+    if (cloudUserId) {
+      void dataConnectService.saveMood(newEntry).catch(error => console.warn('Could not save mood to cloud.', error));
+    }
     earnXP(10, 'Daily Mood Check-in');
   };
 
@@ -136,11 +184,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       prompt
     };
     setJournals(prev => [newJournal, ...prev]);
+    if (cloudUserId) {
+      void dataConnectService.saveJournal(newJournal).catch(error => console.warn('Could not save journal to cloud.', error));
+    }
     earnXP(20, 'Journal Reflection');
   };
 
   const deleteJournal = (id: string) => {
     setJournals(prev => prev.filter(j => j.id !== id));
+    if (cloudUserId) {
+      void dataConnectService.removeJournal(id).catch(error => console.warn('Could not delete journal from cloud.', error));
+    }
     showToast('Journal entry deleted permanently.', 'info');
   };
 

@@ -52,7 +52,14 @@ mutation UpdateJournalEntry(
   $title: String
   $content: String
   $tags: String
-) @auth(level: USER) {
+) @auth(level: USER) @transaction {
+  query @redact {
+    journalEntry(key: { id: $entryId }) {
+      user {
+        id @check(expr: "this == auth.uid", message: "You can only update your own journal entries")
+      }
+    }
+  }
   journalEntry_update(
     key: { id: $entryId }
     data: {
@@ -65,7 +72,14 @@ mutation UpdateJournalEntry(
 
 mutation DeleteJournalEntry(
   $entryId: UUID!
-) @auth(level: USER) {
+) @auth(level: USER) @transaction {
+  query @redact {
+    journalEntry(key: { id: $entryId }) {
+      user {
+        id @check(expr: "this == auth.uid", message: "You can only delete your own journal entries")
+      }
+    }
+  }
   journalEntry_delete(
     key: { id: $entryId }
   )

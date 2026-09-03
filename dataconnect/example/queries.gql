@@ -68,7 +68,7 @@ query GetJournalEntry($entryId: UUID!) @auth(level: USER) {
     createdAt
     updatedAt
     user {
-      id
+      id @check(expr: "this == auth.uid", message: "You can only access your own journal entries")
     }
   }
 }
