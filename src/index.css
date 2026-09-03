@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background: radial-gradient(circle at 50% 0%, #F5F3FF 0%, #FAF5FF 60%, #F1F5F9 100%);
+    min-height: 100vh;
+  }
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(237, 233, 254, 0.6);
+}
+
+.gradient-text-mello {
+  background: linear-gradient(135deg, #7C3AED 0%, #A78BFA 50%, #EC4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.shadow-mello {
+  box-shadow: 0 10px 30px -4px rgba(139, 92, 246, 0.12);
+}
+
+.shadow-mello-lg {
+  box-shadow: 0 20px 40px -6px rgba(139, 92, 246, 0.18);
+}
+
+.shadow-mello-glow {
+  box-shadow: 0 0 25px rgba(167, 139, 250, 0.4);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb {
+  background: #C4B5FD;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A78BFA;
+}

@@ -1,0 +1,325 @@
+extend type Query {
+  """
+  ✨ Look up a single `Activity` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  activity(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Activity_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Activity_FirstRow
+  ): Activity @fdc_generated(from: "Activity", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `JournalEntry` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  journalEntry(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: JournalEntry_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: JournalEntry_FirstRow
+  ): JournalEntry @fdc_generated(from: "JournalEntry", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `Mood` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  mood(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Mood_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Mood_FirstRow
+  ): Mood @fdc_generated(from: "Mood", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `SafetyCheckIn` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  safetyCheckIn(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: SafetyCheckIn_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: SafetyCheckIn_FirstRow
+  ): SafetyCheckIn @fdc_generated(from: "SafetyCheckIn", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `TherapySession` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  therapySession(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: TherapySession_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: TherapySession_FirstRow
+  ): TherapySession @fdc_generated(from: "TherapySession", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `User` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  user(
+    """
+    The unique ID of the object.
+    """
+    id: String
+
+    """
+    ✨ `_expr` server value variant of `id` (The unique ID of the object.)
+    """
+    id_expr: String_Expr
+
+    """
+    The key used to identify the object.
+    """
+    key: User_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: User_FirstRow
+  ): User @fdc_generated(from: "User", purpose: QUERY_SINGLE)
+  """
+  ✨ List `Activity` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  activities(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Activity_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Activity_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Activity_Having
+  ): [Activity!]! @fdc_generated(from: "Activity", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `JournalEntry` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  journalEntries(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: JournalEntry_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [JournalEntry_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: JournalEntry_Having
+  ): [JournalEntry!]! @fdc_generated(from: "JournalEntry", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Mood` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  moods(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Mood_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Mood_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Mood_Having
+  ): [Mood!]! @fdc_generated(from: "Mood", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `SafetyCheckIn` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  safetyCheckIns(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: SafetyCheckIn_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [SafetyCheckIn_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: SafetyCheckIn_Having
+  ): [SafetyCheckIn!]! @fdc_generated(from: "SafetyCheckIn", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `TherapySession` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  therapySessions(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: TherapySession_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [TherapySession_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: TherapySession_Having
+  ): [TherapySession!]! @fdc_generated(from: "TherapySession", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `User` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  users(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: User_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [User_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: User_Having
+  ): [User!]! @fdc_generated(from: "User", purpose: QUERY_MULTIPLE)
+}

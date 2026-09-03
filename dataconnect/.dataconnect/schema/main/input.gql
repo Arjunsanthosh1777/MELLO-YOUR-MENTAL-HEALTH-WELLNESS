@@ -1,0 +1,2026 @@
+"""
+✨ `Activity_KeyOutput` returns the primary key fields of table type `Activity`.
+
+It has the same format as `Activity_Key`, but is only used as mutation return value.
+"""
+scalar Activity_KeyOutput
+"""
+✨ `JournalEntry_KeyOutput` returns the primary key fields of table type `JournalEntry`.
+
+It has the same format as `JournalEntry_Key`, but is only used as mutation return value.
+"""
+scalar JournalEntry_KeyOutput
+"""
+✨ `Mood_KeyOutput` returns the primary key fields of table type `Mood`.
+
+It has the same format as `Mood_Key`, but is only used as mutation return value.
+"""
+scalar Mood_KeyOutput
+"""
+✨ `SafetyCheckIn_KeyOutput` returns the primary key fields of table type `SafetyCheckIn`.
+
+It has the same format as `SafetyCheckIn_Key`, but is only used as mutation return value.
+"""
+scalar SafetyCheckIn_KeyOutput
+"""
+✨ `TherapySession_KeyOutput` returns the primary key fields of table type `TherapySession`.
+
+It has the same format as `TherapySession_Key`, but is only used as mutation return value.
+"""
+scalar TherapySession_KeyOutput
+"""
+✨ `User_KeyOutput` returns the primary key fields of table type `User`.
+
+It has the same format as `User_Key`, but is only used as mutation return value.
+"""
+scalar User_KeyOutput
+"""
+✨ Generated data input type for table 'Activity'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Activity_Data {
+  """
+  ✨ Generated from Field `Activity`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Activity`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Activity`.`userId` of type `String!`
+  """
+  userId: String
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Activity`.`userId` of type `String!`)
+  """
+  userId_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Activity`.`user` of type `User!`
+  """
+  user: User_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Activity`.`activityType` of type `String!`
+  """
+  activityType: String
+  """
+  ✨ `_expr` server value variant of `activityType` (✨ Generated from Field `Activity`.`activityType` of type `String!`)
+  """
+  activityType_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Activity`.`completedAt` of type `Timestamp!`
+  """
+  completedAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `completedAt` (✨ Generated from Field `Activity`.`completedAt` of type `Timestamp!`)
+  """
+  completedAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `completedAt` (✨ Generated from Field `Activity`.`completedAt` of type `Timestamp!`)
+  """
+  completedAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `completedAt` (✨ Generated from Field `Activity`.`completedAt` of type `Timestamp!`)
+  """
+  completedAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Activity`.`duration` of type `Int`
+  """
+  duration: Int
+  """
+  ✨ `_expr` server value variant of `duration` (✨ Generated from Field `Activity`.`duration` of type `Int`)
+  """
+  duration_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `duration` (✨ Generated from Field `Activity`.`duration` of type `Int`)
+  """
+  duration_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Activity`.`score` of type `Int`
+  """
+  score: Int
+  """
+  ✨ `_expr` server value variant of `score` (✨ Generated from Field `Activity`.`score` of type `Int`)
+  """
+  score_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `score` (✨ Generated from Field `Activity`.`score` of type `Int`)
+  """
+  score_update: [Int_Update!] @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'Activity'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Activity_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Activity_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Activity_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Activity_Filter!]
+  """
+  ✨ Generated from Field `Activity`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Activity`.`userId` of type `String!`
+  """
+  userId: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `Activity`.`activityType` of type `String!`
+  """
+  activityType: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`completedAt` of type `Timestamp!`
+  """
+  completedAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `Activity`.`duration` of type `Int`
+  """
+  duration: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`score` of type `Int`
+  """
+  score: Int_Filter
+}
+"""
+✨ Generated first-row input type for table 'Activity'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Activity_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Activity_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Activity_Filter
+}
+"""
+✨ Generated having input type for table 'Activity'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Activity_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Activity_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Activity_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Activity_Having!]
+  """
+  ✨ Generated from Field `Activity`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`activityType_count` of type `Int!`
+  """
+  activityType_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`completedAt_count` of type `Int!`
+  """
+  completedAt_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`duration_count` of type `Int!`
+  """
+  duration_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`score_count` of type `Int!`
+  """
+  score_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`duration_sum` of type `Int`
+  """
+  duration_sum: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`score_sum` of type `Int`
+  """
+  score_sum: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`duration_avg` of type `Float`
+  """
+  duration_avg: Float_Filter
+  """
+  ✨ Generated from Field `Activity`.`score_avg` of type `Float`
+  """
+  score_avg: Float_Filter
+  """
+  ✨ Generated from Field `Activity`.`completedAt_min` of type `Timestamp`
+  """
+  completedAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `Activity`.`duration_min` of type `Int`
+  """
+  duration_min: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`score_min` of type `Int`
+  """
+  score_min: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`completedAt_max` of type `Timestamp`
+  """
+  completedAt_max: Timestamp_Filter
+  """
+  ✨ Generated from Field `Activity`.`duration_max` of type `Int`
+  """
+  duration_max: Int_Filter
+  """
+  ✨ Generated from Field `Activity`.`score_max` of type `Int`
+  """
+  score_max: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Activity'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Activity_Key {
+  """
+  ✨ Generated from Field `Activity`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Activity`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Activity'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Activity_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Activity_Filter
+}
+"""
+✨ Generated order input type for table 'Activity'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Activity_Order {
+  """
+  ✨ Generated from Field `Activity`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`userId` of type `String!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `Activity`.`activityType` of type `String!`
+  """
+  activityType: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`completedAt` of type `Timestamp!`
+  """
+  completedAt: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`duration` of type `Int`
+  """
+  duration: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`score` of type `Int`
+  """
+  score: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`activityType_count` of type `Int!`
+  """
+  activityType_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`completedAt_count` of type `Int!`
+  """
+  completedAt_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`duration_count` of type `Int!`
+  """
+  duration_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`score_count` of type `Int!`
+  """
+  score_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`duration_sum` of type `Int`
+  """
+  duration_sum: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`score_sum` of type `Int`
+  """
+  score_sum: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`duration_avg` of type `Float`
+  """
+  duration_avg: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`score_avg` of type `Float`
+  """
+  score_avg: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`completedAt_min` of type `Timestamp`
+  """
+  completedAt_min: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`duration_min` of type `Int`
+  """
+  duration_min: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`score_min` of type `Int`
+  """
+  score_min: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`completedAt_max` of type `Timestamp`
+  """
+  completedAt_max: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`duration_max` of type `Int`
+  """
+  duration_max: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`score_max` of type `Int`
+  """
+  score_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'JournalEntry'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input JournalEntry_Data {
+  """
+  ✨ Generated from Field `JournalEntry`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `JournalEntry`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `JournalEntry`.`userId` of type `String!`
+  """
+  userId: String
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `JournalEntry`.`userId` of type `String!`)
+  """
+  userId_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `JournalEntry`.`user` of type `User!`
+  """
+  user: User_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `JournalEntry`.`content` of type `String!`
+  """
+  content: String
+  """
+  ✨ `_expr` server value variant of `content` (✨ Generated from Field `JournalEntry`.`content` of type `String!`)
+  """
+  content_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `JournalEntry`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `JournalEntry`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `JournalEntry`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `JournalEntry`.`tags` of type `String`
+  """
+  tags: String
+  """
+  ✨ `_expr` server value variant of `tags` (✨ Generated from Field `JournalEntry`.`tags` of type `String`)
+  """
+  tags_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `JournalEntry`.`title` of type `String!`
+  """
+  title: String
+  """
+  ✨ `_expr` server value variant of `title` (✨ Generated from Field `JournalEntry`.`title` of type `String!`)
+  """
+  title_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt` of type `Timestamp!`
+  """
+  updatedAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `updatedAt` (✨ Generated from Field `JournalEntry`.`updatedAt` of type `Timestamp!`)
+  """
+  updatedAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `updatedAt` (✨ Generated from Field `JournalEntry`.`updatedAt` of type `Timestamp!`)
+  """
+  updatedAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `updatedAt` (✨ Generated from Field `JournalEntry`.`updatedAt` of type `Timestamp!`)
+  """
+  updatedAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'JournalEntry'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input JournalEntry_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [JournalEntry_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: JournalEntry_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [JournalEntry_Filter!]
+  """
+  ✨ Generated from Field `JournalEntry`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`userId` of type `String!`
+  """
+  userId: String_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`content` of type `String!`
+  """
+  content: String_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`tags` of type `String`
+  """
+  tags: String_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`title` of type `String!`
+  """
+  title: String_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt` of type `Timestamp!`
+  """
+  updatedAt: Timestamp_Filter
+}
+"""
+✨ Generated first-row input type for table 'JournalEntry'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input JournalEntry_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [JournalEntry_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: JournalEntry_Filter
+}
+"""
+✨ Generated having input type for table 'JournalEntry'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input JournalEntry_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [JournalEntry_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: JournalEntry_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [JournalEntry_Having!]
+  """
+  ✨ Generated from Field `JournalEntry`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`content_count` of type `Int!`
+  """
+  content_count: Int_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: Int_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`tags_count` of type `Int!`
+  """
+  tags_count: Int_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`title_count` of type `Int!`
+  """
+  title_count: Int_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt_count` of type `Int!`
+  """
+  updatedAt_count: Int_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt_min` of type `Timestamp`
+  """
+  updatedAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: Timestamp_Filter
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt_max` of type `Timestamp`
+  """
+  updatedAt_max: Timestamp_Filter
+}
+"""
+✨ Generated key input type for table 'JournalEntry'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input JournalEntry_Key {
+  """
+  ✨ Generated from Field `JournalEntry`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `JournalEntry`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'JournalEntry'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input JournalEntry_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: JournalEntry_Filter
+}
+"""
+✨ Generated order input type for table 'JournalEntry'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input JournalEntry_Order {
+  """
+  ✨ Generated from Field `JournalEntry`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`userId` of type `String!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `JournalEntry`.`content` of type `String!`
+  """
+  content: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`tags` of type `String`
+  """
+  tags: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`title` of type `String!`
+  """
+  title: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt` of type `Timestamp!`
+  """
+  updatedAt: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`content_count` of type `Int!`
+  """
+  content_count: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`tags_count` of type `Int!`
+  """
+  tags_count: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`title_count` of type `Int!`
+  """
+  title_count: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt_count` of type `Int!`
+  """
+  updatedAt_count: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt_min` of type `Timestamp`
+  """
+  updatedAt_min: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: OrderDirection
+  """
+  ✨ Generated from Field `JournalEntry`.`updatedAt_max` of type `Timestamp`
+  """
+  updatedAt_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'Mood'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Mood_Data {
+  """
+  ✨ Generated from Field `Mood`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Mood`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Mood`.`userId` of type `String!`
+  """
+  userId: String
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `Mood`.`userId` of type `String!`)
+  """
+  userId_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Mood`.`user` of type `User!`
+  """
+  user: User_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Mood`.`intensity` of type `Int`
+  """
+  intensity: Int
+  """
+  ✨ `_expr` server value variant of `intensity` (✨ Generated from Field `Mood`.`intensity` of type `Int`)
+  """
+  intensity_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `intensity` (✨ Generated from Field `Mood`.`intensity` of type `Int`)
+  """
+  intensity_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Mood`.`mood` of type `String!`
+  """
+  mood: String
+  """
+  ✨ `_expr` server value variant of `mood` (✨ Generated from Field `Mood`.`mood` of type `String!`)
+  """
+  mood_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Mood`.`notes` of type `String`
+  """
+  notes: String
+  """
+  ✨ `_expr` server value variant of `notes` (✨ Generated from Field `Mood`.`notes` of type `String`)
+  """
+  notes_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Mood`.`timestamp` of type `Timestamp!`
+  """
+  timestamp: Timestamp
+  """
+  ✨ `_expr` server value variant of `timestamp` (✨ Generated from Field `Mood`.`timestamp` of type `Timestamp!`)
+  """
+  timestamp_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `timestamp` (✨ Generated from Field `Mood`.`timestamp` of type `Timestamp!`)
+  """
+  timestamp_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `timestamp` (✨ Generated from Field `Mood`.`timestamp` of type `Timestamp!`)
+  """
+  timestamp_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'Mood'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Mood_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Mood_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Mood_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Mood_Filter!]
+  """
+  ✨ Generated from Field `Mood`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Mood`.`userId` of type `String!`
+  """
+  userId: String_Filter
+  """
+  ✨ Generated from Field `Mood`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `Mood`.`intensity` of type `Int`
+  """
+  intensity: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`mood` of type `String!`
+  """
+  mood: String_Filter
+  """
+  ✨ Generated from Field `Mood`.`notes` of type `String`
+  """
+  notes: String_Filter
+  """
+  ✨ Generated from Field `Mood`.`timestamp` of type `Timestamp!`
+  """
+  timestamp: Timestamp_Filter
+}
+"""
+✨ Generated first-row input type for table 'Mood'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Mood_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Mood_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Mood_Filter
+}
+"""
+✨ Generated having input type for table 'Mood'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Mood_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Mood_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Mood_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Mood_Having!]
+  """
+  ✨ Generated from Field `Mood`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`intensity_count` of type `Int!`
+  """
+  intensity_count: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`mood_count` of type `Int!`
+  """
+  mood_count: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`notes_count` of type `Int!`
+  """
+  notes_count: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`timestamp_count` of type `Int!`
+  """
+  timestamp_count: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`intensity_sum` of type `Int`
+  """
+  intensity_sum: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`intensity_avg` of type `Float`
+  """
+  intensity_avg: Float_Filter
+  """
+  ✨ Generated from Field `Mood`.`intensity_min` of type `Int`
+  """
+  intensity_min: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`timestamp_min` of type `Timestamp`
+  """
+  timestamp_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `Mood`.`intensity_max` of type `Int`
+  """
+  intensity_max: Int_Filter
+  """
+  ✨ Generated from Field `Mood`.`timestamp_max` of type `Timestamp`
+  """
+  timestamp_max: Timestamp_Filter
+}
+"""
+✨ Generated key input type for table 'Mood'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Mood_Key {
+  """
+  ✨ Generated from Field `Mood`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Mood`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Mood'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Mood_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Mood_Filter
+}
+"""
+✨ Generated order input type for table 'Mood'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Mood_Order {
+  """
+  ✨ Generated from Field `Mood`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`userId` of type `String!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `Mood`.`intensity` of type `Int`
+  """
+  intensity: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`mood` of type `String!`
+  """
+  mood: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`notes` of type `String`
+  """
+  notes: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`timestamp` of type `Timestamp!`
+  """
+  timestamp: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`intensity_count` of type `Int!`
+  """
+  intensity_count: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`mood_count` of type `Int!`
+  """
+  mood_count: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`notes_count` of type `Int!`
+  """
+  notes_count: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`timestamp_count` of type `Int!`
+  """
+  timestamp_count: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`intensity_sum` of type `Int`
+  """
+  intensity_sum: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`intensity_avg` of type `Float`
+  """
+  intensity_avg: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`intensity_min` of type `Int`
+  """
+  intensity_min: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`timestamp_min` of type `Timestamp`
+  """
+  timestamp_min: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`intensity_max` of type `Int`
+  """
+  intensity_max: OrderDirection
+  """
+  ✨ Generated from Field `Mood`.`timestamp_max` of type `Timestamp`
+  """
+  timestamp_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'SafetyCheckIn'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input SafetyCheckIn_Data {
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `SafetyCheckIn`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`userId` of type `String!`
+  """
+  userId: String
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `SafetyCheckIn`.`userId` of type `String!`)
+  """
+  userId_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`user` of type `User!`
+  """
+  user: User_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt` of type `Timestamp!`
+  """
+  checkedAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `checkedAt` (✨ Generated from Field `SafetyCheckIn`.`checkedAt` of type `Timestamp!`)
+  """
+  checkedAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `checkedAt` (✨ Generated from Field `SafetyCheckIn`.`checkedAt` of type `Timestamp!`)
+  """
+  checkedAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `checkedAt` (✨ Generated from Field `SafetyCheckIn`.`checkedAt` of type `Timestamp!`)
+  """
+  checkedAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`message` of type `String`
+  """
+  message: String
+  """
+  ✨ `_expr` server value variant of `message` (✨ Generated from Field `SafetyCheckIn`.`message` of type `String`)
+  """
+  message_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`
+  """
+  reviewDate: Timestamp
+  """
+  ✨ `_expr` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`)
+  """
+  reviewDate_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`)
+  """
+  reviewDate_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`)
+  """
+  reviewDate_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`status` of type `String!`
+  """
+  status: String
+  """
+  ✨ `_expr` server value variant of `status` (✨ Generated from Field `SafetyCheckIn`.`status` of type `String!`)
+  """
+  status_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'SafetyCheckIn'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input SafetyCheckIn_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [SafetyCheckIn_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: SafetyCheckIn_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [SafetyCheckIn_Filter!]
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`userId` of type `String!`
+  """
+  userId: String_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt` of type `Timestamp!`
+  """
+  checkedAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`message` of type `String`
+  """
+  message: String_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`
+  """
+  reviewDate: Timestamp_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`status` of type `String!`
+  """
+  status: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'SafetyCheckIn'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input SafetyCheckIn_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [SafetyCheckIn_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: SafetyCheckIn_Filter
+}
+"""
+✨ Generated having input type for table 'SafetyCheckIn'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input SafetyCheckIn_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [SafetyCheckIn_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: SafetyCheckIn_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [SafetyCheckIn_Having!]
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt_count` of type `Int!`
+  """
+  checkedAt_count: Int_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`message_count` of type `Int!`
+  """
+  message_count: Int_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate_count` of type `Int!`
+  """
+  reviewDate_count: Int_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`status_count` of type `Int!`
+  """
+  status_count: Int_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt_min` of type `Timestamp`
+  """
+  checkedAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate_min` of type `Timestamp`
+  """
+  reviewDate_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt_max` of type `Timestamp`
+  """
+  checkedAt_max: Timestamp_Filter
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate_max` of type `Timestamp`
+  """
+  reviewDate_max: Timestamp_Filter
+}
+"""
+✨ Generated key input type for table 'SafetyCheckIn'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input SafetyCheckIn_Key {
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `SafetyCheckIn`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'SafetyCheckIn'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input SafetyCheckIn_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: SafetyCheckIn_Filter
+}
+"""
+✨ Generated order input type for table 'SafetyCheckIn'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input SafetyCheckIn_Order {
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`userId` of type `String!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt` of type `Timestamp!`
+  """
+  checkedAt: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`message` of type `String`
+  """
+  message: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`
+  """
+  reviewDate: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`status` of type `String!`
+  """
+  status: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt_count` of type `Int!`
+  """
+  checkedAt_count: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`message_count` of type `Int!`
+  """
+  message_count: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate_count` of type `Int!`
+  """
+  reviewDate_count: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`status_count` of type `Int!`
+  """
+  status_count: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt_min` of type `Timestamp`
+  """
+  checkedAt_min: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate_min` of type `Timestamp`
+  """
+  reviewDate_min: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`checkedAt_max` of type `Timestamp`
+  """
+  checkedAt_max: OrderDirection
+  """
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate_max` of type `Timestamp`
+  """
+  reviewDate_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'TherapySession'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input TherapySession_Data {
+  """
+  ✨ Generated from Field `TherapySession`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `TherapySession`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `TherapySession`.`userId` of type `String!`
+  """
+  userId: String
+  """
+  ✨ `_expr` server value variant of `userId` (✨ Generated from Field `TherapySession`.`userId` of type `String!`)
+  """
+  userId_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `TherapySession`.`user` of type `User!`
+  """
+  user: User_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `TherapySession`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `TherapySession`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `TherapySession`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `TherapySession`.`duration` of type `Int`
+  """
+  duration: Int
+  """
+  ✨ `_expr` server value variant of `duration` (✨ Generated from Field `TherapySession`.`duration` of type `Int`)
+  """
+  duration_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `duration` (✨ Generated from Field `TherapySession`.`duration` of type `Int`)
+  """
+  duration_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `TherapySession`.`notes` of type `String`
+  """
+  notes: String
+  """
+  ✨ `_expr` server value variant of `notes` (✨ Generated from Field `TherapySession`.`notes` of type `String`)
+  """
+  notes_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate` of type `Timestamp`
+  """
+  sessionDate: Timestamp
+  """
+  ✨ `_expr` server value variant of `sessionDate` (✨ Generated from Field `TherapySession`.`sessionDate` of type `Timestamp`)
+  """
+  sessionDate_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `sessionDate` (✨ Generated from Field `TherapySession`.`sessionDate` of type `Timestamp`)
+  """
+  sessionDate_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `sessionDate` (✨ Generated from Field `TherapySession`.`sessionDate` of type `Timestamp`)
+  """
+  sessionDate_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `TherapySession`.`status` of type `String`
+  """
+  status: String
+  """
+  ✨ `_expr` server value variant of `status` (✨ Generated from Field `TherapySession`.`status` of type `String`)
+  """
+  status_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `TherapySession`.`therapist` of type `String`
+  """
+  therapist: String
+  """
+  ✨ `_expr` server value variant of `therapist` (✨ Generated from Field `TherapySession`.`therapist` of type `String`)
+  """
+  therapist_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'TherapySession'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input TherapySession_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [TherapySession_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: TherapySession_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [TherapySession_Filter!]
+  """
+  ✨ Generated from Field `TherapySession`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`userId` of type `String!`
+  """
+  userId: String_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`user` of type `User!`
+  """
+  user: User_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`duration` of type `Int`
+  """
+  duration: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`notes` of type `String`
+  """
+  notes: String_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate` of type `Timestamp`
+  """
+  sessionDate: Timestamp_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`status` of type `String`
+  """
+  status: String_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`therapist` of type `String`
+  """
+  therapist: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'TherapySession'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input TherapySession_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [TherapySession_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: TherapySession_Filter
+}
+"""
+✨ Generated having input type for table 'TherapySession'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input TherapySession_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [TherapySession_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: TherapySession_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [TherapySession_Having!]
+  """
+  ✨ Generated from Field `TherapySession`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`duration_count` of type `Int!`
+  """
+  duration_count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`notes_count` of type `Int!`
+  """
+  notes_count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate_count` of type `Int!`
+  """
+  sessionDate_count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`status_count` of type `Int!`
+  """
+  status_count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`therapist_count` of type `Int!`
+  """
+  therapist_count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`userId_count` of type `Int!`
+  """
+  userId_count: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`duration_sum` of type `Int`
+  """
+  duration_sum: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`duration_avg` of type `Float`
+  """
+  duration_avg: Float_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`duration_min` of type `Int`
+  """
+  duration_min: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate_min` of type `Timestamp`
+  """
+  sessionDate_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: Timestamp_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`duration_max` of type `Int`
+  """
+  duration_max: Int_Filter
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate_max` of type `Timestamp`
+  """
+  sessionDate_max: Timestamp_Filter
+}
+"""
+✨ Generated key input type for table 'TherapySession'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input TherapySession_Key {
+  """
+  ✨ Generated from Field `TherapySession`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `TherapySession`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'TherapySession'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input TherapySession_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: TherapySession_Filter
+}
+"""
+✨ Generated order input type for table 'TherapySession'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input TherapySession_Order {
+  """
+  ✨ Generated from Field `TherapySession`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`userId` of type `String!`
+  """
+  userId: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`user` of type `User!`
+  """
+  user: User_Order
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`duration` of type `Int`
+  """
+  duration: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`notes` of type `String`
+  """
+  notes: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate` of type `Timestamp`
+  """
+  sessionDate: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`status` of type `String`
+  """
+  status: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`therapist` of type `String`
+  """
+  therapist: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`duration_count` of type `Int!`
+  """
+  duration_count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`notes_count` of type `Int!`
+  """
+  notes_count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate_count` of type `Int!`
+  """
+  sessionDate_count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`status_count` of type `Int!`
+  """
+  status_count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`therapist_count` of type `Int!`
+  """
+  therapist_count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`userId_count` of type `Int!`
+  """
+  userId_count: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`duration_sum` of type `Int`
+  """
+  duration_sum: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`duration_avg` of type `Float`
+  """
+  duration_avg: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`duration_min` of type `Int`
+  """
+  duration_min: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate_min` of type `Timestamp`
+  """
+  sessionDate_min: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`duration_max` of type `Int`
+  """
+  duration_max: OrderDirection
+  """
+  ✨ Generated from Field `TherapySession`.`sessionDate_max` of type `Timestamp`
+  """
+  sessionDate_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'User'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input User_Data {
+  """
+  ✨ Generated from Field `User`.`id` of type `String!`
+  """
+  id: String
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `String!`)
+  """
+  id_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `User`.`avatar` of type `String`
+  """
+  avatar: String
+  """
+  ✨ `_expr` server value variant of `avatar` (✨ Generated from Field `User`.`avatar` of type `String`)
+  """
+  avatar_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `User`.`createdAt` of type `Timestamp!`)
+  """
+  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `User`.`displayName` of type `String`
+  """
+  displayName: String
+  """
+  ✨ `_expr` server value variant of `displayName` (✨ Generated from Field `User`.`displayName` of type `String`)
+  """
+  displayName_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `User`.`email` of type `String!`
+  """
+  email: String
+  """
+  ✨ `_expr` server value variant of `email` (✨ Generated from Field `User`.`email` of type `String!`)
+  """
+  email_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `User`.`updatedAt` of type `Timestamp!`
+  """
+  updatedAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `updatedAt` (✨ Generated from Field `User`.`updatedAt` of type `Timestamp!`)
+  """
+  updatedAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `updatedAt` (✨ Generated from Field `User`.`updatedAt` of type `Timestamp!`)
+  """
+  updatedAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `updatedAt` (✨ Generated from Field `User`.`updatedAt` of type `Timestamp!`)
+  """
+  updatedAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `User`.`activities_on_user` of type `[Activity!]!`
+  """
+  activities_on_user: [Activity_Data!]
+  """
+  ✨ Generated from Field `User`.`journalEntries_on_user` of type `[JournalEntry!]!`
+  """
+  journalEntries_on_user: [JournalEntry_Data!]
+  """
+  ✨ Generated from Field `User`.`moods_on_user` of type `[Mood!]!`
+  """
+  moods_on_user: [Mood_Data!]
+  """
+  ✨ Generated from Field `User`.`safetyCheckIns_on_user` of type `[SafetyCheckIn!]!`
+  """
+  safetyCheckIns_on_user: [SafetyCheckIn_Data!]
+  """
+  ✨ Generated from Field `User`.`therapySessions_on_user` of type `[TherapySession!]!`
+  """
+  therapySessions_on_user: [TherapySession_Data!]
+}
+"""
+✨ Generated filter input type for table 'User'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input User_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [User_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: User_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [User_Filter!]
+  """
+  ✨ Generated from Field `User`.`id` of type `String!`
+  """
+  id: String_Filter
+  """
+  ✨ Generated from Field `User`.`avatar` of type `String`
+  """
+  avatar: String_Filter
+  """
+  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`displayName` of type `String`
+  """
+  displayName: String_Filter
+  """
+  ✨ Generated from Field `User`.`email` of type `String!`
+  """
+  email: String_Filter
+  """
+  ✨ Generated from Field `User`.`updatedAt` of type `Timestamp!`
+  """
+  updatedAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`activities_on_user` of type `[Activity!]!`
+  """
+  activities_on_user: Activity_ListFilter
+  """
+  ✨ Generated from Field `User`.`journalEntries_on_user` of type `[JournalEntry!]!`
+  """
+  journalEntries_on_user: JournalEntry_ListFilter
+  """
+  ✨ Generated from Field `User`.`moods_on_user` of type `[Mood!]!`
+  """
+  moods_on_user: Mood_ListFilter
+  """
+  ✨ Generated from Field `User`.`safetyCheckIns_on_user` of type `[SafetyCheckIn!]!`
+  """
+  safetyCheckIns_on_user: SafetyCheckIn_ListFilter
+  """
+  ✨ Generated from Field `User`.`therapySessions_on_user` of type `[TherapySession!]!`
+  """
+  therapySessions_on_user: TherapySession_ListFilter
+}
+"""
+✨ Generated first-row input type for table 'User'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input User_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [User_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: User_Filter
+}
+"""
+✨ Generated having input type for table 'User'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input User_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [User_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: User_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [User_Having!]
+  """
+  ✨ Generated from Field `User`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`avatar_count` of type `Int!`
+  """
+  avatar_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`displayName_count` of type `Int!`
+  """
+  displayName_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`email_count` of type `Int!`
+  """
+  email_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`updatedAt_count` of type `Int!`
+  """
+  updatedAt_count: Int_Filter
+  """
+  ✨ Generated from Field `User`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`updatedAt_min` of type `Timestamp`
+  """
+  updatedAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: Timestamp_Filter
+  """
+  ✨ Generated from Field `User`.`updatedAt_max` of type `Timestamp`
+  """
+  updatedAt_max: Timestamp_Filter
+}
+"""
+✨ Generated key input type for table 'User'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input User_Key {
+  """
+  ✨ Generated from Field `User`.`id` of type `String!`
+  """
+  id: String
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `User`.`id` of type `String!`)
+  """
+  id_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'User'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input User_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: User_Filter
+}
+"""
+✨ Generated order input type for table 'User'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input User_Order {
+  """
+  ✨ Generated from Field `User`.`id` of type `String!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `User`.`avatar` of type `String`
+  """
+  avatar: OrderDirection
+  """
+  ✨ Generated from Field `User`.`createdAt` of type `Timestamp!`
+  """
+  createdAt: OrderDirection
+  """
+  ✨ Generated from Field `User`.`displayName` of type `String`
+  """
+  displayName: OrderDirection
+  """
+  ✨ Generated from Field `User`.`email` of type `String!`
+  """
+  email: OrderDirection
+  """
+  ✨ Generated from Field `User`.`updatedAt` of type `Timestamp!`
+  """
+  updatedAt: OrderDirection
+  """
+  ✨ Generated from Field `User`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`avatar_count` of type `Int!`
+  """
+  avatar_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`displayName_count` of type `Int!`
+  """
+  displayName_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`email_count` of type `Int!`
+  """
+  email_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`updatedAt_count` of type `Int!`
+  """
+  updatedAt_count: OrderDirection
+  """
+  ✨ Generated from Field `User`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: OrderDirection
+  """
+  ✨ Generated from Field `User`.`updatedAt_min` of type `Timestamp`
+  """
+  updatedAt_min: OrderDirection
+  """
+  ✨ Generated from Field `User`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: OrderDirection
+  """
+  ✨ Generated from Field `User`.`updatedAt_max` of type `Timestamp`
+  """
+  updatedAt_max: OrderDirection
+}

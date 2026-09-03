@@ -1,0 +1,93 @@
+# Mello mutations - Mental Wellness App
+
+# Create or update user profile
+mutation UpsertUserProfile($displayName: String, $avatar: String)
+@auth(level: USER) {
+  user_upsert(data: {
+    id_expr: "auth.uid"
+    displayName: $displayName
+    avatar: $avatar
+  })
+}
+
+# Log a mood entry
+mutation LogMood($mood: String!, $intensity: Int, $notes: String)
+@auth(level: USER) {
+  mood_insert(data: {
+    userId_expr: "auth.uid"
+    mood: $mood
+    intensity: $intensity
+    notes: $notes
+  })
+}
+
+# Create journal entry
+mutation CreateJournalEntry($title: String!, $content: String!, $tags: String)
+@auth(level: USER) {
+  journalEntry_insert(data: {
+    userId_expr: "auth.uid"
+    title: $title
+    content: $content
+    tags: $tags
+  })
+}
+
+# Update journal entry
+mutation UpdateJournalEntry($entryId: UUID!, $title: String, $content: String, $tags: String)
+@auth(level: USER) {
+  journalEntry_update(
+    key: { id: $entryId }
+    data: {
+      title: $title
+      content: $content
+      tags: $tags
+    }
+  )
+}
+
+# Delete journal entry
+mutation DeleteJournalEntry($entryId: UUID!)
+@auth(level: USER) {
+  journalEntry_delete(key: { id: $entryId })
+}
+
+# Log completed activity
+mutation LogActivity($activityType: String!, $duration: Int!, $score: Int)
+@auth(level: USER) {
+  activity_insert(data: {
+    userId_expr: "auth.uid"
+    activityType: $activityType
+    duration: $duration
+    score: $score
+  })
+}
+
+# Create or update therapy session
+mutation UpsertTherapySession(
+  $sessionId: UUID
+  $therapist: String
+  $sessionDate: Timestamp
+  $duration: Int
+  $notes: String
+  $status: String
+) @auth(level: USER) {
+  therapySession_upsert(data: {
+    id: $sessionId
+    userId_expr: "auth.uid"
+    therapist: $therapist
+    sessionDate: $sessionDate
+    duration: $duration
+    notes: $notes
+    status: $status
+  })
+}
+
+# Record safety check-in
+mutation RecordSafetyCheckIn($status: String!, $message: String)
+@auth(level: USER) {
+  safetyCheckIn_insert(data: {
+    userId_expr: "auth.uid"
+    status: $status
+    message: $message
+  })
+}

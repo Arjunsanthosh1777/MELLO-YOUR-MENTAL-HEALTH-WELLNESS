@@ -1,0 +1,684 @@
+extend type Mutation {
+  """
+  ✨ Insert a single `Activity` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  activity_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Activity_Data!
+  ): Activity_KeyOutput! @fdc_generated(from: "Activity", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `JournalEntry` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  journalEntry_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: JournalEntry_Data!
+  ): JournalEntry_KeyOutput! @fdc_generated(from: "JournalEntry", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `Mood` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  mood_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Mood_Data!
+  ): Mood_KeyOutput! @fdc_generated(from: "Mood", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `SafetyCheckIn` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  safetyCheckIn_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: SafetyCheckIn_Data!
+  ): SafetyCheckIn_KeyOutput! @fdc_generated(from: "SafetyCheckIn", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `TherapySession` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  therapySession_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: TherapySession_Data!
+  ): TherapySession_KeyOutput! @fdc_generated(from: "TherapySession", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `User` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  user_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: User_Data!
+  ): User_KeyOutput! @fdc_generated(from: "User", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert `Activity` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  activity_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Activity_Data!]!
+  ): [Activity_KeyOutput!]! @fdc_generated(from: "Activity", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `JournalEntry` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  journalEntry_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [JournalEntry_Data!]!
+  ): [JournalEntry_KeyOutput!]! @fdc_generated(from: "JournalEntry", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `Mood` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  mood_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Mood_Data!]!
+  ): [Mood_KeyOutput!]! @fdc_generated(from: "Mood", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `SafetyCheckIn` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  safetyCheckIn_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [SafetyCheckIn_Data!]!
+  ): [SafetyCheckIn_KeyOutput!]! @fdc_generated(from: "SafetyCheckIn", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `TherapySession` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  therapySession_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [TherapySession_Data!]!
+  ): [TherapySession_KeyOutput!]! @fdc_generated(from: "TherapySession", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `User` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  user_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [User_Data!]!
+  ): [User_KeyOutput!]! @fdc_generated(from: "User", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert or update a single `Activity` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Activity`.
+  """
+  activity_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Activity_Data!
+  ): Activity_KeyOutput! @fdc_generated(from: "Activity", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `JournalEntry` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `JournalEntry`.
+  """
+  journalEntry_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: JournalEntry_Data!
+  ): JournalEntry_KeyOutput! @fdc_generated(from: "JournalEntry", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `Mood` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Mood`.
+  """
+  mood_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Mood_Data!
+  ): Mood_KeyOutput! @fdc_generated(from: "Mood", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `SafetyCheckIn` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `SafetyCheckIn`.
+  """
+  safetyCheckIn_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: SafetyCheckIn_Data!
+  ): SafetyCheckIn_KeyOutput! @fdc_generated(from: "SafetyCheckIn", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `TherapySession` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `TherapySession`.
+  """
+  therapySession_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: TherapySession_Data!
+  ): TherapySession_KeyOutput! @fdc_generated(from: "TherapySession", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `User` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `User`.
+  """
+  user_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: User_Data!
+  ): User_KeyOutput! @fdc_generated(from: "User", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update `Activity` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Activity`.
+  """
+  activity_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Activity_Data!]!
+  ): [Activity_KeyOutput!]! @fdc_generated(from: "Activity", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `JournalEntry` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `JournalEntry`.
+  """
+  journalEntry_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [JournalEntry_Data!]!
+  ): [JournalEntry_KeyOutput!]! @fdc_generated(from: "JournalEntry", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `Mood` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Mood`.
+  """
+  mood_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Mood_Data!]!
+  ): [Mood_KeyOutput!]! @fdc_generated(from: "Mood", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `SafetyCheckIn` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `SafetyCheckIn`.
+  """
+  safetyCheckIn_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [SafetyCheckIn_Data!]!
+  ): [SafetyCheckIn_KeyOutput!]! @fdc_generated(from: "SafetyCheckIn", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `TherapySession` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `TherapySession`.
+  """
+  therapySession_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [TherapySession_Data!]!
+  ): [TherapySession_KeyOutput!]! @fdc_generated(from: "TherapySession", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `User` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `User`.
+  """
+  user_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [User_Data!]!
+  ): [User_KeyOutput!]! @fdc_generated(from: "User", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Update a single `Activity` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Activity` or `null` if not found.
+  """
+  activity_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Activity_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Activity_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Activity_Data!
+  ): Activity_KeyOutput @fdc_generated(from: "Activity", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `JournalEntry` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `JournalEntry` or `null` if not found.
+  """
+  journalEntry_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: JournalEntry_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: JournalEntry_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: JournalEntry_Data!
+  ): JournalEntry_KeyOutput @fdc_generated(from: "JournalEntry", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `Mood` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Mood` or `null` if not found.
+  """
+  mood_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Mood_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Mood_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Mood_Data!
+  ): Mood_KeyOutput @fdc_generated(from: "Mood", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `SafetyCheckIn` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `SafetyCheckIn` or `null` if not found.
+  """
+  safetyCheckIn_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: SafetyCheckIn_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: SafetyCheckIn_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: SafetyCheckIn_Data!
+  ): SafetyCheckIn_KeyOutput @fdc_generated(from: "SafetyCheckIn", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `TherapySession` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `TherapySession` or `null` if not found.
+  """
+  therapySession_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: TherapySession_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: TherapySession_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: TherapySession_Data!
+  ): TherapySession_KeyOutput @fdc_generated(from: "TherapySession", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `User` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `User` or `null` if not found.
+  """
+  user_update(
+    """
+    The unique ID of the object.
+    """
+    id: String
+
+    """
+    ✨ `_expr` server value variant of `id` (The unique ID of the object.)
+    """
+    id_expr: String_Expr
+
+    """
+    The key used to identify the object.
+    """
+    key: User_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: User_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: User_Data!
+  ): User_KeyOutput @fdc_generated(from: "User", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update `Activity` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  activity_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Activity_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Activity_Data!
+  ): Int! @fdc_generated(from: "Activity", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `JournalEntry` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  journalEntry_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: JournalEntry_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: JournalEntry_Data!
+  ): Int! @fdc_generated(from: "JournalEntry", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `Mood` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  mood_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Mood_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Mood_Data!
+  ): Int! @fdc_generated(from: "Mood", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `SafetyCheckIn` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  safetyCheckIn_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: SafetyCheckIn_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: SafetyCheckIn_Data!
+  ): Int! @fdc_generated(from: "SafetyCheckIn", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `TherapySession` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  therapySession_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: TherapySession_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: TherapySession_Data!
+  ): Int! @fdc_generated(from: "TherapySession", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `User` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  user_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: User_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: User_Data!
+  ): Int! @fdc_generated(from: "User", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Delete a single `Activity` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  activity_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Activity_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Activity_FirstRow
+  ): Activity_KeyOutput @fdc_generated(from: "Activity", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `JournalEntry` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  journalEntry_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: JournalEntry_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: JournalEntry_FirstRow
+  ): JournalEntry_KeyOutput @fdc_generated(from: "JournalEntry", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `Mood` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  mood_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Mood_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Mood_FirstRow
+  ): Mood_KeyOutput @fdc_generated(from: "Mood", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `SafetyCheckIn` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  safetyCheckIn_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: SafetyCheckIn_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: SafetyCheckIn_FirstRow
+  ): SafetyCheckIn_KeyOutput @fdc_generated(from: "SafetyCheckIn", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `TherapySession` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  therapySession_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: TherapySession_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: TherapySession_FirstRow
+  ): TherapySession_KeyOutput @fdc_generated(from: "TherapySession", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `User` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  user_delete(
+    """
+    The unique ID of the object.
+    """
+    id: String
+
+    """
+    ✨ `_expr` server value variant of `id` (The unique ID of the object.)
+    """
+    id_expr: String_Expr
+
+    """
+    The key used to identify the object.
+    """
+    key: User_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: User_FirstRow
+  ): User_KeyOutput @fdc_generated(from: "User", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete `Activity` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  activity_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Activity_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Activity", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `JournalEntry` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  journalEntry_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: JournalEntry_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "JournalEntry", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `Mood` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  mood_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Mood_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Mood", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `SafetyCheckIn` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  safetyCheckIn_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: SafetyCheckIn_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "SafetyCheckIn", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `TherapySession` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  therapySession_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: TherapySession_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "TherapySession", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `User` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  user_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: User_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "User", purpose: DELETE_MULTIPLE)
+}
