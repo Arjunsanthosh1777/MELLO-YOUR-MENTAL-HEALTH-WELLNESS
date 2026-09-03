@@ -1064,19 +1064,19 @@ input SafetyCheckIn_Data {
   """
   message_expr: String_Expr @fdc_forbiddenInVariables
   """
-  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp`
   """
   reviewDate: Timestamp
   """
-  ✨ `_expr` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`)
+  ✨ `_expr` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp`)
   """
   reviewDate_expr: Timestamp_Expr @fdc_forbiddenInVariables
   """
-  ✨ `_time` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`)
+  ✨ `_time` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp`)
   """
   reviewDate_time: Timestamp_Relative @fdc_forbiddenInVariables
   """
-  ✨ `_update` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`)
+  ✨ `_update` server value variant of `reviewDate` (✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp`)
   """
   reviewDate_update: [Timestamp_Update!] @fdc_forbiddenInVariables
   """
@@ -1125,7 +1125,7 @@ input SafetyCheckIn_Filter {
   """
   message: String_Filter
   """
-  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp`
   """
   reviewDate: Timestamp_Filter
   """
@@ -1262,7 +1262,7 @@ input SafetyCheckIn_Order {
   """
   message: OrderDirection
   """
-  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp!`
+  ✨ Generated from Field `SafetyCheckIn`.`reviewDate` of type `Timestamp`
   """
   reviewDate: OrderDirection
   """

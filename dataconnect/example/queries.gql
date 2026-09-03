@@ -1,6 +1,5 @@
 # Mello queries - Mental Wellness App
 
-# Get current user's profile
 query GetUserProfile @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
     id
@@ -8,14 +7,17 @@ query GetUserProfile @auth(level: USER) {
     displayName
     avatar
     createdAt
+    updatedAt
   }
 }
 
-# List all moods for current user (ordered by recent)
 query ListUserMoods @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
     id
-    moods: moods_on_user(orderBy: { timestamp: DESC }, limit: 30) {
+    recentMoods: moods_on_user(
+      orderBy: { timestamp: DESC }
+      limit: 30
+    ) {
       id
       mood
       intensity
@@ -25,11 +27,14 @@ query ListUserMoods @auth(level: USER) {
   }
 }
 
-# Get mood statistics for current user (last 7 days)
 query GetMoodStats @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
     id
-    moods: moods_on_user(limit: 100) {
+    allMoods: moods_on_user(
+      orderBy: { timestamp: DESC }
+      limit: 100
+    ) {
+      id
       mood
       intensity
       timestamp
@@ -37,11 +42,13 @@ query GetMoodStats @auth(level: USER) {
   }
 }
 
-# List journal entries for current user
 query ListJournalEntries @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
     id
-    entries: journalEntries_on_user(orderBy: { createdAt: DESC }, limit: 50) {
+    entries: journalEntries_on_user(
+      orderBy: { createdAt: DESC }
+      limit: 50
+    ) {
       id
       title
       content
@@ -52,9 +59,8 @@ query ListJournalEntries @auth(level: USER) {
   }
 }
 
-# Get single journal entry by ID
 query GetJournalEntry($entryId: UUID!) @auth(level: USER) {
-  journalEntry(id: $entryId) {
+  journalEntry(key: { id: $entryId }) {
     id
     title
     content
@@ -67,11 +73,13 @@ query GetJournalEntry($entryId: UUID!) @auth(level: USER) {
   }
 }
 
-# List activities for current user
 query ListActivities @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
     id
-    activities: activities_on_user(orderBy: { completedAt: DESC }, limit: 50) {
+    activities: activities_on_user(
+      orderBy: { completedAt: DESC }
+      limit: 50
+    ) {
       id
       activityType
       duration
@@ -81,30 +89,36 @@ query ListActivities @auth(level: USER) {
   }
 }
 
-# List therapy sessions for current user
 query ListTherapySessions @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
     id
-    sessions: therapySessions_on_user(orderBy: { sessionDate: DESC }, limit: 20) {
+    sessions: therapySessions_on_user(
+      orderBy: { sessionDate: DESC }
+      limit: 20
+    ) {
       id
       therapist
       sessionDate
       duration
       notes
       status
+      createdAt
     }
   }
 }
 
-# Get latest safety check-in
 query GetLatestSafetyCheckIn @auth(level: USER) {
   user(key: { id_expr: "auth.uid" }) {
     id
-    checkIns: safetyCheckIns_on_user(orderBy: { checkedAt: DESC }, limit: 1) {
+    checkIns: safetyCheckIns_on_user(
+      orderBy: { checkedAt: DESC }
+      limit: 1
+    ) {
       id
       status
       message
       checkedAt
+      reviewDate
     }
   }
 }

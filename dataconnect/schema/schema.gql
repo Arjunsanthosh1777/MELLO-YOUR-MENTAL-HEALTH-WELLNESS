@@ -1,64 +1,58 @@
 # Mello - Mental Wellness App Schema
 
-# User table is keyed by Firebase Auth UID.
 type User @table {
   id: String! @default(expr: "auth.uid")
-  email: String! @col(dataType: "varchar(255)")
-  displayName: String @col(dataType: "varchar(100)")
+  email: String!
+  displayName: String
   avatar: String
-  createdAt: Timestamp!
-  updatedAt: Timestamp!
+  createdAt: Timestamp! @default(expr: "request.time")
+  updatedAt: Timestamp! @default(expr: "request.time")
 }
 
-# Mood tracking
 type Mood @table {
   id: UUID! @default(expr: "uuidV4()")
   user: User!
-  mood: String! @col(dataType: "varchar(50)")  # happy, sad, anxious, calm, etc.
-  intensity: Int  # 1-10 scale
-  notes: String @col(dataType: "text")
-  timestamp: Timestamp!
+  mood: String!
+  intensity: Int
+  notes: String
+  timestamp: Timestamp! @default(expr: "request.time")
 }
 
-# Journal entries
 type JournalEntry @table {
   id: UUID! @default(expr: "uuidV4()")
   user: User!
-  title: String! @col(dataType: "varchar(255)")
-  content: String! @col(dataType: "text")
-  tags: String  # comma-separated or JSON
-  createdAt: Timestamp!
-  updatedAt: Timestamp!
+  title: String!
+  content: String!
+  tags: String
+  createdAt: Timestamp! @default(expr: "request.time")
+  updatedAt: Timestamp! @default(expr: "request.time")
 }
 
-# Therapy/Talk sessions
 type TherapySession @table {
   id: UUID! @default(expr: "uuidV4()")
   user: User!
-  therapist: String  # therapist info
+  therapist: String
   sessionDate: Timestamp
-  duration: Int  # in minutes
-  notes: String @col(dataType: "text")
-  status: String  # scheduled, completed, cancelled
-  createdAt: Timestamp!
+  duration: Int
+  notes: String
+  status: String
+  createdAt: Timestamp! @default(expr: "request.time")
 }
 
-# Activities/Games played
 type Activity @table {
   id: UUID! @default(expr: "uuidV4()")
   user: User!
-  activityType: String!  # breathing-bloom, calm-bubble, etc.
-  duration: Int   # in seconds
+  activityType: String!
+  duration: Int
   score: Int
-  completedAt: Timestamp!
+  completedAt: Timestamp! @default(expr: "request.time")
 }
 
-# Safety resources and check-ins
 type SafetyCheckIn @table {
   id: UUID! @default(expr: "uuidV4()")
   user: User!
-  status: String!  # ok, need-help, emergency
-  message: String @col(dataType: "text")
-  checkedAt: Timestamp!
-  reviewDate: Timestamp!
+  status: String!
+  message: String
+  checkedAt: Timestamp! @default(expr: "request.time")
+  reviewDate: Timestamp
 }

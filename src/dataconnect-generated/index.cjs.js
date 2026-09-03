@@ -13,133 +13,234 @@ const dataConnectSettings = {
 };
 exports.dataConnectSettings = dataConnectSettings;
 
-const createMovieRef = (dcOrVars, vars) => {
+const upsertUserProfileRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'CreateMovie', inputVars);
+  return mutationRef(dcInstance, 'UpsertUserProfile', inputVars);
 }
-createMovieRef.operationName = 'CreateMovie';
-exports.createMovieRef = createMovieRef;
+upsertUserProfileRef.operationName = 'UpsertUserProfile';
+exports.upsertUserProfileRef = upsertUserProfileRef;
 
-exports.createMovie = function createMovie(dcOrVars, vars) {
+exports.upsertUserProfile = function upsertUserProfile(dcOrVars, vars) {
   const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(createMovieRef(dcInstance, inputVars));
+  return executeMutation(upsertUserProfileRef(dcInstance, inputVars));
 }
 ;
 
-const upsertUserRef = (dcOrVars, vars) => {
+const logMoodRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'UpsertUser', inputVars);
+  return mutationRef(dcInstance, 'LogMood', inputVars);
 }
-upsertUserRef.operationName = 'UpsertUser';
-exports.upsertUserRef = upsertUserRef;
+logMoodRef.operationName = 'LogMood';
+exports.logMoodRef = logMoodRef;
 
-exports.upsertUser = function upsertUser(dcOrVars, vars) {
+exports.logMood = function logMood(dcOrVars, vars) {
   const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(upsertUserRef(dcInstance, inputVars));
+  return executeMutation(logMoodRef(dcInstance, inputVars));
 }
 ;
 
-const addReviewRef = (dcOrVars, vars) => {
+const createJournalEntryRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'AddReview', inputVars);
+  return mutationRef(dcInstance, 'CreateJournalEntry', inputVars);
 }
-addReviewRef.operationName = 'AddReview';
-exports.addReviewRef = addReviewRef;
+createJournalEntryRef.operationName = 'CreateJournalEntry';
+exports.createJournalEntryRef = createJournalEntryRef;
 
-exports.addReview = function addReview(dcOrVars, vars) {
+exports.createJournalEntry = function createJournalEntry(dcOrVars, vars) {
   const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(addReviewRef(dcInstance, inputVars));
+  return executeMutation(createJournalEntryRef(dcInstance, inputVars));
 }
 ;
 
-const deleteReviewRef = (dcOrVars, vars) => {
+const updateJournalEntryRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'DeleteReview', inputVars);
+  return mutationRef(dcInstance, 'UpdateJournalEntry', inputVars);
 }
-deleteReviewRef.operationName = 'DeleteReview';
-exports.deleteReviewRef = deleteReviewRef;
+updateJournalEntryRef.operationName = 'UpdateJournalEntry';
+exports.updateJournalEntryRef = updateJournalEntryRef;
 
-exports.deleteReview = function deleteReview(dcOrVars, vars) {
+exports.updateJournalEntry = function updateJournalEntry(dcOrVars, vars) {
   const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
-  return executeMutation(deleteReviewRef(dcInstance, inputVars));
+  return executeMutation(updateJournalEntryRef(dcInstance, inputVars));
 }
 ;
 
-const listMoviesRef = (dc) => {
-  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
-  dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'ListMovies');
-}
-listMoviesRef.operationName = 'ListMovies';
-exports.listMoviesRef = listMoviesRef;
-
-exports.listMovies = function listMovies(dcOrOptions, options) {
-  
-  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
-  return executeQuery(listMoviesRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
-}
-;
-
-const listUsersRef = (dc) => {
-  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
-  dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'ListUsers');
-}
-listUsersRef.operationName = 'ListUsers';
-exports.listUsersRef = listUsersRef;
-
-exports.listUsers = function listUsers(dcOrOptions, options) {
-  
-  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
-  return executeQuery(listUsersRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
-}
-;
-
-const listUserReviewsRef = (dc) => {
-  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
-  dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'ListUserReviews');
-}
-listUserReviewsRef.operationName = 'ListUserReviews';
-exports.listUserReviewsRef = listUserReviewsRef;
-
-exports.listUserReviews = function listUserReviews(dcOrOptions, options) {
-  
-  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
-  return executeQuery(listUserReviewsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
-}
-;
-
-const getMovieByIdRef = (dcOrVars, vars) => {
+const deleteJournalEntryRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'GetMovieById', inputVars);
+  return mutationRef(dcInstance, 'DeleteJournalEntry', inputVars);
 }
-getMovieByIdRef.operationName = 'GetMovieById';
-exports.getMovieByIdRef = getMovieByIdRef;
+deleteJournalEntryRef.operationName = 'DeleteJournalEntry';
+exports.deleteJournalEntryRef = deleteJournalEntryRef;
 
-exports.getMovieById = function getMovieById(dcOrVars, varsOrOptions, options) {
-  
-  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
-  return executeQuery(getMovieByIdRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+exports.deleteJournalEntry = function deleteJournalEntry(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(deleteJournalEntryRef(dcInstance, inputVars));
 }
 ;
 
-const searchMovieRef = (dcOrVars, vars) => {
+const logActivityRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'LogActivity', inputVars);
+}
+logActivityRef.operationName = 'LogActivity';
+exports.logActivityRef = logActivityRef;
+
+exports.logActivity = function logActivity(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(logActivityRef(dcInstance, inputVars));
+}
+;
+
+const upsertTherapySessionRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars);
   dcInstance._useGeneratedSdk();
-  return queryRef(dcInstance, 'SearchMovie', inputVars);
+  return mutationRef(dcInstance, 'UpsertTherapySession', inputVars);
 }
-searchMovieRef.operationName = 'SearchMovie';
-exports.searchMovieRef = searchMovieRef;
+upsertTherapySessionRef.operationName = 'UpsertTherapySession';
+exports.upsertTherapySessionRef = upsertTherapySessionRef;
 
-exports.searchMovie = function searchMovie(dcOrVars, varsOrOptions, options) {
+exports.upsertTherapySession = function upsertTherapySession(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars);
+  return executeMutation(upsertTherapySessionRef(dcInstance, inputVars));
+}
+;
+
+const recordSafetyCheckInRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'RecordSafetyCheckIn', inputVars);
+}
+recordSafetyCheckInRef.operationName = 'RecordSafetyCheckIn';
+exports.recordSafetyCheckInRef = recordSafetyCheckInRef;
+
+exports.recordSafetyCheckIn = function recordSafetyCheckIn(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars } = validateArgs(connectorConfig, dcOrVars, vars, true);
+  return executeMutation(recordSafetyCheckInRef(dcInstance, inputVars));
+}
+;
+
+const getUserProfileRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetUserProfile');
+}
+getUserProfileRef.operationName = 'GetUserProfile';
+exports.getUserProfileRef = getUserProfileRef;
+
+exports.getUserProfile = function getUserProfile(dcOrOptions, options) {
   
-  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, false);
-  return executeQuery(searchMovieRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(getUserProfileRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listUserMoodsRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListUserMoods');
+}
+listUserMoodsRef.operationName = 'ListUserMoods';
+exports.listUserMoodsRef = listUserMoodsRef;
+
+exports.listUserMoods = function listUserMoods(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listUserMoodsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const getMoodStatsRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetMoodStats');
+}
+getMoodStatsRef.operationName = 'GetMoodStats';
+exports.getMoodStatsRef = getMoodStatsRef;
+
+exports.getMoodStats = function getMoodStats(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(getMoodStatsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listJournalEntriesRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListJournalEntries');
+}
+listJournalEntriesRef.operationName = 'ListJournalEntries';
+exports.listJournalEntriesRef = listJournalEntriesRef;
+
+exports.listJournalEntries = function listJournalEntries(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listJournalEntriesRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const getJournalEntryRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetJournalEntry', inputVars);
+}
+getJournalEntryRef.operationName = 'GetJournalEntry';
+exports.getJournalEntryRef = getJournalEntryRef;
+
+exports.getJournalEntry = function getJournalEntry(dcOrVars, varsOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
+  return executeQuery(getJournalEntryRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listActivitiesRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListActivities');
+}
+listActivitiesRef.operationName = 'ListActivities';
+exports.listActivitiesRef = listActivitiesRef;
+
+exports.listActivities = function listActivities(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listActivitiesRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const listTherapySessionsRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListTherapySessions');
+}
+listTherapySessionsRef.operationName = 'ListTherapySessions';
+exports.listTherapySessionsRef = listTherapySessionsRef;
+
+exports.listTherapySessions = function listTherapySessions(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(listTherapySessionsRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
+}
+;
+
+const getLatestSafetyCheckInRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetLatestSafetyCheckIn');
+}
+getLatestSafetyCheckInRef.operationName = 'GetLatestSafetyCheckIn';
+exports.getLatestSafetyCheckInRef = getLatestSafetyCheckInRef;
+
+exports.getLatestSafetyCheckIn = function getLatestSafetyCheckIn(dcOrOptions, options) {
+  
+  const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateArgsWithOptions(connectorConfig, dcOrOptions, options, undefined,false, false);
+  return executeQuery(getLatestSafetyCheckInRef(dcInstance, inputVars), inputOpts && { fetchPolicy: inputOpts.fetchPolicy });
 }
 ;

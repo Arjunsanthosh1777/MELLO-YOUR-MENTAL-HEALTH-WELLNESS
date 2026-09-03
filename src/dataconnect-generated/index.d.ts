@@ -11,129 +11,220 @@ export type DateString = string;
 
 
 
-export interface AddReviewData {
-  review_upsert: Review_Key;
-}
-
-export interface AddReviewVariables {
-  movieId: UUIDString;
-  rating: number;
-  reviewText: string;
-}
-
-export interface CreateMovieData {
-  movie_insert: Movie_Key;
-}
-
-export interface CreateMovieVariables {
-  title: string;
-  genre: string;
-  imageUrl: string;
-}
-
-export interface DeleteReviewData {
-  review_delete?: Review_Key | null;
-}
-
-export interface DeleteReviewVariables {
-  movieId: UUIDString;
-}
-
-export interface GetMovieByIdData {
-  movie?: {
-    id: UUIDString;
-    title: string;
-    imageUrl: string;
-    genre?: string | null;
-    metadata?: {
-      rating?: number | null;
-      releaseYear?: number | null;
-      description?: string | null;
-    };
-    reviews: ({
-      reviewText?: string | null;
-      reviewDate: DateString;
-      rating?: number | null;
-      user: {
-        id: string;
-        username: string;
-      } & User_Key;
-    })[];
-  } & Movie_Key;
-}
-
-export interface GetMovieByIdVariables {
+export interface Activity_Key {
   id: UUIDString;
+  __typename?: 'Activity_Key';
 }
 
-export interface ListMoviesData {
-  movies: ({
+export interface CreateJournalEntryData {
+  journalEntry_insert: JournalEntry_Key;
+}
+
+export interface CreateJournalEntryVariables {
+  title: string;
+  content: string;
+  tags?: string | null;
+}
+
+export interface DeleteJournalEntryData {
+  journalEntry_delete?: JournalEntry_Key | null;
+}
+
+export interface DeleteJournalEntryVariables {
+  entryId: UUIDString;
+}
+
+export interface GetJournalEntryData {
+  journalEntry?: {
     id: UUIDString;
     title: string;
-    imageUrl: string;
-    genre?: string | null;
-  } & Movie_Key)[];
+    content: string;
+    tags?: string | null;
+    createdAt: TimestampString;
+    updatedAt: TimestampString;
+    user: {
+      id: string;
+    } & User_Key;
+  } & JournalEntry_Key;
 }
 
-export interface ListUserReviewsData {
+export interface GetJournalEntryVariables {
+  entryId: UUIDString;
+}
+
+export interface GetLatestSafetyCheckInData {
   user?: {
     id: string;
-    username: string;
-    reviews: ({
-      rating?: number | null;
-      reviewDate: DateString;
-      reviewText?: string | null;
-      movie: {
-        id: UUIDString;
-        title: string;
-      } & Movie_Key;
-    })[];
+    checkIns: ({
+      id: UUIDString;
+      status: string;
+      message?: string | null;
+      checkedAt: TimestampString;
+      reviewDate?: TimestampString | null;
+    } & SafetyCheckIn_Key)[];
   } & User_Key;
 }
 
-export interface ListUsersData {
-  users: ({
+export interface GetMoodStatsData {
+  user?: {
     id: string;
-    username: string;
-  } & User_Key)[];
+    allMoods: ({
+      id: UUIDString;
+      mood: string;
+      intensity?: number | null;
+      timestamp: TimestampString;
+    } & Mood_Key)[];
+  } & User_Key;
 }
 
-export interface MovieMetadata_Key {
+export interface GetUserProfileData {
+  user?: {
+    id: string;
+    email: string;
+    displayName?: string | null;
+    avatar?: string | null;
+    createdAt: TimestampString;
+    updatedAt: TimestampString;
+  } & User_Key;
+}
+
+export interface JournalEntry_Key {
   id: UUIDString;
-  __typename?: 'MovieMetadata_Key';
+  __typename?: 'JournalEntry_Key';
 }
 
-export interface Movie_Key {
+export interface ListActivitiesData {
+  user?: {
+    id: string;
+    activities: ({
+      id: UUIDString;
+      activityType: string;
+      duration?: number | null;
+      score?: number | null;
+      completedAt: TimestampString;
+    } & Activity_Key)[];
+  } & User_Key;
+}
+
+export interface ListJournalEntriesData {
+  user?: {
+    id: string;
+    entries: ({
+      id: UUIDString;
+      title: string;
+      content: string;
+      tags?: string | null;
+      createdAt: TimestampString;
+      updatedAt: TimestampString;
+    } & JournalEntry_Key)[];
+  } & User_Key;
+}
+
+export interface ListTherapySessionsData {
+  user?: {
+    id: string;
+    sessions: ({
+      id: UUIDString;
+      therapist?: string | null;
+      sessionDate?: TimestampString | null;
+      duration?: number | null;
+      notes?: string | null;
+      status?: string | null;
+      createdAt: TimestampString;
+    } & TherapySession_Key)[];
+  } & User_Key;
+}
+
+export interface ListUserMoodsData {
+  user?: {
+    id: string;
+    recentMoods: ({
+      id: UUIDString;
+      mood: string;
+      intensity?: number | null;
+      notes?: string | null;
+      timestamp: TimestampString;
+    } & Mood_Key)[];
+  } & User_Key;
+}
+
+export interface LogActivityData {
+  activity_insert: Activity_Key;
+}
+
+export interface LogActivityVariables {
+  activityType: string;
+  duration?: number | null;
+  score?: number | null;
+}
+
+export interface LogMoodData {
+  mood_insert: Mood_Key;
+}
+
+export interface LogMoodVariables {
+  mood: string;
+  intensity?: number | null;
+  notes?: string | null;
+}
+
+export interface Mood_Key {
   id: UUIDString;
-  __typename?: 'Movie_Key';
+  __typename?: 'Mood_Key';
 }
 
-export interface Review_Key {
-  userId: string;
-  movieId: UUIDString;
-  __typename?: 'Review_Key';
+export interface RecordSafetyCheckInData {
+  safetyCheckIn_insert: SafetyCheckIn_Key;
 }
 
-export interface SearchMovieData {
-  movies: ({
-    id: UUIDString;
-    title: string;
-    genre?: string | null;
-    imageUrl: string;
-  } & Movie_Key)[];
+export interface RecordSafetyCheckInVariables {
+  status: string;
+  message?: string | null;
+  reviewDate?: TimestampString | null;
 }
 
-export interface SearchMovieVariables {
-  titleInput?: string | null;
-  genre?: string | null;
+export interface SafetyCheckIn_Key {
+  id: UUIDString;
+  __typename?: 'SafetyCheckIn_Key';
 }
 
-export interface UpsertUserData {
+export interface TherapySession_Key {
+  id: UUIDString;
+  __typename?: 'TherapySession_Key';
+}
+
+export interface UpdateJournalEntryData {
+  journalEntry_update?: JournalEntry_Key | null;
+}
+
+export interface UpdateJournalEntryVariables {
+  entryId: UUIDString;
+  title?: string | null;
+  content?: string | null;
+  tags?: string | null;
+}
+
+export interface UpsertTherapySessionData {
+  therapySession_upsert: TherapySession_Key;
+}
+
+export interface UpsertTherapySessionVariables {
+  sessionId?: UUIDString | null;
+  therapist?: string | null;
+  sessionDate?: TimestampString | null;
+  duration?: number | null;
+  notes?: string | null;
+  status?: string | null;
+}
+
+export interface UpsertUserProfileData {
   user_upsert: User_Key;
 }
 
-export interface UpsertUserVariables {
-  username: string;
+export interface UpsertUserProfileVariables {
+  email: string;
+  displayName?: string | null;
+  avatar?: string | null;
 }
 
 export interface User_Key {
@@ -141,111 +232,195 @@ export interface User_Key {
   __typename?: 'User_Key';
 }
 
-interface CreateMovieRef {
+interface UpsertUserProfileRef {
   /* Allow users to create refs without passing in DataConnect */
-  (vars: CreateMovieVariables): MutationRef<CreateMovieData, CreateMovieVariables>;
+  (vars: UpsertUserProfileVariables): MutationRef<UpsertUserProfileData, UpsertUserProfileVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: CreateMovieVariables): MutationRef<CreateMovieData, CreateMovieVariables>;
+  (dc: DataConnect, vars: UpsertUserProfileVariables): MutationRef<UpsertUserProfileData, UpsertUserProfileVariables>;
   operationName: string;
 }
-export const createMovieRef: CreateMovieRef;
+export const upsertUserProfileRef: UpsertUserProfileRef;
 
-export function createMovie(vars: CreateMovieVariables): MutationPromise<CreateMovieData, CreateMovieVariables>;
-export function createMovie(dc: DataConnect, vars: CreateMovieVariables): MutationPromise<CreateMovieData, CreateMovieVariables>;
+export function upsertUserProfile(vars: UpsertUserProfileVariables): MutationPromise<UpsertUserProfileData, UpsertUserProfileVariables>;
+export function upsertUserProfile(dc: DataConnect, vars: UpsertUserProfileVariables): MutationPromise<UpsertUserProfileData, UpsertUserProfileVariables>;
 
-interface UpsertUserRef {
+interface LogMoodRef {
   /* Allow users to create refs without passing in DataConnect */
-  (vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
+  (vars: LogMoodVariables): MutationRef<LogMoodData, LogMoodVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: UpsertUserVariables): MutationRef<UpsertUserData, UpsertUserVariables>;
+  (dc: DataConnect, vars: LogMoodVariables): MutationRef<LogMoodData, LogMoodVariables>;
   operationName: string;
 }
-export const upsertUserRef: UpsertUserRef;
+export const logMoodRef: LogMoodRef;
 
-export function upsertUser(vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
-export function upsertUser(dc: DataConnect, vars: UpsertUserVariables): MutationPromise<UpsertUserData, UpsertUserVariables>;
+export function logMood(vars: LogMoodVariables): MutationPromise<LogMoodData, LogMoodVariables>;
+export function logMood(dc: DataConnect, vars: LogMoodVariables): MutationPromise<LogMoodData, LogMoodVariables>;
 
-interface AddReviewRef {
+interface CreateJournalEntryRef {
   /* Allow users to create refs without passing in DataConnect */
-  (vars: AddReviewVariables): MutationRef<AddReviewData, AddReviewVariables>;
+  (vars: CreateJournalEntryVariables): MutationRef<CreateJournalEntryData, CreateJournalEntryVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: AddReviewVariables): MutationRef<AddReviewData, AddReviewVariables>;
+  (dc: DataConnect, vars: CreateJournalEntryVariables): MutationRef<CreateJournalEntryData, CreateJournalEntryVariables>;
   operationName: string;
 }
-export const addReviewRef: AddReviewRef;
+export const createJournalEntryRef: CreateJournalEntryRef;
 
-export function addReview(vars: AddReviewVariables): MutationPromise<AddReviewData, AddReviewVariables>;
-export function addReview(dc: DataConnect, vars: AddReviewVariables): MutationPromise<AddReviewData, AddReviewVariables>;
+export function createJournalEntry(vars: CreateJournalEntryVariables): MutationPromise<CreateJournalEntryData, CreateJournalEntryVariables>;
+export function createJournalEntry(dc: DataConnect, vars: CreateJournalEntryVariables): MutationPromise<CreateJournalEntryData, CreateJournalEntryVariables>;
 
-interface DeleteReviewRef {
+interface UpdateJournalEntryRef {
   /* Allow users to create refs without passing in DataConnect */
-  (vars: DeleteReviewVariables): MutationRef<DeleteReviewData, DeleteReviewVariables>;
+  (vars: UpdateJournalEntryVariables): MutationRef<UpdateJournalEntryData, UpdateJournalEntryVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: DeleteReviewVariables): MutationRef<DeleteReviewData, DeleteReviewVariables>;
+  (dc: DataConnect, vars: UpdateJournalEntryVariables): MutationRef<UpdateJournalEntryData, UpdateJournalEntryVariables>;
   operationName: string;
 }
-export const deleteReviewRef: DeleteReviewRef;
+export const updateJournalEntryRef: UpdateJournalEntryRef;
 
-export function deleteReview(vars: DeleteReviewVariables): MutationPromise<DeleteReviewData, DeleteReviewVariables>;
-export function deleteReview(dc: DataConnect, vars: DeleteReviewVariables): MutationPromise<DeleteReviewData, DeleteReviewVariables>;
+export function updateJournalEntry(vars: UpdateJournalEntryVariables): MutationPromise<UpdateJournalEntryData, UpdateJournalEntryVariables>;
+export function updateJournalEntry(dc: DataConnect, vars: UpdateJournalEntryVariables): MutationPromise<UpdateJournalEntryData, UpdateJournalEntryVariables>;
 
-interface ListMoviesRef {
+interface DeleteJournalEntryRef {
   /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<ListMoviesData, undefined>;
+  (vars: DeleteJournalEntryVariables): MutationRef<DeleteJournalEntryData, DeleteJournalEntryVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect): QueryRef<ListMoviesData, undefined>;
+  (dc: DataConnect, vars: DeleteJournalEntryVariables): MutationRef<DeleteJournalEntryData, DeleteJournalEntryVariables>;
   operationName: string;
 }
-export const listMoviesRef: ListMoviesRef;
+export const deleteJournalEntryRef: DeleteJournalEntryRef;
 
-export function listMovies(options?: ExecuteQueryOptions): QueryPromise<ListMoviesData, undefined>;
-export function listMovies(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListMoviesData, undefined>;
+export function deleteJournalEntry(vars: DeleteJournalEntryVariables): MutationPromise<DeleteJournalEntryData, DeleteJournalEntryVariables>;
+export function deleteJournalEntry(dc: DataConnect, vars: DeleteJournalEntryVariables): MutationPromise<DeleteJournalEntryData, DeleteJournalEntryVariables>;
 
-interface ListUsersRef {
+interface LogActivityRef {
   /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<ListUsersData, undefined>;
+  (vars: LogActivityVariables): MutationRef<LogActivityData, LogActivityVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect): QueryRef<ListUsersData, undefined>;
+  (dc: DataConnect, vars: LogActivityVariables): MutationRef<LogActivityData, LogActivityVariables>;
   operationName: string;
 }
-export const listUsersRef: ListUsersRef;
+export const logActivityRef: LogActivityRef;
 
-export function listUsers(options?: ExecuteQueryOptions): QueryPromise<ListUsersData, undefined>;
-export function listUsers(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListUsersData, undefined>;
+export function logActivity(vars: LogActivityVariables): MutationPromise<LogActivityData, LogActivityVariables>;
+export function logActivity(dc: DataConnect, vars: LogActivityVariables): MutationPromise<LogActivityData, LogActivityVariables>;
 
-interface ListUserReviewsRef {
+interface UpsertTherapySessionRef {
   /* Allow users to create refs without passing in DataConnect */
-  (): QueryRef<ListUserReviewsData, undefined>;
+  (vars?: UpsertTherapySessionVariables): MutationRef<UpsertTherapySessionData, UpsertTherapySessionVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect): QueryRef<ListUserReviewsData, undefined>;
+  (dc: DataConnect, vars?: UpsertTherapySessionVariables): MutationRef<UpsertTherapySessionData, UpsertTherapySessionVariables>;
   operationName: string;
 }
-export const listUserReviewsRef: ListUserReviewsRef;
+export const upsertTherapySessionRef: UpsertTherapySessionRef;
 
-export function listUserReviews(options?: ExecuteQueryOptions): QueryPromise<ListUserReviewsData, undefined>;
-export function listUserReviews(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListUserReviewsData, undefined>;
+export function upsertTherapySession(vars?: UpsertTherapySessionVariables): MutationPromise<UpsertTherapySessionData, UpsertTherapySessionVariables>;
+export function upsertTherapySession(dc: DataConnect, vars?: UpsertTherapySessionVariables): MutationPromise<UpsertTherapySessionData, UpsertTherapySessionVariables>;
 
-interface GetMovieByIdRef {
+interface RecordSafetyCheckInRef {
   /* Allow users to create refs without passing in DataConnect */
-  (vars: GetMovieByIdVariables): QueryRef<GetMovieByIdData, GetMovieByIdVariables>;
+  (vars: RecordSafetyCheckInVariables): MutationRef<RecordSafetyCheckInData, RecordSafetyCheckInVariables>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: GetMovieByIdVariables): QueryRef<GetMovieByIdData, GetMovieByIdVariables>;
+  (dc: DataConnect, vars: RecordSafetyCheckInVariables): MutationRef<RecordSafetyCheckInData, RecordSafetyCheckInVariables>;
   operationName: string;
 }
-export const getMovieByIdRef: GetMovieByIdRef;
+export const recordSafetyCheckInRef: RecordSafetyCheckInRef;
 
-export function getMovieById(vars: GetMovieByIdVariables, options?: ExecuteQueryOptions): QueryPromise<GetMovieByIdData, GetMovieByIdVariables>;
-export function getMovieById(dc: DataConnect, vars: GetMovieByIdVariables, options?: ExecuteQueryOptions): QueryPromise<GetMovieByIdData, GetMovieByIdVariables>;
+export function recordSafetyCheckIn(vars: RecordSafetyCheckInVariables): MutationPromise<RecordSafetyCheckInData, RecordSafetyCheckInVariables>;
+export function recordSafetyCheckIn(dc: DataConnect, vars: RecordSafetyCheckInVariables): MutationPromise<RecordSafetyCheckInData, RecordSafetyCheckInVariables>;
 
-interface SearchMovieRef {
+interface GetUserProfileRef {
   /* Allow users to create refs without passing in DataConnect */
-  (vars?: SearchMovieVariables): QueryRef<SearchMovieData, SearchMovieVariables>;
+  (): QueryRef<GetUserProfileData, undefined>;
   /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars?: SearchMovieVariables): QueryRef<SearchMovieData, SearchMovieVariables>;
+  (dc: DataConnect): QueryRef<GetUserProfileData, undefined>;
   operationName: string;
 }
-export const searchMovieRef: SearchMovieRef;
+export const getUserProfileRef: GetUserProfileRef;
 
-export function searchMovie(vars?: SearchMovieVariables, options?: ExecuteQueryOptions): QueryPromise<SearchMovieData, SearchMovieVariables>;
-export function searchMovie(dc: DataConnect, vars?: SearchMovieVariables, options?: ExecuteQueryOptions): QueryPromise<SearchMovieData, SearchMovieVariables>;
+export function getUserProfile(options?: ExecuteQueryOptions): QueryPromise<GetUserProfileData, undefined>;
+export function getUserProfile(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<GetUserProfileData, undefined>;
+
+interface ListUserMoodsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListUserMoodsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListUserMoodsData, undefined>;
+  operationName: string;
+}
+export const listUserMoodsRef: ListUserMoodsRef;
+
+export function listUserMoods(options?: ExecuteQueryOptions): QueryPromise<ListUserMoodsData, undefined>;
+export function listUserMoods(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListUserMoodsData, undefined>;
+
+interface GetMoodStatsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<GetMoodStatsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<GetMoodStatsData, undefined>;
+  operationName: string;
+}
+export const getMoodStatsRef: GetMoodStatsRef;
+
+export function getMoodStats(options?: ExecuteQueryOptions): QueryPromise<GetMoodStatsData, undefined>;
+export function getMoodStats(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<GetMoodStatsData, undefined>;
+
+interface ListJournalEntriesRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListJournalEntriesData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListJournalEntriesData, undefined>;
+  operationName: string;
+}
+export const listJournalEntriesRef: ListJournalEntriesRef;
+
+export function listJournalEntries(options?: ExecuteQueryOptions): QueryPromise<ListJournalEntriesData, undefined>;
+export function listJournalEntries(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListJournalEntriesData, undefined>;
+
+interface GetJournalEntryRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetJournalEntryVariables): QueryRef<GetJournalEntryData, GetJournalEntryVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: GetJournalEntryVariables): QueryRef<GetJournalEntryData, GetJournalEntryVariables>;
+  operationName: string;
+}
+export const getJournalEntryRef: GetJournalEntryRef;
+
+export function getJournalEntry(vars: GetJournalEntryVariables, options?: ExecuteQueryOptions): QueryPromise<GetJournalEntryData, GetJournalEntryVariables>;
+export function getJournalEntry(dc: DataConnect, vars: GetJournalEntryVariables, options?: ExecuteQueryOptions): QueryPromise<GetJournalEntryData, GetJournalEntryVariables>;
+
+interface ListActivitiesRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListActivitiesData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListActivitiesData, undefined>;
+  operationName: string;
+}
+export const listActivitiesRef: ListActivitiesRef;
+
+export function listActivities(options?: ExecuteQueryOptions): QueryPromise<ListActivitiesData, undefined>;
+export function listActivities(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListActivitiesData, undefined>;
+
+interface ListTherapySessionsRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListTherapySessionsData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<ListTherapySessionsData, undefined>;
+  operationName: string;
+}
+export const listTherapySessionsRef: ListTherapySessionsRef;
+
+export function listTherapySessions(options?: ExecuteQueryOptions): QueryPromise<ListTherapySessionsData, undefined>;
+export function listTherapySessions(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<ListTherapySessionsData, undefined>;
+
+interface GetLatestSafetyCheckInRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<GetLatestSafetyCheckInData, undefined>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect): QueryRef<GetLatestSafetyCheckInData, undefined>;
+  operationName: string;
+}
+export const getLatestSafetyCheckInRef: GetLatestSafetyCheckInRef;
+
+export function getLatestSafetyCheckIn(options?: ExecuteQueryOptions): QueryPromise<GetLatestSafetyCheckInData, undefined>;
+export function getLatestSafetyCheckIn(dc: DataConnect, options?: ExecuteQueryOptions): QueryPromise<GetLatestSafetyCheckInData, undefined>;
 

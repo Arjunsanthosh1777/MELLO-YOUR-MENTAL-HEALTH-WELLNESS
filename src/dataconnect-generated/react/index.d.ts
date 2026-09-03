@@ -1,33 +1,54 @@
-import { CreateMovieData, CreateMovieVariables, UpsertUserData, UpsertUserVariables, AddReviewData, AddReviewVariables, DeleteReviewData, DeleteReviewVariables, ListMoviesData, ListUsersData, ListUserReviewsData, GetMovieByIdData, GetMovieByIdVariables, SearchMovieData, SearchMovieVariables } from '../';
+import { UpsertUserProfileData, UpsertUserProfileVariables, LogMoodData, LogMoodVariables, CreateJournalEntryData, CreateJournalEntryVariables, UpdateJournalEntryData, UpdateJournalEntryVariables, DeleteJournalEntryData, DeleteJournalEntryVariables, LogActivityData, LogActivityVariables, UpsertTherapySessionData, UpsertTherapySessionVariables, RecordSafetyCheckInData, RecordSafetyCheckInVariables, GetUserProfileData, ListUserMoodsData, GetMoodStatsData, ListJournalEntriesData, GetJournalEntryData, GetJournalEntryVariables, ListActivitiesData, ListTherapySessionsData, GetLatestSafetyCheckInData } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
 import { FirebaseError } from 'firebase/app';
 
 
-export function useCreateMovie(options?: useDataConnectMutationOptions<CreateMovieData, FirebaseError, CreateMovieVariables>): UseDataConnectMutationResult<CreateMovieData, CreateMovieVariables>;
-export function useCreateMovie(dc: DataConnect, options?: useDataConnectMutationOptions<CreateMovieData, FirebaseError, CreateMovieVariables>): UseDataConnectMutationResult<CreateMovieData, CreateMovieVariables>;
+export function useUpsertUserProfile(options?: useDataConnectMutationOptions<UpsertUserProfileData, FirebaseError, UpsertUserProfileVariables>): UseDataConnectMutationResult<UpsertUserProfileData, UpsertUserProfileVariables>;
+export function useUpsertUserProfile(dc: DataConnect, options?: useDataConnectMutationOptions<UpsertUserProfileData, FirebaseError, UpsertUserProfileVariables>): UseDataConnectMutationResult<UpsertUserProfileData, UpsertUserProfileVariables>;
 
-export function useUpsertUser(options?: useDataConnectMutationOptions<UpsertUserData, FirebaseError, UpsertUserVariables>): UseDataConnectMutationResult<UpsertUserData, UpsertUserVariables>;
-export function useUpsertUser(dc: DataConnect, options?: useDataConnectMutationOptions<UpsertUserData, FirebaseError, UpsertUserVariables>): UseDataConnectMutationResult<UpsertUserData, UpsertUserVariables>;
+export function useLogMood(options?: useDataConnectMutationOptions<LogMoodData, FirebaseError, LogMoodVariables>): UseDataConnectMutationResult<LogMoodData, LogMoodVariables>;
+export function useLogMood(dc: DataConnect, options?: useDataConnectMutationOptions<LogMoodData, FirebaseError, LogMoodVariables>): UseDataConnectMutationResult<LogMoodData, LogMoodVariables>;
 
-export function useAddReview(options?: useDataConnectMutationOptions<AddReviewData, FirebaseError, AddReviewVariables>): UseDataConnectMutationResult<AddReviewData, AddReviewVariables>;
-export function useAddReview(dc: DataConnect, options?: useDataConnectMutationOptions<AddReviewData, FirebaseError, AddReviewVariables>): UseDataConnectMutationResult<AddReviewData, AddReviewVariables>;
+export function useCreateJournalEntry(options?: useDataConnectMutationOptions<CreateJournalEntryData, FirebaseError, CreateJournalEntryVariables>): UseDataConnectMutationResult<CreateJournalEntryData, CreateJournalEntryVariables>;
+export function useCreateJournalEntry(dc: DataConnect, options?: useDataConnectMutationOptions<CreateJournalEntryData, FirebaseError, CreateJournalEntryVariables>): UseDataConnectMutationResult<CreateJournalEntryData, CreateJournalEntryVariables>;
 
-export function useDeleteReview(options?: useDataConnectMutationOptions<DeleteReviewData, FirebaseError, DeleteReviewVariables>): UseDataConnectMutationResult<DeleteReviewData, DeleteReviewVariables>;
-export function useDeleteReview(dc: DataConnect, options?: useDataConnectMutationOptions<DeleteReviewData, FirebaseError, DeleteReviewVariables>): UseDataConnectMutationResult<DeleteReviewData, DeleteReviewVariables>;
+export function useUpdateJournalEntry(options?: useDataConnectMutationOptions<UpdateJournalEntryData, FirebaseError, UpdateJournalEntryVariables>): UseDataConnectMutationResult<UpdateJournalEntryData, UpdateJournalEntryVariables>;
+export function useUpdateJournalEntry(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateJournalEntryData, FirebaseError, UpdateJournalEntryVariables>): UseDataConnectMutationResult<UpdateJournalEntryData, UpdateJournalEntryVariables>;
 
-export function useListMovies(options?: useDataConnectQueryOptions<ListMoviesData>): UseDataConnectQueryResult<ListMoviesData, undefined>;
-export function useListMovies(dc: DataConnect, options?: useDataConnectQueryOptions<ListMoviesData>): UseDataConnectQueryResult<ListMoviesData, undefined>;
+export function useDeleteJournalEntry(options?: useDataConnectMutationOptions<DeleteJournalEntryData, FirebaseError, DeleteJournalEntryVariables>): UseDataConnectMutationResult<DeleteJournalEntryData, DeleteJournalEntryVariables>;
+export function useDeleteJournalEntry(dc: DataConnect, options?: useDataConnectMutationOptions<DeleteJournalEntryData, FirebaseError, DeleteJournalEntryVariables>): UseDataConnectMutationResult<DeleteJournalEntryData, DeleteJournalEntryVariables>;
 
-export function useListUsers(options?: useDataConnectQueryOptions<ListUsersData>): UseDataConnectQueryResult<ListUsersData, undefined>;
-export function useListUsers(dc: DataConnect, options?: useDataConnectQueryOptions<ListUsersData>): UseDataConnectQueryResult<ListUsersData, undefined>;
+export function useLogActivity(options?: useDataConnectMutationOptions<LogActivityData, FirebaseError, LogActivityVariables>): UseDataConnectMutationResult<LogActivityData, LogActivityVariables>;
+export function useLogActivity(dc: DataConnect, options?: useDataConnectMutationOptions<LogActivityData, FirebaseError, LogActivityVariables>): UseDataConnectMutationResult<LogActivityData, LogActivityVariables>;
 
-export function useListUserReviews(options?: useDataConnectQueryOptions<ListUserReviewsData>): UseDataConnectQueryResult<ListUserReviewsData, undefined>;
-export function useListUserReviews(dc: DataConnect, options?: useDataConnectQueryOptions<ListUserReviewsData>): UseDataConnectQueryResult<ListUserReviewsData, undefined>;
+export function useUpsertTherapySession(options?: useDataConnectMutationOptions<UpsertTherapySessionData, FirebaseError, UpsertTherapySessionVariables | void>): UseDataConnectMutationResult<UpsertTherapySessionData, UpsertTherapySessionVariables>;
+export function useUpsertTherapySession(dc: DataConnect, options?: useDataConnectMutationOptions<UpsertTherapySessionData, FirebaseError, UpsertTherapySessionVariables | void>): UseDataConnectMutationResult<UpsertTherapySessionData, UpsertTherapySessionVariables>;
 
-export function useGetMovieById(vars: GetMovieByIdVariables, options?: useDataConnectQueryOptions<GetMovieByIdData>): UseDataConnectQueryResult<GetMovieByIdData, GetMovieByIdVariables>;
-export function useGetMovieById(dc: DataConnect, vars: GetMovieByIdVariables, options?: useDataConnectQueryOptions<GetMovieByIdData>): UseDataConnectQueryResult<GetMovieByIdData, GetMovieByIdVariables>;
+export function useRecordSafetyCheckIn(options?: useDataConnectMutationOptions<RecordSafetyCheckInData, FirebaseError, RecordSafetyCheckInVariables>): UseDataConnectMutationResult<RecordSafetyCheckInData, RecordSafetyCheckInVariables>;
+export function useRecordSafetyCheckIn(dc: DataConnect, options?: useDataConnectMutationOptions<RecordSafetyCheckInData, FirebaseError, RecordSafetyCheckInVariables>): UseDataConnectMutationResult<RecordSafetyCheckInData, RecordSafetyCheckInVariables>;
 
-export function useSearchMovie(vars?: SearchMovieVariables, options?: useDataConnectQueryOptions<SearchMovieData>): UseDataConnectQueryResult<SearchMovieData, SearchMovieVariables>;
-export function useSearchMovie(dc: DataConnect, vars?: SearchMovieVariables, options?: useDataConnectQueryOptions<SearchMovieData>): UseDataConnectQueryResult<SearchMovieData, SearchMovieVariables>;
+export function useGetUserProfile(options?: useDataConnectQueryOptions<GetUserProfileData>): UseDataConnectQueryResult<GetUserProfileData, undefined>;
+export function useGetUserProfile(dc: DataConnect, options?: useDataConnectQueryOptions<GetUserProfileData>): UseDataConnectQueryResult<GetUserProfileData, undefined>;
+
+export function useListUserMoods(options?: useDataConnectQueryOptions<ListUserMoodsData>): UseDataConnectQueryResult<ListUserMoodsData, undefined>;
+export function useListUserMoods(dc: DataConnect, options?: useDataConnectQueryOptions<ListUserMoodsData>): UseDataConnectQueryResult<ListUserMoodsData, undefined>;
+
+export function useGetMoodStats(options?: useDataConnectQueryOptions<GetMoodStatsData>): UseDataConnectQueryResult<GetMoodStatsData, undefined>;
+export function useGetMoodStats(dc: DataConnect, options?: useDataConnectQueryOptions<GetMoodStatsData>): UseDataConnectQueryResult<GetMoodStatsData, undefined>;
+
+export function useListJournalEntries(options?: useDataConnectQueryOptions<ListJournalEntriesData>): UseDataConnectQueryResult<ListJournalEntriesData, undefined>;
+export function useListJournalEntries(dc: DataConnect, options?: useDataConnectQueryOptions<ListJournalEntriesData>): UseDataConnectQueryResult<ListJournalEntriesData, undefined>;
+
+export function useGetJournalEntry(vars: GetJournalEntryVariables, options?: useDataConnectQueryOptions<GetJournalEntryData>): UseDataConnectQueryResult<GetJournalEntryData, GetJournalEntryVariables>;
+export function useGetJournalEntry(dc: DataConnect, vars: GetJournalEntryVariables, options?: useDataConnectQueryOptions<GetJournalEntryData>): UseDataConnectQueryResult<GetJournalEntryData, GetJournalEntryVariables>;
+
+export function useListActivities(options?: useDataConnectQueryOptions<ListActivitiesData>): UseDataConnectQueryResult<ListActivitiesData, undefined>;
+export function useListActivities(dc: DataConnect, options?: useDataConnectQueryOptions<ListActivitiesData>): UseDataConnectQueryResult<ListActivitiesData, undefined>;
+
+export function useListTherapySessions(options?: useDataConnectQueryOptions<ListTherapySessionsData>): UseDataConnectQueryResult<ListTherapySessionsData, undefined>;
+export function useListTherapySessions(dc: DataConnect, options?: useDataConnectQueryOptions<ListTherapySessionsData>): UseDataConnectQueryResult<ListTherapySessionsData, undefined>;
+
+export function useGetLatestSafetyCheckIn(options?: useDataConnectQueryOptions<GetLatestSafetyCheckInData>): UseDataConnectQueryResult<GetLatestSafetyCheckInData, undefined>;
+export function useGetLatestSafetyCheckIn(dc: DataConnect, options?: useDataConnectQueryOptions<GetLatestSafetyCheckInData>): UseDataConnectQueryResult<GetLatestSafetyCheckInData, undefined>;
