@@ -30,6 +30,8 @@ interface Toast {
 }
 
 interface AppContextType {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
   user: UserProfile;
   moods: MoodEntry[];
   journals: JournalEntry[];
@@ -60,6 +62,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => localStorage.getItem('mello_theme') === 'dark');
   const [user, setUser] = useState<UserProfile>(() => storageService.getUser());
   const [moods, setMoods] = useState<MoodEntry[]>(() => storageService.getMoods());
   const [journals, setJournals] = useState<JournalEntry[]>(() => storageService.getJournals());
@@ -80,6 +83,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => { storageService.saveJournals(journals); }, [journals]);
   useEffect(() => { storageService.saveJourney(journey); }, [journey]);
   useEffect(() => { storageService.saveAchievements(achievements); }, [achievements]);
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    localStorage.setItem('mello_theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
 
   useEffect(() => {
     const auth = firebaseService.getAuth();
@@ -125,6 +132,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setToast({ text, type });
     setTimeout(() => setToast(null), 3500);
   };
+
+  const toggleDarkMode = () => setIsDarkMode(prev => !prev);
 
   const navigate = (tab: AppTab, options?: { gameId?: string; therapistId?: string }) => {
     setActiveTab(tab);
@@ -248,6 +257,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   return (
     <AppContext.Provider value={{
+      isDarkMode,
+      toggleDarkMode,
       user,
       moods,
       journals,

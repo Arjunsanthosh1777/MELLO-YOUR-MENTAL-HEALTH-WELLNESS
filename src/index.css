@@ -5,6 +5,30 @@
     background: radial-gradient(circle at 50% 0%, #F5F3FF 0%, #FAF5FF 60%, #F1F5F9 100%);
     min-height: 100vh;
   }
+
+  html.dark body {
+    background: radial-gradient(circle at 50% 0%, #1e1b35 0%, #111827 58%, #020617 100%);
+    color: #e2e8f0;
+  }
+}
+
+@layer utilities {
+  .dark .bg-white { background-color: #172033; }
+  .dark .bg-slate-50 { background-color: #111827; }
+  .dark .bg-slate-100 { background-color: #1e293b; }
+  .dark .bg-purple-50 { background-color: #241f3d; }
+  .dark .bg-purple-100 { background-color: #302653; }
+  .dark .bg-rose-50 { background-color: #3b202d; }
+  .dark .bg-amber-50 { background-color: #3a2b16; }
+  .dark .text-slate-900, .dark .text-slate-800 { color: #f1f5f9; }
+  .dark .text-slate-700, .dark .text-slate-600 { color: #cbd5e1; }
+  .dark .text-slate-500, .dark .text-slate-400 { color: #94a3b8; }
+  .dark .border-slate-100, .dark .border-slate-200 { border-color: #334155; }
+  .dark .border-purple-100, .dark .border-purple-200 { border-color: #493d72; }
+  .dark input, .dark textarea { background-color: #1e293b; color: #f1f5f9; border-color: #475569; }
+  .dark input::placeholder, .dark textarea::placeholder { color: #94a3b8; }
+  .dark ::-webkit-scrollbar-track { background: #0f172a; }
+  .dark ::-webkit-scrollbar-thumb { background: #6d5aa5; }
 }
 
 .glass-card {

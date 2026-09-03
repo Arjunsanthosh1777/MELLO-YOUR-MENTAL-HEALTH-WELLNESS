@@ -54,7 +54,7 @@ const MainContent: React.FC = () => {
   const isFullLayout = activeTab !== 'landing' && activeTab !== 'auth' && activeTab !== 'onboarding';
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800 antialiased selection:bg-purple-200">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 antialiased selection:bg-purple-200 dark:selection:bg-purple-900">
       <Header />
       <NotificationToast />
 

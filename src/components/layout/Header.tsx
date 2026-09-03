@@ -1,17 +1,17 @@
 import React from 'react';
-import { Flame, Sparkles, ShieldAlert, Bell, Heart } from 'lucide-react';
+import { Flame, Sparkles, ShieldAlert, Moon, Sun } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { MelloAvatar } from '../common/MelloAvatar';
 
 export const Header: React.FC = () => {
-  const { user, activeTab, navigate, openSafetyModal } = useApp();
+  const { user, activeTab, navigate, openSafetyModal, isDarkMode, toggleDarkMode } = useApp();
 
   if (activeTab === 'landing' || activeTab === 'auth' || activeTab === 'onboarding') {
     return null;
   }
 
   return (
-    <header className="sticky top-0 z-30 bg-white/85 backdrop-blur-md border-b border-purple-100 px-4 sm:px-8 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-30 bg-white/85 dark:bg-slate-900/90 backdrop-blur-md border-b border-purple-100 dark:border-slate-700 px-4 sm:px-8 py-3 flex items-center justify-between">
       {/* Brand & Page Title */}
       <div className="flex items-center space-x-3 cursor-pointer" onClick={() => navigate('home')}>
         <div className="w-10 h-10 bg-purple-100 rounded-2xl flex items-center justify-center border border-purple-200">
@@ -47,6 +47,15 @@ export const Header: React.FC = () => {
         >
           <ShieldAlert className="w-4 h-4 text-rose-600" />
           <span className="hidden md:inline">Need Help Now?</span>
+        </button>
+
+        <button
+          onClick={toggleDarkMode}
+          className="w-9 h-9 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-300 rounded-xl flex items-center justify-center transition-colors border border-slate-200 dark:border-slate-600"
+          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
 
         {/* Notifications & Profile */}
