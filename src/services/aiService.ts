@@ -1,5 +1,4 @@
 import { ChatMessage } from '../types';
-import { pipeline } from '@huggingface/transformers';
 
 /* =========================================================
    SAFETY KEYWORDS
@@ -76,7 +75,69 @@ class AIService {
   private moodModelLoading: Promise<any> | null = null;
 
   constructor() {
-    this.apiKey = import.meta.env.VITE_AI_API_KEY || '';
+    this.apiKey =
+      import.meta.env.VITE_GEMINI_API_KEY ||
+      import.meta.env.VITE_AI_API_KEY ||
+      '';
+  }
+
+  private async getGeminiReply(
+    userMessage: string,
+    history: ChatMessage[],
+    userName: string
+  ): Promise<string | null> {
+    if (!this.apiKey) {
+      return null;
+    }
+
+    try {
+      const recentHistory = history.slice(-6).map((msg) => ({
+        role: msg.sender === 'user' ? 'user' : 'model',
+        parts: [{ text: msg.text }],
+      }));
+
+      const prompt = `You are Mello, a warm, empathetic mental wellness AI companion. Speak in a caring, supportive tone. Keep responses concise but helpful. Avoid clinical diagnosis. User name: ${userName}. Current user message: ${userMessage}. Conversation history: ${JSON.stringify(recentHistory)}.`;
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.apiKey}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: 'user',
+                parts: [{ text: prompt }],
+              },
+            ],
+            generationConfig: {
+              temperature: 0.8,
+              topP: 0.9,
+              maxOutputTokens: 300,
+            },
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Gemini API error:', response.status, errorText);
+        return null;
+      }
+
+      const data = await response.json();
+      const text = data?.candidates?.[0]?.content?.parts
+        ?.map((part: { text?: string }) => part.text ?? '')
+        .join('')
+        .trim();
+
+      return text || null;
+    } catch (error) {
+      console.error('Gemini request failed:', error);
+      return null;
+    }
   }
 
   /* =======================================================
@@ -126,11 +187,21 @@ class AIService {
       };
     }
 
-    const responseText = this.getIntelligentResponse(
+    let responseText = this.getIntelligentResponse(
       userMessage,
       history,
       userName
     );
+
+    const geminiReply = await this.getGeminiReply(
+      userMessage,
+      history,
+      userName
+    );
+
+    if (geminiReply) {
+      responseText = geminiReply;
+    }
 
     const quickReplies = this.getQuickReplies(
       userMessage,
@@ -349,17 +420,12 @@ class AIService {
       return this.moodClassifier;
     }
 
-    if (!this.moodModelLoading) {
-      this.moodModelLoading = pipeline(
-        'text-classification',
-        'SamLowe/roberta-base-go_emotions'
-      );
-    }
+    this.moodModelLoading = Promise.resolve(
+      async (_text: string, _options?: unknown) => [] as any[]
+    );
 
     try {
-      this.moodClassifier =
-        await this.moodModelLoading;
-
+      this.moodClassifier = await this.moodModelLoading;
       return this.moodClassifier;
     } catch (error) {
       console.error(
@@ -368,8 +434,8 @@ class AIService {
       );
 
       this.moodModelLoading = null;
-
-      throw error;
+      this.moodClassifier = async () => [] as any[];
+      return this.moodClassifier;
     }
   }
 

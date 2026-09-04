@@ -7,6 +7,7 @@ import { MelloAvatar } from '../common/MelloAvatar';
 
 export const Header: React.FC = () => {
   const { user, activeTab, navigate, openSafetyModal } = useApp();
+  const avatarUrl = user.avatar && /^https?:\/\//i.test(user.avatar) ? user.avatar : null;
 
   if (activeTab === 'landing' || activeTab === 'auth' || activeTab === 'onboarding') {
     return null;
@@ -54,9 +55,18 @@ export const Header: React.FC = () => {
         {/* Notifications & Profile */}
         <button 
           onClick={() => navigate('profile')}
-          className="w-9 h-9 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-xl flex items-center justify-center font-bold text-sm transition-colors border border-purple-200"
+          className="w-9 h-9 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-xl flex items-center justify-center font-bold text-sm transition-colors border border-purple-200 overflow-hidden"
+          aria-label="Open profile"
         >
-          {user.avatar || '💜'}
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt={user.name || 'Profile'}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span>{user.avatar || '💜'}</span>
+          )}
         </button>
       </div>
     </header>

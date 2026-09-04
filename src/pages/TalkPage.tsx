@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, ShieldAlert, Sparkles, Volume2, RefreshCw, Heart, ArrowRight } from 'lucide-react';
+import { Send, ShieldAlert, Sparkles, Volume2, VolumeX, Mic, MicOff, ArrowRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { ChatMessage } from '../types';
 import { aiService } from '../services/aiService';
@@ -19,15 +19,88 @@ export const TalkPage: React.FC = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const [voiceError, setVoiceError] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const speakText = (text: string) => {
+    if (!voiceEnabled || !('speechSynthesis' in window)) return;
+
+    const cleanText = text.replace(/\s+/g, ' ').trim();
+    if (!cleanText) return;
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.rate = 1;
+    utterance.pitch = 1.1;
+    utterance.lang = 'en-US';
+    window.speechSynthesis.speak(utterance);
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages, isTyping]);
+
+  useEffect(() => {
+    const SpeechRecognitionClass = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognitionClass) return;
+
+    const recognition = new SpeechRecognitionClass();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+
+    recognition.onresult = (event: any) => {
+      const transcript = Array.from(event.results)
+        .map((result: any) => result[0]?.transcript ?? '')
+        .join(' ')
+        .trim();
+
+      if (transcript) {
+        setInputText(transcript);
+      }
+    };
+
+    recognition.onerror = (event: any) => {
+      setVoiceError(event.error === 'not-allowed' ? 'Microphone permission was denied.' : 'Voice input is unavailable right now.');
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+
+    return () => {
+      recognition.stop();
+      window.speechSynthesis?.cancel();
+    };
+  }, []);
+
+  const toggleListening = () => {
+    if (!recognitionRef.current) {
+      setVoiceError('Voice input is not supported in this browser.');
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+      return;
+    }
+
+    setVoiceError('');
+    recognitionRef.current.start();
+    setIsListening(true);
+  };
 
   const handleSend = async (textToSend?: string) => {
     const text = textToSend || inputText;
@@ -48,6 +121,10 @@ export const TalkPage: React.FC = () => {
       const response = await aiService.generateResponse(text, messages, user.name || 'friend');
       setIsTyping(false);
       setMessages(prev => [...prev, response.message]);
+
+      if (voiceEnabled && response.message.text) {
+        speakText(response.message.text);
+      }
 
       if (response.isSafetyTrigger) {
         openSafetyModal();
@@ -81,14 +158,30 @@ export const TalkPage: React.FC = () => {
           </div>
         </div>
 
-        <button
-          onClick={openSafetyModal}
-          className="flex items-center gap-1 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-semibold border border-rose-200"
-          title="Crisis Support Protocol"
-        >
-          <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
-          <span className="hidden sm:inline">Crisis Support</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setVoiceEnabled((prev) => !prev)}
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-colors ${
+              voiceEnabled
+                ? 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200'
+                : 'bg-slate-200 text-slate-600 border-slate-300 hover:bg-slate-300'
+            }`}
+            title={voiceEnabled ? 'Mute Mello replies' : 'Enable Mello replies'}
+          >
+            {voiceEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
+            <span className="hidden sm:inline">{voiceEnabled ? 'Speaker on' : 'Speaker off'}</span>
+          </button>
+
+          <button
+            onClick={openSafetyModal}
+            className="flex items-center gap-1 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-semibold border border-rose-200"
+            title="Crisis Support Protocol"
+          >
+            <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
+            <span className="hidden sm:inline">Crisis Support</span>
+          </button>
+        </div>
       </div>
 
       {/* Message Feed */}
@@ -180,6 +273,20 @@ export const TalkPage: React.FC = () => {
 
       {/* Chat Input Bar */}
       <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="p-3 sm:p-4 bg-white border-t border-purple-100 flex items-center space-x-2">
+        <button
+          type="button"
+          onClick={toggleListening}
+          disabled={isTyping}
+          className={`p-3 rounded-2xl border transition-all ${
+            isListening
+              ? 'bg-rose-500 text-white border-rose-500 animate-pulse'
+              : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'
+          }`}
+          title={isListening ? 'Stop listening' : 'Speak to Mello'}
+        >
+          {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+        </button>
+
         <input
           type="text"
           value={inputText}
@@ -195,6 +302,10 @@ export const TalkPage: React.FC = () => {
           <Send className="w-5 h-5" />
         </button>
       </form>
+
+      {voiceError && (
+        <div className="px-4 pb-2 text-xs text-rose-600 font-medium">{voiceError}</div>
+      )}
     </div>
   );
 };

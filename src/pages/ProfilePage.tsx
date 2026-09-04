@@ -5,6 +5,7 @@ import { MelloAvatar } from '../components/common/MelloAvatar';
 
 export const ProfilePage: React.FC = () => {
   const { user, achievements } = useApp();
+  const avatarUrl = user.avatar && /^https?:\/\//i.test(user.avatar) ? user.avatar : null;
 
   const avatars = ['💜', '🌱', '🌸', '🌻', '🧘', '⭐', '🎈'];
 
@@ -13,8 +14,12 @@ export const ProfilePage: React.FC = () => {
       {/* User Header Profile Card */}
       <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-mello border border-purple-100 flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
         <div className="relative">
-          <div className="w-20 h-20 bg-purple-100 rounded-3xl flex items-center justify-center text-4xl shadow-inner border border-purple-200">
-            {user.avatar || '💜'}
+          <div className="w-20 h-20 bg-purple-100 rounded-3xl overflow-hidden flex items-center justify-center text-4xl shadow-inner border border-purple-200">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={user.name || 'Profile'} className="w-full h-full object-cover" />
+            ) : (
+              <span>{user.avatar || '💜'}</span>
+            )}
           </div>
           <span className="w-6 h-6 bg-emerald-500 border-2 border-white rounded-full absolute -bottom-1 -right-1 shadow-sm" />
         </div>

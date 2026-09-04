@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Lock, Mail, User, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowLeft, Lock, Mail, User, ShieldCheck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { MelloAvatar } from '../components/common/MelloAvatar';
+import { firebaseService } from '../services/firebaseService';
 
 export const AuthPage: React.FC = () => {
   const { navigate, updateUser, showToast } = useApp();
@@ -11,30 +12,70 @@ export const AuthPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [ageConfirmed, setAgeConfirmed] = useState(true);
   const [privacyAgreed, setPrivacyAgreed] = useState(true);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return;
 
-    if (isSignUp) {
-      if (!ageConfirmed || !privacyAgreed) {
-        showToast('Please confirm age and privacy terms.', 'info');
+    try {
+      setIsAuthenticating(true);
+
+      if (isSignUp) {
+        if (!ageConfirmed || !privacyAgreed) {
+          showToast('Please confirm age and privacy terms.', 'info');
+          return;
+        }
+
+        const result = await firebaseService.signUpWithEmail(email, password, name || 'Friend');
+        updateUser({
+          name: result.displayName || name || 'Friend',
+          email: result.email || email,
+          avatar: result.avatar || '💜',
+          ageConfirmed,
+          privacyAgreed,
+          onboardingCompleted: false,
+        });
+        showToast('Account created! Welcome to Mello.', 'success');
+        navigate('onboarding');
         return;
       }
-      updateUser({ name: name || 'Friend', email, ageConfirmed, privacyAgreed, onboardingCompleted: false });
-      showToast('Account created! Welcome to Mello.', 'success');
-      navigate('onboarding');
-    } else {
-      updateUser({ email, onboardingCompleted: true });
+
+      const result = await firebaseService.signInWithEmail(email, password);
+      updateUser({
+        name: result.displayName || 'Friend',
+        email: result.email || email,
+        avatar: result.avatar || '💜',
+        onboardingCompleted: true,
+      });
       showToast('Welcome back to Mello!', 'success');
       navigate('home');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Authentication failed.';
+      showToast(message, 'info');
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
-  const handleGoogleLogin = () => {
-    updateUser({ name: 'Google User', email: 'user@gmail.com', onboardingCompleted: true });
-    showToast('Signed in with Google!', 'success');
-    navigate('home');
+  const handleGoogleLogin = async () => {
+    try {
+      setIsAuthenticating(true);
+      const result = await firebaseService.signInWithGoogle();
+      updateUser({
+        name: result.displayName || 'Google User',
+        email: result.email || 'user@gmail.com',
+        avatar: result.avatar || '🌟',
+        onboardingCompleted: true,
+      });
+      showToast('Signed in with Google!', 'success');
+      navigate('home');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Google sign-in failed.';
+      showToast(message, 'info');
+    } finally {
+      setIsAuthenticating(false);
+    }
   };
 
   return (
@@ -62,7 +103,8 @@ export const AuthPage: React.FC = () => {
         <button
           onClick={handleGoogleLogin}
           type="button"
-          className="w-full py-3 px-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold rounded-2xl flex items-center justify-center gap-3 text-sm shadow-sm transition-colors"
+          disabled={isAuthenticating}
+          className="w-full py-3 px-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold rounded-2xl flex items-center justify-center gap-3 text-sm shadow-sm transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -70,7 +112,7 @@ export const AuthPage: React.FC = () => {
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
           </svg>
-          Continue with Google
+          {isAuthenticating ? 'Signing in...' : 'Continue with Google'}
         </button>
 
         <div className="flex items-center space-x-3 text-slate-400 text-xs my-2">
@@ -153,9 +195,10 @@ export const AuthPage: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-2xl shadow-mello transition-all text-sm mt-2"
+            disabled={isAuthenticating}
+            className="w-full py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-2xl shadow-mello transition-all text-sm mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {isSignUp ? 'Create Account' : 'Sign In'}
+            {isAuthenticating ? 'Please wait...' : isSignUp ? 'Create Account' : 'Sign In'}
           </button>
         </form>
 
