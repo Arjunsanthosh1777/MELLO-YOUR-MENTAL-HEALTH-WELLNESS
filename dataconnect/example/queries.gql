@@ -1,0 +1,124 @@
+# Mello queries - Mental Wellness App
+
+query GetUserProfile @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    id
+    email
+    displayName
+    avatar
+    createdAt
+    updatedAt
+  }
+}
+
+query ListUserMoods @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    id
+    recentMoods: moods_on_user(
+      orderBy: { timestamp: DESC }
+      limit: 30
+    ) {
+      id
+      mood
+      intensity
+      notes
+      timestamp
+    }
+  }
+}
+
+query GetMoodStats @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    id
+    allMoods: moods_on_user(
+      orderBy: { timestamp: DESC }
+      limit: 100
+    ) {
+      id
+      mood
+      intensity
+      timestamp
+    }
+  }
+}
+
+query ListJournalEntries @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    id
+    entries: journalEntries_on_user(
+      orderBy: { createdAt: DESC }
+      limit: 50
+    ) {
+      id
+      title
+      content
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query GetJournalEntry($entryId: UUID!) @auth(level: USER) {
+  journalEntry(key: { id: $entryId }) {
+    id
+    title
+    content
+    tags
+    createdAt
+    updatedAt
+    user {
+      id @check(expr: "this == auth.uid", message: "You can only access your own journal entries")
+    }
+  }
+}
+
+query ListActivities @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    id
+    activities: activities_on_user(
+      orderBy: { completedAt: DESC }
+      limit: 50
+    ) {
+      id
+      activityType
+      duration
+      score
+      completedAt
+    }
+  }
+}
+
+query ListTherapySessions @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    id
+    sessions: therapySessions_on_user(
+      orderBy: { sessionDate: DESC }
+      limit: 20
+    ) {
+      id
+      therapist
+      sessionDate
+      duration
+      notes
+      status
+      createdAt
+    }
+  }
+}
+
+query GetLatestSafetyCheckIn @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    id
+    checkIns: safetyCheckIns_on_user(
+      orderBy: { checkedAt: DESC }
+      limit: 1
+    ) {
+      id
+      status
+      message
+      checkedAt
+      reviewDate
+    }
+  }
+}

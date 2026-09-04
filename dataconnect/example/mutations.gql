@@ -1,0 +1,148 @@
+
+  
+# Mello mutations - Mental Wellness App
+
+mutation UpsertUserProfile(
+  $email: String!
+  $displayName: String
+  $avatar: String
+) @auth(level: USER) {
+  user_upsert(
+    data: {
+      id_expr: "auth.uid"
+      email: $email
+      displayName: $displayName
+      avatar: $avatar
+    }
+  )
+}
+
+mutation LogMood(
+  $mood: String!
+  $intensity: Int
+  $notes: String
+) @auth(level: USER) {
+  mood_insert(
+    data: {
+      user: { id_expr: "auth.uid" }
+      mood: $mood
+      intensity: $intensity
+      notes: $notes
+    }
+  )
+}
+
+mutation ClearRecentUserMoods($since: Timestamp!) @auth(level: USER) {
+  mood_delete(
+    first: {
+      where: {
+        user: { id: { eq_expr: "auth.uid" } }
+        timestamp: { ge: $since }
+      }
+    }
+  )
+}
+
+mutation CreateJournalEntry(
+  $title: String!
+  $content: String!
+  $tags: String
+) @auth(level: USER) {
+  journalEntry_insert(
+    data: {
+      user: { id_expr: "auth.uid" }
+      title: $title
+      content: $content
+      tags: $tags
+    }
+  )
+}
+
+mutation UpdateJournalEntry(
+  $entryId: UUID!
+  $title: String
+  $content: String
+  $tags: String
+) @auth(level: USER) @transaction {
+  query @redact {
+    journalEntry(key: { id: $entryId }) {
+      user {
+        id @check(expr: "this == auth.uid", message: "You can only update your own journal entries")
+      }
+    }
+  }
+  journalEntry_update(
+    key: { id: $entryId }
+    data: {
+      title: $title
+      content: $content
+      tags: $tags
+    }
+  )
+}
+
+mutation DeleteJournalEntry(
+  $entryId: UUID!
+) @auth(level: USER) @transaction {
+  query @redact {
+    journalEntry(key: { id: $entryId }) {
+      user {
+        id @check(expr: "this == auth.uid", message: "You can only delete your own journal entries")
+      }
+    }
+  }
+  journalEntry_delete(
+    key: { id: $entryId }
+  )
+}
+
+mutation LogActivity(
+  $activityType: String!
+  $duration: Int
+  $score: Int
+) @auth(level: USER) {
+  activity_insert(
+    data: {
+      user: { id_expr: "auth.uid" }
+      activityType: $activityType
+      duration: $duration
+      score: $score
+    }
+  )
+}
+
+mutation UpsertTherapySession(
+  $sessionId: UUID
+  $therapist: String
+  $sessionDate: Timestamp
+  $duration: Int
+  $notes: String
+  $status: String
+) @auth(level: USER) {
+  therapySession_upsert(
+    data: {
+      id: $sessionId
+      user: { id_expr: "auth.uid" }
+      therapist: $therapist
+      sessionDate: $sessionDate
+      duration: $duration
+      notes: $notes
+      status: $status
+    }
+  )
+}
+
+mutation RecordSafetyCheckIn(
+  $status: String!
+  $message: String
+  $reviewDate: Timestamp
+) @auth(level: USER) {
+  safetyCheckIn_insert(
+    data: {
+      user: { id_expr: "auth.uid" }
+      status: $status
+      message: $message
+      reviewDate: $reviewDate
+    }
+  )
+}

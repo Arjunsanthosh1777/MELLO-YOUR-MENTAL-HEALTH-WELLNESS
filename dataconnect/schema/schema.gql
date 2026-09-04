@@ -1,0 +1,58 @@
+# Mello - Mental Wellness App Schema
+
+type User @table {
+  id: String! @default(expr: "auth.uid")
+  email: String!
+  displayName: String
+  avatar: String
+  createdAt: Timestamp! @default(expr: "request.time")
+  updatedAt: Timestamp! @default(expr: "request.time")
+}
+
+type Mood @table {
+  id: UUID! @default(expr: "uuidV4()")
+  user: User!
+  mood: String!
+  intensity: Int
+  notes: String
+  timestamp: Timestamp! @default(expr: "request.time")
+}
+
+type JournalEntry @table {
+  id: UUID! @default(expr: "uuidV4()")
+  user: User!
+  title: String!
+  content: String!
+  tags: String
+  createdAt: Timestamp! @default(expr: "request.time")
+  updatedAt: Timestamp! @default(expr: "request.time")
+}
+
+type TherapySession @table {
+  id: UUID! @default(expr: "uuidV4()")
+  user: User!
+  therapist: String
+  sessionDate: Timestamp
+  duration: Int
+  notes: String
+  status: String
+  createdAt: Timestamp! @default(expr: "request.time")
+}
+
+type Activity @table {
+  id: UUID! @default(expr: "uuidV4()")
+  user: User!
+  activityType: String!
+  duration: Int
+  score: Int
+  completedAt: Timestamp! @default(expr: "request.time")
+}
+
+type SafetyCheckIn @table {
+  id: UUID! @default(expr: "uuidV4()")
+  user: User!
+  status: String!
+  message: String
+  checkedAt: Timestamp! @default(expr: "request.time")
+  reviewDate: Timestamp
+}

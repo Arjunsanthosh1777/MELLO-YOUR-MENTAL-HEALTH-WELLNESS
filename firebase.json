@@ -1,0 +1,32 @@
+{
+  "auth": {
+    "authorizedDomains": ["localhost", "mello-c87ba.firebaseapp.com"],
+    "providers": {
+      "anonymous": true,
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Mello",
+        "supportEmail": "support@mello.app"
+      }
+    }
+  },
+  "hosting": {
+    "site": "mello-c87ba",
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "emulators": {
+    "dataconnect": {
+      "dataDir": "dataconnect/.dataconnect/pgliteData"
+    }
+  },
+  "dataconnect": {
+    "source": "dataconnect"
+  }
+}

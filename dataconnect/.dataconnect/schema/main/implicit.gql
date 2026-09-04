@@ -1,0 +1,30 @@
+extend type Activity {
+  """
+  ✨ Implicit foreign key field based on `Activity`.`user`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  userId: String! @fdc_generated(from: "Activity.user", purpose: IMPLICIT_REF_FIELD)
+}
+extend type JournalEntry {
+  """
+  ✨ Implicit foreign key field based on `JournalEntry`.`user`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  userId: String! @fdc_generated(from: "JournalEntry.user", purpose: IMPLICIT_REF_FIELD)
+}
+extend type Mood {
+  """
+  ✨ Implicit foreign key field based on `Mood`.`user`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  userId: String! @fdc_generated(from: "Mood.user", purpose: IMPLICIT_REF_FIELD)
+}
+extend type SafetyCheckIn {
+  """
+  ✨ Implicit foreign key field based on `SafetyCheckIn`.`user`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  userId: String! @fdc_generated(from: "SafetyCheckIn.user", purpose: IMPLICIT_REF_FIELD)
+}
+extend type TherapySession {
+  """
+  ✨ Implicit foreign key field based on `TherapySession`.`user`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  userId: String! @fdc_generated(from: "TherapySession.user", purpose: IMPLICIT_REF_FIELD)
+}
