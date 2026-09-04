@@ -26,7 +26,7 @@ import {
 } from '../services/stressService';
 
 export const MoodDashboard: React.FC = () => {
-  const { navigate } = useApp();
+  const { navigate, moods } = useApp();
 
   /* =========================================================
      STRESS ANALYZER STATE
@@ -39,26 +39,70 @@ export const MoodDashboard: React.FC = () => {
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  /* =========================================================
-     DEMO MOOD DATA
-  ========================================================= */
+  const moodData = React.useMemo(() => {
+    const moodScores: Record<string, number> = {
+      great: 5,
+      good: 4,
+      okay: 3,
+      low: 2,
+      overwhelmed: 1,
+    };
 
-  const moodData = [
-    { day: 'Mon', emoji: '😊', score: 78 },
-    { day: 'Tue', emoji: '😌', score: 82 },
-    { day: 'Wed', emoji: '😟', score: 55 },
-    { day: 'Thu', emoji: '😔', score: 48 },
-    { day: 'Fri', emoji: '😌', score: 70 },
-    { day: 'Sat', emoji: '😊', score: 86 },
-    { day: 'Sun', emoji: '😊', score: 91 },
-  ];
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const recentEntries = [...moods]
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .slice(-7);
 
-  const emotions = [
-    { name: 'Happy', emoji: '😊', value: 45 },
-    { name: 'Calm', emoji: '😌', value: 30 },
-    { name: 'Stressed', emoji: '😟', value: 15 },
-    { name: 'Sad', emoji: '😔', value: 10 },
-  ];
+    if (!recentEntries.length) {
+      return days.map((day) => ({ day, emoji: '—', score: 0 }));
+    }
+
+    return days.map((day, index) => {
+      const entry = recentEntries[index];
+
+      if (!entry) {
+        return { day, emoji: '—', score: 0 };
+      }
+
+      return {
+        day,
+        emoji: entry.mood === 'great' ? '😊' : entry.mood === 'good' ? '🙂' : entry.mood === 'okay' ? '😐' : entry.mood === 'low' ? '😔' : '😣',
+        score: moodScores[entry.mood] ?? 0,
+      };
+    });
+  }, [moods]);
+
+  const emotions = React.useMemo(() => {
+    if (!moods.length) {
+      return [
+        { name: 'Happy', emoji: '😊', value: 0 },
+        { name: 'Calm', emoji: '😌', value: 0 },
+        { name: 'Stressed', emoji: '😟', value: 0 },
+        { name: 'Sad', emoji: '😔', value: 0 },
+      ];
+    }
+
+    const counts = {
+      great: 0,
+      good: 0,
+      okay: 0,
+      low: 0,
+      overwhelmed: 0,
+    };
+
+    moods.forEach((entry) => {
+      counts[entry.mood] = (counts[entry.mood] ?? 0) + 1;
+    });
+
+    const total = moods.length || 1;
+
+    return [
+      { name: 'Happy', emoji: '😊', value: Math.round((counts.great + counts.good) / total * 100) },
+      { name: 'Calm', emoji: '😌', value: Math.round((counts.okay) / total * 100) },
+      { name: 'Stressed', emoji: '😟', value: Math.round((counts.overwhelmed) / total * 100) },
+      { name: 'Sad', emoji: '😔', value: Math.round((counts.low) / total * 100) },
+    ];
+  }, [moods]);
 
   /* =========================================================
      ANALYZE STUDENT STRESS

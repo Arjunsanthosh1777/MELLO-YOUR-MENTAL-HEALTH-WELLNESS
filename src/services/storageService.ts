@@ -15,28 +15,28 @@ import {
    USER
 ========================= */
 
-export const INITIAL_USER: UserProfile = {
-  id: 'usr-123',
-  name: 'Arjun',
-  email: 'arjun@mello.app',
+export const createFreshUserProfile = (
+  overrides: Partial<UserProfile> = {}
+): UserProfile => ({
+  id: 'usr-new',
+  name: 'Friend',
+  email: '',
   ageConfirmed: true,
   privacyAgreed: true,
   avatar: '💜',
-  mindPoints: 340,
-  xp: 620,
-  level: 7,
-  streak: 12,
-  lastCheckIn: new Date().toISOString().split('T')[0],
-  onboardingCompleted: true,
-  goals: [
-    'Stress relief',
-    'Building healthy habits',
-    'Understanding emotions'
-  ],
+  mindPoints: 0,
+  xp: 0,
+  level: 1,
+  streak: 0,
+  onboardingCompleted: false,
+  goals: [],
   checkInFrequency: 'daily',
   aiMemoryEnabled: true,
-  notificationsEnabled: true
-};
+  notificationsEnabled: true,
+  ...overrides,
+});
+
+export const INITIAL_USER: UserProfile = createFreshUserProfile();
 
 /* =========================
    GAMES
@@ -124,7 +124,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
         title: 'First Check-in',
         type: 'checkin',
         xp: 10,
-        completed: true,
+        completed: false,
         description: 'Record your current mood.'
       },
       {
@@ -132,7 +132,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
         title: 'Meet Mello',
         type: 'talk',
         xp: 20,
-        completed: true,
+        completed: false,
         description: 'Have your first 2-minute conversation.'
       },
       {
@@ -140,7 +140,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
         title: 'Breath Awakening',
         type: 'breathing',
         xp: 15,
-        completed: true,
+        completed: false,
         description: 'Complete a 2-minute box breathing session.'
       }
     ]
@@ -151,7 +151,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
     title: 'Understand Emotions',
     subtitle: 'Learn to identify and accept what you are feeling',
     xpRequired: 250,
-    unlocked: true,
+    unlocked: false,
 
     nodes: [
       {
@@ -159,7 +159,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
         title: 'Emotion Naming',
         type: 'reflection',
         xp: 20,
-        completed: true,
+        completed: false,
         description: 'Tag your primary emotions today.'
       },
       {
@@ -167,7 +167,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
         title: 'Gratitude Seed',
         type: 'gratitude',
         xp: 15,
-        completed: true,
+        completed: false,
         description: 'Plant one flower in your Gratitude Garden.'
       },
       {
@@ -175,7 +175,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
         title: 'Zen Touch',
         type: 'game',
         xp: 20,
-        completed: true,
+        completed: false,
         description: 'Spend 3 minutes in Zen Garden.'
       }
     ]
@@ -186,7 +186,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
     title: 'Build Healthy Habits',
     subtitle: 'Establish small, sustainable routines for your mind',
     xpRequired: 450,
-    unlocked: true,
+    unlocked: false,
 
     nodes: [
       {
@@ -194,7 +194,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
         title: 'Morning Check-in',
         type: 'checkin',
         xp: 10,
-        completed: true,
+        completed: false,
         description: 'Start your day with an intentional check-in.'
       },
       {
@@ -202,7 +202,7 @@ export const INITIAL_JOURNEY: JourneyLevel[] = [
         title: 'Deep Reflection',
         type: 'journal',
         xp: 25,
-        completed: true,
+        completed: false,
         description: 'Write a short journal reflection.'
       },
       {
@@ -393,8 +393,7 @@ export const INITIAL_ACHIEVEMENTS: Achievement[] = [
     title: '🌱 First Step',
     description: 'Completed your first mood check-in',
     icon: '🌱',
-    unlocked: true,
-    unlockedAt: '2026-08-01',
+    unlocked: false,
     xp: 20
   },
 
@@ -403,8 +402,7 @@ export const INITIAL_ACHIEVEMENTS: Achievement[] = [
     title: '🔥 7 Day Journey',
     description: 'Maintained a 7-day wellness check-in journey',
     icon: '🔥',
-    unlocked: true,
-    unlockedAt: '2026-08-07',
+    unlocked: false,
     xp: 50
   },
 
@@ -413,8 +411,7 @@ export const INITIAL_ACHIEVEMENTS: Achievement[] = [
     title: '💜 Helping Hand',
     description: 'Connected with Mello AI for 5 conversations',
     icon: '💜',
-    unlocked: true,
-    unlockedAt: '2026-08-05',
+    unlocked: false,
     xp: 30
   },
 
@@ -423,8 +420,7 @@ export const INITIAL_ACHIEVEMENTS: Achievement[] = [
     title: '🧘 Calm Mind',
     description: 'Completed 5 breathing or relaxation exercises',
     icon: '🧘',
-    unlocked: true,
-    unlockedAt: '2026-08-08',
+    unlocked: false,
     xp: 40
   },
 
@@ -541,107 +537,13 @@ export const INITIAL_ACTIVITIES: ActivityCard[] = [
    JOURNALS
 ========================= */
 
-export const INITIAL_JOURNALS: JournalEntry[] = [
-  {
-    id: 'j-1',
-    date: '2026-08-08',
-    timestamp: '2026-08-08T20:15:00Z',
-    title: 'A peaceful walk in the park',
-    content:
-      'Took 20 minutes off screens today to walk outside. Watching the trees move in the breeze helped me slow down my racing thoughts about project deadlines.',
-    mood: 'good',
-    prompt: 'What was one good thing today?',
-    tags: ['Work', 'Outdoors', 'Relaxation']
-  },
-
-  {
-    id: 'j-2',
-    date: '2026-08-06',
-    timestamp: '2026-08-06T14:30:00Z',
-    title: 'Managing presentation anxiety',
-    content:
-      "Felt really nervous before the team demo today, but Mello's breathing bloom exercise helped lower my heart rate. Proud that I got through it without rushing.",
-    mood: 'okay',
-    prompt: 'What felt difficult today?',
-    tags: ['College', 'Public Speaking', 'Progress']
-  }
-];
+export const INITIAL_JOURNALS: JournalEntry[] = [];
 
 /* =========================
    MOODS
 ========================= */
 
-export const INITIAL_MOODS: MoodEntry[] = [
-  {
-    id: 'm-1',
-    userId: 'usr-123',
-    date: '2026-08-03',
-    timestamp: '2026-08-03T09:00:00Z',
-    mood: 'okay',
-    note: 'Busy monday',
-    tags: ['Work']
-  },
-
-  {
-    id: 'm-2',
-    userId: 'usr-123',
-    date: '2026-08-04',
-    timestamp: '2026-08-04T09:00:00Z',
-    mood: 'good',
-    note: 'Good sleep last night',
-    tags: ['Sleep']
-  },
-
-  {
-    id: 'm-3',
-    userId: 'usr-123',
-    date: '2026-08-05',
-    timestamp: '2026-08-05T09:00:00Z',
-    mood: 'low',
-    note: 'Stressed about exams',
-    tags: ['College']
-  },
-
-  {
-    id: 'm-4',
-    userId: 'usr-123',
-    date: '2026-08-06',
-    timestamp: '2026-08-06T09:00:00Z',
-    mood: 'okay',
-    note: 'Felt a bit overwhelmed mid-day',
-    tags: ['Work', 'Social']
-  },
-
-  {
-    id: 'm-5',
-    userId: 'usr-123',
-    date: '2026-08-07',
-    timestamp: '2026-08-07T09:00:00Z',
-    mood: 'good',
-    note: 'Had coffee with a friend',
-    tags: ['Relationships']
-  },
-
-  {
-    id: 'm-6',
-    userId: 'usr-123',
-    date: '2026-08-08',
-    timestamp: '2026-08-08T09:00:00Z',
-    mood: 'great',
-    note: 'Finished major milestone!',
-    tags: ['Progress', 'Work']
-  },
-
-  {
-    id: 'm-7',
-    userId: 'usr-123',
-    date: '2026-08-09',
-    timestamp: '2026-08-09T09:00:00Z',
-    mood: 'good',
-    note: 'Feeling peaceful and ready for the day',
-    tags: ['Self-care']
-  }
-];
+export const INITIAL_MOODS: MoodEntry[] = [];
 
 /* =========================
    SAFETY RESOURCES

@@ -1,12 +1,12 @@
 
 
 import React from 'react';
-import { Flame, Sparkles, ShieldAlert, Bell, Heart } from 'lucide-react';
+import { Flame, Sparkles, ShieldAlert, Moon, Sun } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { MelloAvatar } from '../common/MelloAvatar';
 
 export const Header: React.FC = () => {
-  const { user, activeTab, navigate, openSafetyModal } = useApp();
+  const { user, activeTab, theme, navigate, openSafetyModal, toggleTheme } = useApp();
   const avatarUrl = user.avatar && /^https?:\/\//i.test(user.avatar) ? user.avatar : null;
 
   if (activeTab === 'landing' || activeTab === 'auth' || activeTab === 'onboarding') {
@@ -30,6 +30,17 @@ export const Header: React.FC = () => {
 
       {/* Gamification Stats & Header Controls */}
       <div className="flex items-center space-x-2 sm:space-x-4">
+        {/* Theme Toggle */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="flex items-center justify-center w-10 h-10 rounded-xl border border-purple-200 bg-white/90 text-slate-700 shadow-sm transition hover:bg-purple-50 dark-mode-toggle"
+          aria-label="Toggle dark mode"
+          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
+
         {/* Streak */}
         <div className="flex items-center space-x-1.5 bg-amber-50 text-amber-800 px-3 py-1.5 rounded-xl border border-amber-200 text-xs sm:text-sm font-semibold">
           <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />

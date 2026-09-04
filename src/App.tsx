@@ -49,7 +49,7 @@ import { AdminPage } from './pages/AdminPage';
 ========================================================= */
 
 const MainContent: React.FC = () => {
-  const { activeTab } = useApp();
+  const { activeTab, theme } = useApp();
 
   const renderTab = () => {
     switch (activeTab) {
@@ -170,16 +170,11 @@ const MainContent: React.FC = () => {
 
   return (
     <div
-      className="
-        min-h-screen
-        flex
-        flex-col
-        bg-slate-50
-        font-sans
-        text-slate-800
-        antialiased
-        selection:bg-purple-200
-      "
+      className={
+        theme === 'dark'
+          ? 'theme-dark min-h-screen flex flex-col font-sans antialiased selection:bg-purple-500/30'
+          : 'theme-light min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800 antialiased selection:bg-purple-200'
+      }
     >
 
       {/* =====================================================

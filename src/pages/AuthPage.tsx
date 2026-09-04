@@ -3,6 +3,7 @@ import { ArrowLeft, Lock, Mail, User, ShieldCheck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { MelloAvatar } from '../components/common/MelloAvatar';
 import { firebaseService } from '../services/firebaseService';
+import { storageService } from '../services/storageService';
 
 export const AuthPage: React.FC = () => {
   const { navigate, updateUser, showToast } = useApp();
@@ -28,6 +29,12 @@ export const AuthPage: React.FC = () => {
         }
 
         const result = await firebaseService.signUpWithEmail(email, password, name || 'Friend');
+        const existingUser = storageService.getUser();
+
+        if (!existingUser.email || existingUser.email === 'arjun@mello.app' || existingUser.name === 'Arjun' || existingUser.email !== (result.email || email)) {
+          storageService.resetDemoData();
+        }
+
         updateUser({
           name: result.displayName || name || 'Friend',
           email: result.email || email,
@@ -35,6 +42,11 @@ export const AuthPage: React.FC = () => {
           ageConfirmed,
           privacyAgreed,
           onboardingCompleted: false,
+          streak: 0,
+          mindPoints: 0,
+          xp: 0,
+          level: 1,
+          goals: [],
         });
         showToast('Account created! Welcome to Mello.', 'success');
         navigate('onboarding');
@@ -42,11 +54,22 @@ export const AuthPage: React.FC = () => {
       }
 
       const result = await firebaseService.signInWithEmail(email, password);
+      const existingUser = storageService.getUser();
+
+      if (!existingUser.email || existingUser.email === 'arjun@mello.app' || existingUser.name === 'Arjun' || existingUser.email !== (result.email || email)) {
+        storageService.resetDemoData();
+      }
+
       updateUser({
         name: result.displayName || 'Friend',
         email: result.email || email,
         avatar: result.avatar || '💜',
         onboardingCompleted: true,
+        streak: 0,
+        mindPoints: 0,
+        xp: 0,
+        level: 1,
+        goals: [],
       });
       showToast('Welcome back to Mello!', 'success');
       navigate('home');
@@ -62,11 +85,22 @@ export const AuthPage: React.FC = () => {
     try {
       setIsAuthenticating(true);
       const result = await firebaseService.signInWithGoogle();
+      const existingUser = storageService.getUser();
+
+      if (!existingUser.email || existingUser.email === 'arjun@mello.app' || existingUser.name === 'Arjun' || existingUser.email !== (result.email || 'user@gmail.com')) {
+        storageService.resetDemoData();
+      }
+
       updateUser({
         name: result.displayName || 'Google User',
         email: result.email || 'user@gmail.com',
         avatar: result.avatar || '🌟',
         onboardingCompleted: true,
+        streak: 0,
+        mindPoints: 0,
+        xp: 0,
+        level: 1,
+        goals: [],
       });
       showToast('Signed in with Google!', 'success');
       navigate('home');

@@ -59,8 +59,12 @@ interface Toast {
    APP CONTEXT TYPE
 ========================================================= */
 
+type ThemeMode = 'light' | 'dark';
+
 interface AppContextType {
   user: UserProfile;
+
+  theme: ThemeMode;
 
   moods: MoodEntry[];
 
@@ -172,6 +176,12 @@ interface AppContextType {
   updateUser: (
     fields: Partial<UserProfile>
   ) => void;
+
+  /* =====================================================
+     THEME
+  ===================================================== */
+
+  toggleTheme: () => void;
 
   /* =====================================================
      SAFETY
@@ -288,6 +298,18 @@ export const AppProvider: React.FC<{
   const [activeTab, setActiveTab] =
     useState<AppTab>('landing');
 
+  const [theme, setTheme] =
+    useState<ThemeMode>(() => {
+      if (typeof window === 'undefined') {
+        return 'light';
+      }
+
+      const savedTheme =
+        window.localStorage.getItem('mello-theme');
+
+      return savedTheme === 'dark' ? 'dark' : 'light';
+    });
+
   const [selectedGameId, setSelectedGameId] =
     useState<string | null>(null);
 
@@ -303,6 +325,14 @@ export const AppProvider: React.FC<{
   /* =====================================================
      LOCAL STORAGE
   ===================================================== */
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('theme-dark', theme === 'dark');
+    root.classList.toggle('theme-light', theme === 'light');
+    root.setAttribute('data-theme', theme);
+    window.localStorage.setItem('mello-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     storageService.saveUser(user);
@@ -843,6 +873,14 @@ export const AppProvider: React.FC<{
   };
 
   /* =====================================================
+     THEME
+  ===================================================== */
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  /* =====================================================
      SAFETY
   ===================================================== */
 
@@ -949,6 +987,8 @@ export const AppProvider: React.FC<{
 
         user,
 
+        theme,
+
         moods,
 
         journals,
@@ -1000,6 +1040,8 @@ export const AppProvider: React.FC<{
         completeNode,
 
         updateUser,
+
+        toggleTheme,
 
         openSafetyModal,
 

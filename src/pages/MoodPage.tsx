@@ -30,17 +30,27 @@ export const MoodPage: React.FC = () => {
     setNote('');
   };
 
-  // Weekly dataset for visual graph representation
   const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const moodScoreMap: Record<string, number> = {
-    '2026-08-03': 3,
-    '2026-08-04': 4,
-    '2026-08-05': 2,
-    '2026-08-06': 3,
-    '2026-08-07': 4,
-    '2026-08-08': 5,
-    '2026-08-09': 4,
-  };
+  const recentMoodEntries = [...moods]
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .slice(-7);
+
+  const moodChartData = daysOfWeek.map((day, index) => {
+    const entry = recentMoodEntries[index];
+
+    if (!entry) {
+      return { day, emoji: '—', score: 0, hasData: false };
+    }
+
+    const score = moodConfig[entry.mood]?.val ?? 3;
+
+    return {
+      day,
+      emoji: moodConfig[entry.mood]?.emoji ?? '😐',
+      score,
+      hasData: true,
+    };
+  });
 
   return (
     <div className="space-y-8 pb-10 max-w-5xl mx-auto">
@@ -153,19 +163,18 @@ export const MoodPage: React.FC = () => {
 
             {/* Visual Bar Chart */}
             <div className="h-44 bg-gradient-to-b from-purple-50/40 to-white rounded-2xl p-4 border border-purple-100 flex items-end justify-between gap-2">
-              {daysOfWeek.map((day, idx) => {
-                const score = idx === 6 ? moodConfig[selectedMood].val : (idx === 5 ? 5 : (idx === 4 ? 4 : (idx === 3 ? 3 : (idx === 2 ? 2 : 4))));
-                const heightPercent = (score / 5) * 100;
+              {moodChartData.map((bar) => {
+                const heightPercent = bar.hasData ? (bar.score / 5) * 100 : 0;
                 return (
-                  <div key={day} className="flex-1 flex flex-col items-center space-y-2 h-full justify-end">
-                    <span className="text-xs">{score === 5 ? '😊' : score === 4 ? '🙂' : score === 3 ? '😐' : score === 2 ? '😔' : '😣'}</span>
+                  <div key={bar.day} className="flex-1 flex flex-col items-center space-y-2 h-full justify-end">
+                    <span className="text-xs">{bar.emoji}</span>
                     <div className="w-full bg-slate-100 rounded-full h-full max-h-[100px] flex items-end overflow-hidden">
                       <div
                         className="w-full bg-gradient-to-t from-purple-500 to-indigo-500 rounded-t-full transition-all duration-500"
                         style={{ height: `${heightPercent}%` }}
                       />
                     </div>
-                    <span className="text-[11px] font-bold text-slate-500">{day}</span>
+                    <span className="text-[11px] font-bold text-slate-500">{bar.day}</span>
                   </div>
                 );
               })}
