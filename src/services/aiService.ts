@@ -212,7 +212,7 @@ class AIService {
       this.getSuggestedActivity(userMessage);
 
     await new Promise((resolve) =>
-      setTimeout(resolve, 400)
+      setTimeout(resolve, 500)
     );
 
     return {

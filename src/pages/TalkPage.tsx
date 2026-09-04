@@ -19,6 +19,7 @@ export const TalkPage: React.FC = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [voiceError, setVoiceError] = useState('');
@@ -116,15 +117,42 @@ export const TalkPage: React.FC = () => {
     setMessages(prev => [...prev, userMessage]);
     if (!textToSend) setInputText('');
     setIsTyping(true);
+    setIsThinking(true);
+    setVoiceError('');
 
     try {
       const response = await aiService.generateResponse(text, messages, user.name || 'friend');
-      setIsTyping(false);
-      setMessages(prev => [...prev, response.message]);
 
-      if (voiceEnabled && response.message.text) {
-        speakText(response.message.text);
-      }
+      const messageId = response.message.id;
+      const fullText = response.message.text;
+      const streamingMessage = {
+        ...response.message,
+        text: ''
+      };
+
+      setMessages(prev => [...prev, streamingMessage]);
+      setIsThinking(false);
+
+      const charactersPerTick = Math.max(1, Math.min(2, Math.ceil(fullText.length / 42)));
+      let index = 0;
+      const streamInterval = window.setInterval(() => {
+        index += charactersPerTick;
+        const currentText = fullText.slice(0, index);
+
+        setMessages(prev => prev.map((msg) =>
+          msg.id === messageId ? { ...msg, text: currentText } : msg
+        ));
+
+        if (index >= fullText.length) {
+          clearInterval(streamInterval);
+          setIsTyping(false);
+          setIsThinking(false);
+
+          if (voiceEnabled && fullText) {
+            speakText(fullText);
+          }
+        }
+      }, 30);
 
       if (response.isSafetyTrigger) {
         openSafetyModal();
@@ -133,6 +161,7 @@ export const TalkPage: React.FC = () => {
       }
     } catch (e) {
       setIsTyping(false);
+      setIsThinking(false);
       setMessages(prev => [...prev, {
         id: 'err-' + Date.now(),
         sender: 'mello',
@@ -153,7 +182,7 @@ export const TalkPage: React.FC = () => {
               Talk with Mello <span className="text-[10px] font-extrabold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">AI Companion</span>
             </h2>
             <p className="text-xs text-slate-500">
-              {isTyping ? 'Mello is reflecting...' : 'Online & listening • Non-judgmental space'}
+              {isTyping ? (isThinking ? 'Mello is thinking...' : 'Mello is reflecting...') : 'Online & listening • Non-judgmental space'}
             </p>
           </div>
         </div>
@@ -260,10 +289,15 @@ export const TalkPage: React.FC = () => {
         {isTyping && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center space-x-2 text-xs text-purple-600 font-medium">
             <MelloAvatar size="sm" mood="listening" />
-            <div className="flex space-x-1 bg-white p-3 rounded-2xl border border-purple-100 shadow-xs">
-              <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" />
-              <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-              <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-2xl border border-purple-100 shadow-xs">
+              <span className="text-[11px] font-semibold text-purple-700">
+                {isThinking ? 'Thinking' : 'Reflecting'}
+              </span>
+              <div className="flex space-x-1">
+                <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" />
+                <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+                <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+              </div>
             </div>
           </motion.div>
         )}
