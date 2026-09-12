@@ -5,6 +5,7 @@ import { useApp } from '../context/AppContext';
 
 export const JourneyPage: React.FC = () => {
   const { user, journey, completeNode, navigate, showToast } = useApp();
+  const xpIntoLevel = user.xp % 100;
 
   const handleNodeClick = (levelId: number, nodeId: string, completed: boolean, unlocked: boolean, type: string) => {
     if (!unlocked) {
@@ -48,12 +49,12 @@ export const JourneyPage: React.FC = () => {
         <div className="space-y-1.5 pt-2">
           <div className="flex justify-between text-xs font-semibold text-purple-100">
             <span>LEVEL {user.level}</span>
-            <span>{user.xp} / 1000 XP</span>
+            <span>{xpIntoLevel} / 100 XP</span>
           </div>
           <div className="w-full h-3 bg-black/20 rounded-full overflow-hidden">
             <div 
               className="h-full bg-gradient-to-r from-amber-300 to-amber-500 rounded-full transition-all duration-500" 
-              style={{ width: `${Math.min(100, (user.xp / 1000) * 100)}%` }} 
+              style={{ width: `${xpIntoLevel}%` }} 
             />
           </div>
         </div>

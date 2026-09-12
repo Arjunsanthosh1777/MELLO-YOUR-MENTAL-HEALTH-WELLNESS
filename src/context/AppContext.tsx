@@ -16,6 +16,26 @@ import {
 
 import { storageService } from '../services/storageService';
 
+const normalizeJourneyProgress = (
+  levels: JourneyLevel[]
+): JourneyLevel[] => {
+  let previousLevelCompleted = true;
+
+  return levels.map(level => {
+    const completed =
+      level.nodes.length > 0 &&
+      level.nodes.every(node => node.completed);
+
+    const unlocked = previousLevelCompleted;
+    previousLevelCompleted = completed;
+
+    return {
+      ...level,
+      unlocked,
+    };
+  });
+};
+
 /* =========================================================
    APP TABS
 ========================================================= */
@@ -261,7 +281,7 @@ export const AppProvider: React.FC<{
 
   const [journey, setJourney] =
     useState<JourneyLevel[]>(() =>
-      storageService.getJourney()
+      normalizeJourneyProgress(storageService.getJourney())
     );
 
   /* =====================================================
@@ -822,8 +842,19 @@ export const AppProvider: React.FC<{
     nodeId: string
   ) => {
 
+    const level = journey.find(
+      currentLevel => currentLevel.id === levelId
+    );
+    const node = level?.nodes.find(
+      currentNode => currentNode.id === nodeId
+    );
+
+    if (!node || node.completed || !level?.unlocked) {
+      return;
+    }
+
     setJourney(prev =>
-      prev.map(level => {
+      normalizeJourneyProgress(prev.map(level => {
 
         if (
           level.id !==
@@ -849,11 +880,11 @@ export const AppProvider: React.FC<{
                   : node
             ),
         };
-      })
+      }))
     );
 
     earnXP(
-      15,
+      node.xp,
       'Journey Activity'
     );
   };
@@ -920,7 +951,7 @@ export const AppProvider: React.FC<{
     );
 
     setJourney(
-      storageService.getJourney()
+      normalizeJourneyProgress(storageService.getJourney())
     );
 
     setAchievements(
