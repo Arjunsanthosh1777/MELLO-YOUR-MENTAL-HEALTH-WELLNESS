@@ -13,6 +13,9 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  type ConfirmationResult,
   type User,
 } from 'firebase/auth';
 
@@ -48,6 +51,8 @@ export const getFirebaseApp = (): FirebaseApp | null => {
 export class FirebaseService {
   private isConfigured: boolean;
   private app: FirebaseApp | null = null;
+  private phoneConfirmation: ConfirmationResult | null = null;
+  private phoneRecaptcha: RecaptchaVerifier | null = null;
   private authState: {
     currentUser: {
       uid?: string;
@@ -93,7 +98,6 @@ export class FirebaseService {
 
   public async signInWithEmail(email: string, pass: string) {
     if (this.isConfigured && this.app) {
-      const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
       const auth = getAuth(this.app);
       const result = await signInWithEmailAndPassword(auth, email, pass);
       this.syncAuthUser(result.user);
@@ -111,10 +115,10 @@ export class FirebaseService {
 
   public async signUpWithEmail(email: string, pass: string, name: string) {
     if (this.isConfigured && this.app) {
-      const { getAuth, createUserWithEmailAndPassword, updateProfile } = await import('firebase/auth');
       const auth = getAuth(this.app);
       const result = await createUserWithEmailAndPassword(auth, email, pass);
       if (name && auth.currentUser) {
+        const { updateProfile } = await import('firebase/auth');
         await updateProfile(auth.currentUser, { displayName: name });
       }
       this.syncAuthUser(result.user);
@@ -132,7 +136,6 @@ export class FirebaseService {
 
   public async signInWithGoogle() {
     if (this.isConfigured && this.app) {
-      const { getAuth, GoogleAuthProvider, signInWithPopup } = await import('firebase/auth');
       const auth = getAuth(this.app);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
@@ -151,6 +154,43 @@ export class FirebaseService {
       email: this.authState.currentUser.email,
       displayName: this.authState.currentUser.displayName,
       avatar: this.authState.currentUser.photoURL,
+    };
+  }
+
+  public async sendPhoneCode(phoneNumber: string, recaptchaContainerId: string): Promise<void> {
+    if (!this.isConfigured || !this.app) {
+      throw new Error('Phone authentication is unavailable in demo mode.');
+    }
+
+    const auth = getAuth(this.app);
+    this.phoneRecaptcha?.clear();
+    this.phoneRecaptcha = new RecaptchaVerifier(auth, recaptchaContainerId, {
+      size: 'invisible',
+    });
+    this.phoneConfirmation = await signInWithPhoneNumber(
+      auth,
+      phoneNumber,
+      this.phoneRecaptcha
+    );
+  }
+
+  public async confirmPhoneCode(code: string) {
+    if (!this.phoneConfirmation) {
+      throw new Error('Request a verification code first.');
+    }
+
+    const result = await this.phoneConfirmation.confirm(code);
+    this.syncAuthUser(result.user);
+    this.phoneConfirmation = null;
+    this.phoneRecaptcha?.clear();
+    this.phoneRecaptcha = null;
+
+    return {
+      uid: result.user.uid,
+      email: result.user.email,
+      displayName: result.user.displayName,
+      avatar: result.user.photoURL,
+      phoneNumber: result.user.phoneNumber,
     };
   }
 }

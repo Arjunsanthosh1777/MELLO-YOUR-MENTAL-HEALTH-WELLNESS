@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Lock, Mail, User, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Lock, Mail, User, ShieldCheck, Phone } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { MelloAvatar } from '../components/common/MelloAvatar';
 import { firebaseService } from '../services/firebaseService';
@@ -14,6 +14,10 @@ export const AuthPage: React.FC = () => {
   const [ageConfirmed, setAgeConfirmed] = useState(true);
   const [privacyAgreed, setPrivacyAgreed] = useState(true);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [isPhoneMode, setIsPhoneMode] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [phoneCode, setPhoneCode] = useState('');
+  const [phoneCodeSent, setPhoneCodeSent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,6 +116,40 @@ export const AuthPage: React.FC = () => {
     }
   };
 
+  const handlePhoneAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setIsAuthenticating(true);
+
+      if (!phoneCodeSent) {
+        await firebaseService.sendPhoneCode(phone, 'phone-recaptcha');
+        setPhoneCodeSent(true);
+        showToast('Verification code sent.', 'success');
+        return;
+      }
+
+      const result = await firebaseService.confirmPhoneCode(phoneCode);
+      updateUser({
+        name: result.displayName || 'Friend',
+        email: result.email || '',
+        avatar: result.avatar || '💜',
+        onboardingCompleted: true,
+        streak: 0,
+        mindPoints: 0,
+        xp: 0,
+        level: 1,
+        goals: [],
+      });
+      showToast('Signed in with phone!', 'success');
+      navigate('home');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Phone authentication failed.';
+      showToast(message, 'info');
+    } finally {
+      setIsAuthenticating(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 flex flex-col justify-between p-4 sm:p-6">
       <div className="max-w-md w-full mx-auto my-auto bg-white rounded-3xl shadow-mello-lg border border-purple-100 p-6 sm:p-8 space-y-6">
@@ -155,8 +193,58 @@ export const AuthPage: React.FC = () => {
           <div className="flex-1 h-px bg-slate-200" />
         </div>
 
+        <button
+          type="button"
+          onClick={() => {
+            setIsPhoneMode(prev => !prev);
+            setPhoneCodeSent(false);
+          }}
+          className="w-full py-3 px-4 bg-white hover:bg-purple-50 border border-purple-200 text-purple-700 font-bold rounded-2xl flex items-center justify-center gap-2 text-sm transition-colors"
+        >
+          <Phone className="w-4 h-4" />
+          {isPhoneMode ? 'Use email instead' : 'Continue with phone'}
+        </button>
+
         {/* Email Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={isPhoneMode ? handlePhoneAuth : handleSubmit} className="space-y-4">
+          {isPhoneMode ? (
+            <>
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">Phone Number</label>
+                <div className="relative">
+                  <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+1 555 123 4567"
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                    required
+                    disabled={phoneCodeSent}
+                  />
+                </div>
+                <p className="text-[10px] text-slate-500 mt-1">Use international format, including the country code.</p>
+              </div>
+
+              {phoneCodeSent && (
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">Verification Code</label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={phoneCode}
+                    onChange={(e) => setPhoneCode(e.target.value)}
+                    placeholder="123456"
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                    required
+                  />
+                </div>
+              )}
+
+              <div id="phone-recaptcha" />
+            </>
+          ) : (
+            <>
           {isSignUp && (
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1">Your Preferred Name</label>
@@ -226,13 +314,15 @@ export const AuthPage: React.FC = () => {
               </label>
             </div>
           )}
+            </>
+          )}
 
           <button
             type="submit"
             disabled={isAuthenticating}
             className="w-full py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-2xl shadow-mello transition-all text-sm mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {isAuthenticating ? 'Please wait...' : isSignUp ? 'Create Account' : 'Sign In'}
+            {isAuthenticating ? 'Please wait...' : isPhoneMode ? (phoneCodeSent ? 'Verify Code' : 'Send Code') : isSignUp ? 'Create Account' : 'Sign In'}
           </button>
         </form>
 
