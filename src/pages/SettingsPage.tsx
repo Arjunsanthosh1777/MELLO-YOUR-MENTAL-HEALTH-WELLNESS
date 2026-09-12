@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-import { Settings, Bell, Moon, Sun, Shield, Lock, Volume2 } from 'lucide-react';
+import { Settings, Bell, Moon, Sun, Shield, Lock, Volume2, Brain, Trash2 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const SettingsPage: React.FC = () => {
-  const { user, updateUser, showToast } = useApp();
+  const {
+    user,
+    updateUser,
+    showToast,
+    melloMemories,
+    melloMemoryEnabled,
+    setMelloMemoryEnabled,
+    deleteMelloMemory,
+    clearMelloMemories,
+  } = useApp();
   const [dailyReminder, setDailyReminder] = useState(true);
   const [eveningReflection, setEveningReflection] = useState(true);
   const [wellnessActivity, setWellnessActivity] = useState(true);
@@ -83,6 +92,66 @@ export const SettingsPage: React.FC = () => {
         >
           Save Notification Settings
         </button>
+      </div>
+
+      <div className="bg-white p-6 rounded-3xl shadow-mello border border-purple-100 space-y-5">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="font-bold text-slate-900 text-base flex items-center gap-2">
+              <Brain className="w-4 h-4 text-purple-600" /> Mello Memory
+            </h3>
+            <p className="text-xs text-slate-500 mt-1">
+              Mello can remember useful things to make future conversations more personalized.
+            </p>
+          </div>
+          <input
+            type="checkbox"
+            checked={melloMemoryEnabled}
+            onChange={(event) => setMelloMemoryEnabled(event.target.checked)}
+            className="w-5 h-5 accent-purple-600 rounded cursor-pointer shrink-0"
+            aria-label="Enable Mello Memory"
+          />
+        </div>
+
+        {melloMemoryEnabled && (
+          <>
+            <div className="space-y-2">
+              {melloMemories.length === 0 ? (
+                <p className="text-xs text-slate-500 bg-slate-50 rounded-2xl p-3">
+                  No saved memories yet. Mello only saves useful, longer-term details you explicitly share.
+                </p>
+              ) : (
+                melloMemories.map(memory => (
+                  <div key={memory.id} className="flex items-center justify-between gap-3 bg-slate-50 rounded-2xl p-3">
+                    <p className="text-xs text-slate-700">{memory.value}</p>
+                    <button
+                      type="button"
+                      onClick={() => deleteMelloMemory(memory.id)}
+                      className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
+                      title="Delete memory"
+                      aria-label={`Delete memory: ${memory.value}`}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {melloMemories.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  clearMelloMemories();
+                  showToast('Mello memories cleared.', 'success');
+                }}
+                className="text-xs font-bold text-rose-600 hover:text-rose-700"
+              >
+                Clear Mello memories
+              </button>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

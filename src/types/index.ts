@@ -51,6 +51,18 @@ export interface ChatMessage {
   isSafetyTrigger?: boolean;
 }
 
+export interface MelloMemory {
+  id: string;
+  userId: string;
+  category: 'concern' | 'preference' | 'goal' | 'pattern';
+  value: string;
+  importance: number;
+  type: 'temporary' | 'persistent';
+  keywords: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface GameInfo {
   id: string;
   title: string;

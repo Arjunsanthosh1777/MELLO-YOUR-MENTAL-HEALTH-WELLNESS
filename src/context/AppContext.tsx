@@ -12,9 +12,18 @@ import {
   JourneyLevel,
   Achievement,
   MoodType,
+  MelloMemory,
 } from '../types';
 
 import { storageService } from '../services/storageService';
+import { aiService } from '../services/aiService';
+import {
+  deleteMemory,
+  clearAllMemories,
+  fetchMemories,
+  migrateLegacyMemories,
+  saveMemory,
+} from '../services/melloMemoryService';
 
 const normalizeJourneyProgress = (
   levels: JourneyLevel[]
@@ -122,6 +131,10 @@ interface AppContextType {
 
   toast: Toast | null;
 
+  melloMemories: MelloMemory[];
+
+  melloMemoryEnabled: boolean;
+
   /* =====================================================
      NAVIGATION
   ===================================================== */
@@ -219,6 +232,14 @@ interface AppContextType {
     text: string,
     type?: 'xp' | 'success' | 'info'
   ) => void;
+
+  setMelloMemoryEnabled: (enabled: boolean) => void;
+
+  deleteMelloMemory: (id: string) => void;
+
+  clearMelloMemories: () => void;
+
+  rememberMelloMessage: (text: string) => void;
 
   /* =====================================================
      DEMO
@@ -342,6 +363,12 @@ export const AppProvider: React.FC<{
   const [toast, setToast] =
     useState<Toast | null>(null);
 
+  const [melloMemories, setMelloMemories] =
+    useState<MelloMemory[]>([]);
+
+  const [melloMemoryEnabled, setMelloMemoryEnabledState] =
+    useState<boolean>(() => storageService.getMelloMemoryEnabled(user.id));
+
   /* =====================================================
      LOCAL STORAGE
   ===================================================== */
@@ -357,6 +384,26 @@ export const AppProvider: React.FC<{
   useEffect(() => {
     storageService.saveUser(user);
   }, [user]);
+
+  useEffect(() => {
+    setMelloMemoryEnabledState(storageService.getMelloMemoryEnabled(user.id));
+
+    let active = true;
+    const loadMemories = async () => {
+      await migrateLegacyMemories(user.id);
+      const memories = await fetchMemories(user.id);
+      if (active) setMelloMemories(memories);
+    };
+
+    void loadMemories();
+    return () => {
+      active = false;
+    };
+  }, [user.id]);
+
+  useEffect(() => {
+    storageService.saveMelloMemoryEnabled(user.id, melloMemoryEnabled);
+  }, [user.id, melloMemoryEnabled]);
 
   useEffect(() => {
     storageService.saveMoods(moods);
@@ -833,6 +880,52 @@ export const AppProvider: React.FC<{
     );
   };
 
+  const setMelloMemoryEnabled = (enabled: boolean) => {
+    setMelloMemoryEnabledState(enabled);
+  };
+
+  const deleteMelloMemory = (id: string) => {
+    setMelloMemories(prev => prev.filter(memory => memory.id !== id));
+    void deleteMemory(user.id, id);
+  };
+
+  const clearMelloMemories = () => {
+    setMelloMemories([]);
+    void clearAllMemories(user.id);
+  };
+
+  const rememberMelloMessage = (text: string) => {
+    if (!melloMemoryEnabled) return;
+
+    const extracted = aiService.extractMemories(text);
+    if (extracted.length === 0) return;
+
+    extracted.forEach(memory => {
+      void saveMemory(user.id, {
+        category: memory.category,
+        value: memory.value,
+        importance: memory.importance,
+        type: memory.type,
+        keywords: memory.keywords,
+      }).then(savedMemory => {
+        setMelloMemories(prev => {
+          const existingIndex = prev.findIndex(existing =>
+            existing.category === savedMemory.category &&
+            existing.keywords.some(keyword => savedMemory.keywords.includes(keyword))
+          );
+
+          if (existingIndex >= 0) {
+            const next = [...prev];
+            next[existingIndex] = savedMemory;
+            return next;
+          }
+
+          return [savedMemory, ...prev].slice(0, 20);
+        });
+      });
+    });
+  };
+
   /* =====================================================
      JOURNEY
   ===================================================== */
@@ -954,6 +1047,8 @@ export const AppProvider: React.FC<{
       normalizeJourneyProgress(storageService.getJourney())
     );
 
+    setMelloMemories([]);
+
     setAchievements(
       storageService
         .getAchievements()
@@ -1052,6 +1147,10 @@ export const AppProvider: React.FC<{
 
         toast,
 
+        melloMemories,
+
+        melloMemoryEnabled,
+
         /* Functions */
 
         navigate,
@@ -1079,6 +1178,14 @@ export const AppProvider: React.FC<{
         closeSafetyModal,
 
         showToast,
+
+        setMelloMemoryEnabled,
+
+        deleteMelloMemory,
+
+        clearMelloMemories,
+
+        rememberMelloMessage,
 
         resetDemoData,
 

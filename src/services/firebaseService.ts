@@ -41,6 +41,10 @@ export const isFirebaseConfigured = (): boolean => {
   return Boolean(cfg.apiKey && cfg.projectId);
 };
 
+export const getFirebaseApp = (): FirebaseApp | null => {
+  return getApps()[0] ?? null;
+};
+
 export class FirebaseService {
   private isConfigured: boolean;
   private app: FirebaseApp | null = null;

@@ -1,4 +1,4 @@
-import { ChatMessage } from '../types';
+import { ChatMessage, MelloMemory } from '../types';
 
 /* =========================================================
    SAFETY KEYWORDS
@@ -56,6 +56,7 @@ export interface MoodResult {
 export interface AIResponse {
   message: ChatMessage;
   isSafetyTrigger: boolean;
+  usedContext: boolean;
 }
 
 /* =========================================================
@@ -84,7 +85,8 @@ class AIService {
   private async getGeminiReply(
     userMessage: string,
     history: ChatMessage[],
-    userName: string
+    userName: string,
+    relevantMemories: MelloMemory[]
   ): Promise<string | null> {
     if (!this.apiKey) {
       return null;
@@ -96,7 +98,10 @@ class AIService {
         parts: [{ text: msg.text }],
       }));
 
-      const prompt = `You are Mello, a warm, empathetic mental wellness AI companion. Speak in a caring, supportive tone. Keep responses concise but helpful. Avoid clinical diagnosis. User name: ${userName}. Current user message: ${userMessage}. Conversation history: ${JSON.stringify(recentHistory)}.`;
+      const memoryContext = relevantMemories.length > 0
+        ? `Relevant user context (use naturally and only when helpful): ${JSON.stringify(relevantMemories.map(memory => memory.value))}`
+        : 'No relevant long-term user context is available.';
+      const prompt = `You are Mello, a warm, empathetic mental wellness AI companion. Speak in a caring, supportive tone. Keep responses concise but helpful. Avoid clinical diagnosis and never present memories as diagnoses. Do not repeat questions already answered. Refer to relevant context naturally without phrases like "as you mentioned earlier". User name: ${userName}. Current user message: ${userMessage}. Conversation history: ${JSON.stringify(recentHistory)}. ${memoryContext}`;
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.apiKey}`,
@@ -159,11 +164,13 @@ class AIService {
   public async generateResponse(
     userMessage: string,
     history: ChatMessage[],
-    userName: string = 'friend'
+    userName: string = 'friend',
+    memories: MelloMemory[] = []
   ): Promise<AIResponse> {
     if (this.checkSafety(userMessage)) {
       return {
         isSafetyTrigger: true,
+        usedContext: false,
 
         message: {
           id: 'safety-' + Date.now(),
@@ -187,16 +194,19 @@ class AIService {
       };
     }
 
+    const relevantMemories = this.getRelevantMemories(userMessage, memories);
     let responseText = this.getIntelligentResponse(
       userMessage,
       history,
-      userName
+      userName,
+      relevantMemories
     );
 
     const geminiReply = await this.getGeminiReply(
       userMessage,
       history,
-      userName
+      userName,
+      relevantMemories
     );
 
     if (geminiReply) {
@@ -217,6 +227,7 @@ class AIService {
 
     return {
       isSafetyTrigger: false,
+      usedContext: relevantMemories.length > 0,
 
       message: {
         id: 'msg-' + Date.now(),
@@ -241,9 +252,23 @@ class AIService {
   private getIntelligentResponse(
     text: string,
     _history: ChatMessage[],
-    name: string
+    name: string,
+    relevantMemories: MelloMemory[]
   ): string {
     const lower = text.toLowerCase();
+
+    if (relevantMemories.length > 0 && (
+      lower.includes('terrible') ||
+      lower.includes('awful') ||
+      lower.includes('bad') ||
+      lower.includes('overwhelmed') ||
+      lower.includes('stress') ||
+      lower.includes('pressure') ||
+      lower.includes('concentrate') ||
+      lower.includes('focus')
+    )) {
+      return `That sounds heavy today, ${name}. Is ${relevantMemories[0].value.toLowerCase()} part of what is weighing on you, or is something else going on?`;
+    }
 
     if (
       lower.includes('overwhelmed') ||
@@ -317,6 +342,57 @@ class AIService {
     }
 
     return `Thank you for sharing that with me, ${name}. 💜 I'm here to listen without judgment. Tell me a little more about what's on your mind.`;
+  }
+
+  public extractMemories(text: string): MelloMemory[] {
+    const value = text.trim().replace(/[.!?]+$/, '');
+    const lower = value.toLowerCase();
+
+    if (!value || /\b(today|right now|this morning|at the moment)\b/i.test(value)) {
+      return [];
+    }
+
+    let category: MelloMemory['category'] | null = null;
+    if (/\b(i prefer|i like|i enjoy|i love|my favorite)\b/i.test(value)) {
+      category = 'preference';
+    } else if (/\b(i want to|i'm working toward|i am working toward|my goal is)\b/i.test(value)) {
+      category = 'goal';
+    } else if (/\b(exams?|studying|work|college|job|money|family|sleep)\b/i.test(value) &&
+      /\b(stress|stressed|pressure|worry|worried|difficult|hard|struggle)\b/i.test(value)) {
+      category = 'concern';
+    }
+
+    if (!category) return [];
+
+    const keywords = lower
+      .split(/[^a-z0-9]+/)
+      .filter(word => word.length > 3 && !['that', 'this', 'with', 'have', 'been', 'really', 'very'].includes(word))
+      .slice(0, 8);
+
+    return [{
+      id: `memory-${Date.now()}`,
+      category,
+      value,
+      importance: category === 'concern' ? 0.75 : 0.5,
+      userId: '',
+      type: category === 'concern' ? 'persistent' : 'persistent',
+      keywords,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }];
+  }
+
+  public getRelevantMemories(text: string, memories: MelloMemory[]): MelloMemory[] {
+    const words = new Set(text.toLowerCase().split(/[^a-z0-9]+/).filter(word => word.length > 3));
+    return memories
+      .map(memory => ({
+        memory,
+        score: memory.keywords.reduce((score, keyword) => score + (words.has(keyword) ? 1 : 0), 0),
+      }))
+      .filter(({ score }) => score > 0)
+      .sort((a, b) => b.score - a.score || b.memory.importance - a.memory.importance)
+      .slice(0, 3)
+      .map(({ memory }) => memory);
   }
 
   /* =======================================================

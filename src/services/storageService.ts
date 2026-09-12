@@ -8,7 +8,8 @@ import {
   JournalEntry,
   Therapist,
   Achievement,
-  SafetyResource
+  SafetyResource,
+  MelloMemory
 } from '../types';
 
 /* =========================
@@ -640,6 +641,30 @@ class StorageService {
 
   public saveUser(user: UserProfile): void {
     this.setItem<UserProfile>('user', user);
+  }
+
+  public getMelloMemories(userId: string): MelloMemory[] {
+    return this.getItem<MelloMemory[]>(`mello_memories_${userId}`, []);
+  }
+
+  public saveMelloMemories(userId: string, memories: MelloMemory[]): void {
+    this.setItem<MelloMemory[]>(`mello_memories_${userId}`, memories);
+  }
+
+  public getMelloMemoryEnabled(userId: string): boolean {
+    return this.getItem<boolean>(`mello_memory_enabled_${userId}`, true);
+  }
+
+  public saveMelloMemoryEnabled(userId: string, enabled: boolean): void {
+    this.setItem<boolean>(`mello_memory_enabled_${userId}`, enabled);
+  }
+
+  public getLegacyMelloMemories(userId: string): MelloMemory[] {
+    return this.getItem<MelloMemory[]>(`mello_memory_${userId}`, []);
+  }
+
+  public clearLegacyMelloMemories(userId: string): void {
+    localStorage.removeItem(this.prefix + `mello_memory_${userId}`);
   }
 
   /* MOODS */

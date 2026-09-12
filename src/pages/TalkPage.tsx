@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, ShieldAlert, Sparkles, Volume2, VolumeX, Mic, MicOff, ArrowRight } from 'lucide-react';
+import { Send, ShieldAlert, Sparkles, Volume2, VolumeX, Mic, MicOff, ArrowRight, Brain } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { ChatMessage } from '../types';
 import { aiService } from '../services/aiService';
 import { MelloAvatar } from '../components/common/MelloAvatar';
 
 export const TalkPage: React.FC = () => {
-  const { user, navigate, openSafetyModal, earnXP } = useApp();
+  const { user, navigate, openSafetyModal, earnXP, melloMemories, melloMemoryEnabled, rememberMelloMessage } = useApp();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'init-1',
@@ -119,9 +119,15 @@ export const TalkPage: React.FC = () => {
     setIsTyping(true);
     setIsThinking(true);
     setVoiceError('');
+    rememberMelloMessage(text.trim());
 
     try {
-      const response = await aiService.generateResponse(text, messages, user.name || 'friend');
+      const response = await aiService.generateResponse(
+        text,
+        messages,
+        user.name || 'friend',
+        melloMemoryEnabled ? melloMemories : []
+      );
 
       const messageId = response.message.id;
       const fullText = response.message.text;
@@ -181,8 +187,9 @@ export const TalkPage: React.FC = () => {
             <h2 className="text-lg font-bold font-heading text-slate-900 flex items-center gap-2">
               Talk with Mello <span className="text-[10px] font-extrabold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">AI Companion</span>
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 flex items-center gap-1">
               {isTyping ? (isThinking ? 'Mello is thinking...' : 'Mello is reflecting...') : 'Online & listening • Non-judgmental space'}
+              {melloMemoryEnabled && <span className="text-purple-600" title="Mello memory is enabled"><Brain className="w-3 h-3" /></span>}
             </p>
           </div>
         </div>

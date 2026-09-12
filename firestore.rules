@@ -1,0 +1,64 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /melloMemory/{userId}/items/{memoryId} {
+      function isOwner() {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+      function hasValidMemorySchema() {
+        return request.resource.data.keys().hasAll([
+          'id',
+          'userId',
+          'category',
+          'value',
+          'importance',
+          'type',
+          'keywords',
+          'createdAt',
+          'updatedAt'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'id',
+          'userId',
+          'category',
+          'value',
+          'importance',
+          'type',
+          'keywords',
+          'createdAt',
+          'updatedAt'
+        ])
+        && request.resource.data.id == memoryId
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.category is string
+        && request.resource.data.category in [
+          'concern',
+          'preference',
+          'goal',
+          'pattern'
+        ]
+        && request.resource.data.value is string
+        && request.resource.data.value.size() <= 500
+        && request.resource.data.importance is number
+        && request.resource.data.importance >= 0.0
+        && request.resource.data.importance <= 1.0
+        && request.resource.data.type is string
+        && request.resource.data.type in ['temporary', 'persistent']
+        && request.resource.data.keywords is list
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp;
+      }
+
+      allow read: if isOwner();
+      allow create: if isOwner() && hasValidMemorySchema();
+      allow update: if isOwner()
+        && hasValidMemorySchema()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.id == resource.data.id
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isOwner();
+    }
+  }
+}
