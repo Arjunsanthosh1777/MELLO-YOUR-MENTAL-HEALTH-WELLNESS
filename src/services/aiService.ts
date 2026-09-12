@@ -1,4 +1,17 @@
 import { ChatMessage, MelloMemory } from '../types';
+import { getAI, getGenerativeModel, GoogleAIBackend } from 'firebase/ai';
+import { getFirebaseApp, isFirebaseConfigured } from './firebaseService';
+
+const getGeminiModel = () => {
+  const firebaseApp = getFirebaseApp();
+
+  if (!firebaseApp || !isFirebaseConfigured()) {
+    return null;
+  }
+
+  const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
+  return getGenerativeModel(ai, { model: 'gemini-3.8-flash' });
+};
 
 /* =========================================================
    SAFETY KEYWORDS
@@ -64,8 +77,6 @@ export interface AIResponse {
 ========================================================= */
 
 class AIService {
-  private apiKey: string = '';
-
   private memory: {
     key: string;
     value: string;
@@ -75,20 +86,15 @@ class AIService {
 
   private moodModelLoading: Promise<any> | null = null;
 
-  constructor() {
-    this.apiKey =
-      import.meta.env.VITE_GEMINI_API_KEY ||
-      import.meta.env.VITE_AI_API_KEY ||
-      '';
-  }
-
   private async getGeminiReply(
     userMessage: string,
     history: ChatMessage[],
     userName: string,
     relevantMemories: MelloMemory[]
   ): Promise<string | null> {
-    if (!this.apiKey) {
+    const model = getGeminiModel();
+
+    if (!model) {
       return null;
     }
 
@@ -103,42 +109,16 @@ class AIService {
         : 'No relevant long-term user context is available.';
       const prompt = `You are Mello, a warm, empathetic mental wellness AI companion. Speak in a caring, supportive tone. Keep responses concise but helpful. Avoid clinical diagnosis and never present memories as diagnoses. Do not repeat questions already answered. Refer to relevant context naturally without phrases like "as you mentioned earlier". User name: ${userName}. Current user message: ${userMessage}. Conversation history: ${JSON.stringify(recentHistory)}. ${memoryContext}`;
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.apiKey}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                role: 'user',
-                parts: [{ text: prompt }],
-              },
-            ],
-            generationConfig: {
-              temperature: 0.8,
-              topP: 0.9,
-              maxOutputTokens: 300,
-            },
-          }),
-        }
-      );
+      const response = await model.generateContent({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.8,
+          topP: 0.9,
+          maxOutputTokens: 300,
+        },
+      });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Gemini API error:', response.status, errorText);
-        return null;
-      }
-
-      const data = await response.json();
-      const text = data?.candidates?.[0]?.content?.parts
-        ?.map((part: { text?: string }) => part.text ?? '')
-        .join('')
-        .trim();
-
-      return text || null;
+      return response.response.text().trim() || null;
     } catch (error) {
       console.error('Gemini request failed:', error);
       return null;
