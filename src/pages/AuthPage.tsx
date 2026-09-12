@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft, Lock, Mail, User, ShieldCheck, Phone } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { MelloAvatar } from '../components/common/MelloAvatar';
@@ -18,6 +18,10 @@ export const AuthPage: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [phoneCode, setPhoneCode] = useState('');
   const [phoneCodeSent, setPhoneCodeSent] = useState(false);
+
+  useEffect(() => {
+    return () => firebaseService.clearPhoneRecaptcha();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -196,6 +200,7 @@ export const AuthPage: React.FC = () => {
         <button
           type="button"
           onClick={() => {
+            firebaseService.clearPhoneRecaptcha();
             setIsPhoneMode(prev => !prev);
             setPhoneCodeSent(false);
           }}

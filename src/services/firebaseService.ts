@@ -163,15 +163,28 @@ export class FirebaseService {
     }
 
     const auth = getAuth(this.app);
+    if (!this.phoneRecaptcha) {
+      this.phoneRecaptcha = new RecaptchaVerifier(auth, recaptchaContainerId, {
+        size: 'invisible',
+      });
+    }
+
+    try {
+      this.phoneConfirmation = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        this.phoneRecaptcha
+      );
+    } catch (error) {
+      this.clearPhoneRecaptcha();
+      throw error;
+    }
+  }
+
+  public clearPhoneRecaptcha() {
+    this.phoneConfirmation = null;
     this.phoneRecaptcha?.clear();
-    this.phoneRecaptcha = new RecaptchaVerifier(auth, recaptchaContainerId, {
-      size: 'invisible',
-    });
-    this.phoneConfirmation = await signInWithPhoneNumber(
-      auth,
-      phoneNumber,
-      this.phoneRecaptcha
-    );
+    this.phoneRecaptcha = null;
   }
 
   public async confirmPhoneCode(code: string) {
@@ -181,9 +194,7 @@ export class FirebaseService {
 
     const result = await this.phoneConfirmation.confirm(code);
     this.syncAuthUser(result.user);
-    this.phoneConfirmation = null;
-    this.phoneRecaptcha?.clear();
-    this.phoneRecaptcha = null;
+    this.clearPhoneRecaptcha();
 
     return {
       uid: result.user.uid,
