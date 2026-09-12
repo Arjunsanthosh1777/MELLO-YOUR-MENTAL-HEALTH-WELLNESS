@@ -988,7 +988,7 @@ export const AppProvider: React.FC<{
       setUser(prev => ({
         ...prev,
 
-        name: 'Arjun',
+        name: 'Friend',
 
         onboardingCompleted:
           true,
@@ -999,7 +999,7 @@ export const AppProvider: React.FC<{
       );
 
       showToast(
-        'Switched to Demo User (Arjun)',
+        'Switched to Demo User (Friend)',
         'success'
       );
     }

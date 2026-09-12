@@ -25,7 +25,7 @@ export const ProfilePage: React.FC = () => {
         </div>
 
         <div className="text-center sm:text-left space-y-2 flex-1">
-          <h1 className="text-2xl font-extrabold font-heading text-slate-900">{user.name || 'Arjun'}</h1>
+          <h1 className="text-2xl font-extrabold font-heading text-slate-900">{user.name || 'Friend'}</h1>
           <p className="text-xs text-slate-500">{user.email}</p>
           
           <div className="flex flex-wrap justify-center sm:justify-start gap-2 pt-1">
