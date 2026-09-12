@@ -2,6 +2,8 @@ import { ChatMessage, MelloMemory } from '../types';
 import { getAI, getGenerativeModel, GoogleAIBackend } from 'firebase/ai';
 import { getFirebaseApp, isFirebaseConfigured } from './firebaseService';
 
+const GEMINI_MODEL = 'gemini-3.8-flash';
+
 const getGeminiModel = () => {
   const firebaseApp = getFirebaseApp();
 
@@ -10,7 +12,14 @@ const getGeminiModel = () => {
   }
 
   const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
-  return getGenerativeModel(ai, { model: 'gemini-3.8-flash' });
+  return getGenerativeModel(ai, {
+    model: GEMINI_MODEL,
+    generationConfig: {
+      temperature: 0.8,
+      topP: 0.9,
+      maxOutputTokens: 300,
+    },
+  });
 };
 
 /* =========================================================
@@ -109,18 +118,11 @@ class AIService {
         : 'No relevant long-term user context is available.';
       const prompt = `You are Mello, a warm, empathetic mental wellness AI companion. Speak in a caring, supportive tone. Keep responses concise but helpful. Avoid clinical diagnosis and never present memories as diagnoses. Do not repeat questions already answered. Refer to relevant context naturally without phrases like "as you mentioned earlier". User name: ${userName}. Current user message: ${userMessage}. Conversation history: ${JSON.stringify(recentHistory)}. ${memoryContext}`;
 
-      const response = await model.generateContent({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.8,
-          topP: 0.9,
-          maxOutputTokens: 300,
-        },
-      });
+      const response = await model.generateContent(prompt);
 
       return response.response.text().trim() || null;
     } catch (error) {
-      console.error('Gemini request failed:', error);
+      console.error(`Gemini request failed for ${GEMINI_MODEL}. Check Firebase AI Logic setup, App Check, and quota.`, error);
       return null;
     }
   }
